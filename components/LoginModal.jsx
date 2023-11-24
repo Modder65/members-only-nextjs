@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export function LoginModal({ closeModal, showModal }) {
-  cibst [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   // Closes the modal when you click on the modal div outside the modal content div
   const modalRef = useRef(null);
 
