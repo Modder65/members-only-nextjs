@@ -303,3 +303,8 @@ footer {
   color: white;
 }
 
+/* ERROR MESSAGES */
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}

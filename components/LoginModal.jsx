@@ -6,6 +6,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 export function LoginModal({ closeModal, showModal }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   // Closes the modal when you click on the modal div outside the modal content div
   const modalRef = useRef(null);
 
@@ -31,7 +32,7 @@ export function LoginModal({ closeModal, showModal }) {
     console.log("Sign-in result:", result);
 
     if (result.error) {
-      // handle error
+      setErrorMessage("Incorrect username or password. Please try again.");
     } else {
       closeModal();
     }
@@ -46,6 +47,7 @@ export function LoginModal({ closeModal, showModal }) {
       )}
       <div className="modal-content">
         <span className="close-button" onClick={closeModal}>&times;</span>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="login-email">Email</label>
