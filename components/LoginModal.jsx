@@ -1,9 +1,11 @@
 "use client"
 
 import { signIn } from "next-auth/react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export function LoginModal({ closeModal, showModal }) {
+  cibst [isLoading, setIsLoading] = useState(false);
   // Closes the modal when you click on the modal div outside the modal content div
   const modalRef = useRef(null);
 
@@ -15,6 +17,7 @@ export function LoginModal({ closeModal, showModal }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const email = event.target.email.value;
     const password = event.target.password.value;
 
@@ -23,6 +26,8 @@ export function LoginModal({ closeModal, showModal }) {
       email,
       password,
     });
+
+    setIsLoading(false);
     console.log("Sign-in result:", result);
 
     if (result.error) {
@@ -34,20 +39,26 @@ export function LoginModal({ closeModal, showModal }) {
 
   return (
     <div ref={modalRef} onClick={handleClick} className={`modal ${showModal ? 'show' : ''}`} id="loginModal">
-      <div className="modal-content">
-        <span className="close-button" onClick={closeModal}>&times;</span>
-        <form className="login-form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="login-email">Email</label>
-            <input type="email" name="email" id="login-email" required/>
-          </div>
-          <div className="form-group">
-            <label htmlFor="login-password">Password</label>
-            <input type="password" name="password" id="login-password" required/>
-          </div>
-          <button className="modal-button" type="submit">Log In</button>
-        </form>
-      </div>
+      {isLoading ? (
+        <div className="loading-container">
+          <ClipLoader loading={isLoading} size={50} />
+        </div>
+      ) : (
+        <div className="modal-content">
+          <span className="close-button" onClick={closeModal}>&times;</span>
+          <form className="login-form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="login-email">Email</label>
+              <input type="email" name="email" id="login-email" required/>
+            </div>
+            <div className="form-group">
+              <label htmlFor="login-password">Password</label>
+              <input type="password" name="password" id="login-password" required/>
+            </div>
+            <button className="modal-button" type="submit">Log In</button>
+          </form>
+        </div>
+      )}
     </div>
-  )
+  );
 }
