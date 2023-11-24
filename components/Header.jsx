@@ -1,4 +1,4 @@
-/*
+
 export function Header({ openLoginModal, openSignupModal }) {
   return (
     <header>
@@ -17,8 +17,9 @@ export function Header({ openLoginModal, openSignupModal }) {
     </header>
   )
 }
-*/
 
+
+/*
 import { useSession } from "next-auth/react";
 
 export function Header({ openLoginModal, openSignupModal }) {
@@ -44,7 +45,7 @@ export function Header({ openLoginModal, openSignupModal }) {
           ) : (
             <div className="user-menu">
               <span className="user-name">{session.user.name}</span>
-              {/* Dropdown menu will be added here later */}
+
             </div>
           )}
         </div>
@@ -52,3 +53,4 @@ export function Header({ openLoginModal, openSignupModal }) {
     </header>
   );
 }
+*/
