@@ -20,12 +20,20 @@ export function Header({ openLoginModal, openSignupModal }) {
 */
 
 
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import { useState } from "react";
 
 export function Header({ openLoginModal, openSignupModal }) {
   const { data: session } = useSession();
   const isLoggedIn = session !== null;
   console.log("Is loged in:", isLoggedIn, "Session data:", session);
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const toggleDropdown = () => setShowDropdown(!showDropdown);
+
+  const handleLogout = () => {
+    signOut();
+  };
 
 
   return (
@@ -44,9 +52,13 @@ export function Header({ openLoginModal, openSignupModal }) {
               <button className="header-button signup-button" onClick={openSignupModal}>Sign Up</button>
             </>
           ) : (
-            <div className="user-menu">
+            <div className="user-menu" onClick={toggleDropdown}>
               <span className="user-name">{session.user.name}</span>
-              
+              <div className={`dropdown-menu ${showDropdown ? 'show' : ''}`}>
+                <ul>
+                  <li><a onClick={handleLogout}>Log Out</a></li>
+                </ul>
+              </div>
             </div>
           )}
         </div>
