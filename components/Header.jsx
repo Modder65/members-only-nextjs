@@ -26,13 +26,14 @@ import { useState } from "react";
 export function Header({ openLoginModal, openSignupModal }) {
   const { data: session } = useSession();
   const isLoggedIn = session !== null;
-  console.log("Is loged in:", isLoggedIn, "Session data:", session);
+  console.log("Is logged in:", isLoggedIn, "Session data:", session);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   const handleLogout = () => {
     signOut();
+    console.log("Is logged in:", isLoggedIn, "Session data:", session);
   };
 
 
