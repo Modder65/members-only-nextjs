@@ -1,8 +1,10 @@
 "use client"
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export function SignupModal({ closeModal, showModal }) {
+  const [isLoading, setIsLoading] = useState(false);
   // Closes the modal when you click on the modal div outside the modal content div
   const modalRef = useRef(null);
 
@@ -14,6 +16,7 @@ export function SignupModal({ closeModal, showModal }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
     const form = event.target;
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
@@ -26,6 +29,8 @@ export function SignupModal({ closeModal, showModal }) {
         },
         body: JSON.stringify(data),
       });
+
+      setIsLoading(false);
 
       if (response.ok) {
         closeModal();
@@ -41,6 +46,11 @@ export function SignupModal({ closeModal, showModal }) {
 
   return (
     <div ref={modalRef} onClick={handleClick} className={`modal ${showModal ? 'show' : ''}`} id="signupModal">
+      {isLoading && (
+        <div className="loading-container">
+          <ClipLoader loading={isLoading} size={50} />
+        </div>
+      )}
       <div className="modal-content">
         <span className="close-button" onClick={closeModal}>&times;</span>
         <form className="login-form" onSubmit={handleSubmit}>
@@ -60,5 +70,5 @@ export function SignupModal({ closeModal, showModal }) {
         </form>
       </div>
     </div>
-  )
+  );
 }
