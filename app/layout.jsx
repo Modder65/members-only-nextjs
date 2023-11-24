@@ -1,4 +1,5 @@
 import './globals.css'
+import { Providers } from "../components/Providers.jsx";
 
 export default function RootLayout({ children }) {
   return (
@@ -7,7 +8,7 @@ export default function RootLayout({ children }) {
         <title>MembersOnly</title>
       </head>
       <body>
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   )
