@@ -23,6 +23,8 @@ import { useSession } from "next-auth/react";
 
 export function Header({ openLoginModal, openSignupModal }) {
   const { data: session } = useSession();
+  console.log("Session data:", session, "Status:", status);
+
 
   return (
     <header>

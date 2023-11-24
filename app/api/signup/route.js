@@ -24,7 +24,7 @@ function generateRandomVerificationCode() {
 export async function POST(request) {
   await connectDB();
   const reqBody = await request.json();
-  console.log(reqBody);
+  console.log("Signup request recieved", reqBody);
 
   try {
     const hashedPassword = await bcrypt.hash(reqBody.password, 10);
@@ -41,7 +41,7 @@ export async function POST(request) {
     });
 
     await user.save();
-    console.log("User created successfully");
+    console.log("User created successfully", user);
 
     /*
     // Send verification email

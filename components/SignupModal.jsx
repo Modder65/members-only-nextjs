@@ -29,6 +29,7 @@ export function SignupModal({ closeModal, showModal }) {
         },
         body: JSON.stringify(data),
       });
+      console.log("Signup response", response);
 
       setIsLoading(false);
 
