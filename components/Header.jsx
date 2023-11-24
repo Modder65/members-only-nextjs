@@ -1,4 +1,4 @@
-
+/*
 export function Header({ openLoginModal, openSignupModal }) {
   return (
     <header>
@@ -17,9 +17,9 @@ export function Header({ openLoginModal, openSignupModal }) {
     </header>
   )
 }
+*/
 
 
-/*
 import { useSession } from "next-auth/react";
 
 export function Header({ openLoginModal, openSignupModal }) {
@@ -53,4 +53,3 @@ export function Header({ openLoginModal, openSignupModal }) {
     </header>
   );
 }
-*/

@@ -1,5 +1,6 @@
 "use client"
 
+import { signIn } from "next-auth/react";
 import { useRef, useState } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -31,17 +32,28 @@ export function SignupModal({ closeModal, showModal }) {
       });
       console.log("Signup response", response);
 
-      setIsLoading(false);
-
       if (response.ok) {
-        closeModal();
-        // Handle success signup
+        // Call signIn with credentials after successful signup
+        const signInResult = await signIn("credentials", {
+          redirect: false,
+          email: data.email,
+          password: data.password,
+        });
+
+        if (signInResult.error) {
+          console.error("Sign-in error after signup:", signInResult.error);
+        } else {
+          closeModal();
+        }
       } else {
-        // Handle errors
+        // Handle sign-up errors 
+        console.error("Signup failed:", error);
       }
     } catch (error) {
       console.error("Signup failed:", error);
       // Handle network errors
+    } finally {
+      setIsLoading(false);
     }
   };
 
