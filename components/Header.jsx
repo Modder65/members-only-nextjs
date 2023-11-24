@@ -24,7 +24,8 @@ import { useSession } from "next-auth/react";
 
 export function Header({ openLoginModal, openSignupModal }) {
   const { data: session } = useSession();
-  console.log("Session data:", session, "Status:", status);
+  const isLoggedIn = session !== null;
+  console.log("Is loged in:", isLoggedIn, "Session data:", session);
 
 
   return (
@@ -45,7 +46,7 @@ export function Header({ openLoginModal, openSignupModal }) {
           ) : (
             <div className="user-menu">
               <span className="user-name">{session.user.name}</span>
-
+              
             </div>
           )}
         </div>
