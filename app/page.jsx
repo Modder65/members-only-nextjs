@@ -12,7 +12,7 @@ export default function Page() {
   const { data: session } = useSession();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
 
@@ -21,15 +21,22 @@ export default function Page() {
 
 
   const fetchPosts = async () => {
-    const response = await fetch("/api/posts");
-    if (response.ok) {
-      const data = await response.json();
-      setPosts(data);
-    } else {
-      // Handle error
+    setIsLoading(true);
+    try {
+      const response = await fetch("/api/posts");
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Fetched posts:", data); // Log fetched data for debugging
+        setPosts(data);
+      } else {
+        console.error("Failed to fetch posts"); // Log error
+      }
+    } catch (error) {
+      console.error("Error fetching posts:", error); // Log network errors
+    } finally {
+      setIsLoading(false);
+      setIsRefreshing(false);
     }
-    setIsLoading(false);
-    setIsRefreshing(false); // stop refresh animation
   };
 
   useEffect(() => {
