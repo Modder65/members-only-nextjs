@@ -13,9 +13,14 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
+  const [pageRendered, setPageRendered] = useState(false);
 
   const toggleLoginModal = () => setLoginModalOpen(!isLoginModalOpen);
   const toggleSignupModal = () => setSignupModalOpen(!isSignupModalOpen);
+
+  useEffect(() => {
+    setPageRendered(prev => !prev);
+  }, []);
 
   useEffect(() => {
     async function fetchPosts() {
@@ -27,7 +32,7 @@ export default function Page() {
     }
 
     fetchPosts();
-  }, []);
+  }, [pageRendered]);
 
   return (
     <>
