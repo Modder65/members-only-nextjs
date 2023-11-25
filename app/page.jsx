@@ -13,6 +13,7 @@ export default function Page() {
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshCounter, setRefreshCounter] = useState(0);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
 
@@ -29,7 +30,7 @@ export default function Page() {
       if (response.ok) {
         const data = await response.json();
         console.log("Fetched posts:", data); // Log fetched data for debugging
-        setPosts(data);
+        setPosts([...data]); // spread into new array
       } else {
         console.error("Failed to fetch posts"); // Log error
       }
@@ -43,11 +44,11 @@ export default function Page() {
 
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [refreshCounter]);
 
   const handleRefresh = () => {
     setIsRefreshing(true); // start refresh animation
-    fetchPosts();
+    setRefreshCounter(prev => prev + 1); //increment to trigger useEffect
   }
 
   return (
