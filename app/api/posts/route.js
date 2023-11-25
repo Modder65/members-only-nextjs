@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { connectDB } from "../../../lib/connect-db.js";
 import { PostModel } from "../../../models/post.js";
 
+export const dynamic = "force-dynamic"; // makes sure the route is dynamic and always has the latest updated data
+                                        // needed when deploying to vercel as it makes the routes static
+
 export async function GET() {
   console.log("Fetching posts");
   await connectDB();

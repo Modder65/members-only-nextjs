@@ -6,7 +6,6 @@ import { LoginModal } from "../components/LoginModal.jsx";
 import { SignupModal } from "../components/SignupModal.jsx";
 import { useSession } from "next-auth/react";
 import ClipLoader from "react-spinners/ClipLoader";
-import { FiRefreshCw } from "react-icons/fi";
 
 export default function Page() {
   const { data: session } = useSession();
@@ -27,7 +26,7 @@ export default function Page() {
       });
       if (response.ok) {
         const data = await response.json();
-        setPosts(data); // spread into new array
+        setPosts(data); 
       } else {
         console.error("Failed to fetch posts"); // Log error
       }
