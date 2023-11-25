@@ -29,8 +29,8 @@ export default function Page() {
       });
       if (response.ok) {
         const data = await response.json();
+        setPosts(data); // spread into new array
         console.log("Fetched posts:", data); // Log fetched data for debugging
-        setPosts([...data]); // spread into new array
       } else {
         console.error("Failed to fetch posts"); // Log error
       }

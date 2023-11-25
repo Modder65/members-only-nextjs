@@ -9,6 +9,7 @@ export async function GET() {
   try {
     // Fetch posts from database
     const posts = await PostModel.find().populate("user", "name").exec();
+    console.log("New Posts:", posts);
 
     // Return the posts as a JSON response
     return NextResponse.json(posts, { status: 200 });
