@@ -6,31 +6,40 @@ import { LoginModal } from "../components/LoginModal.jsx";
 import { SignupModal } from "../components/SignupModal.jsx";
 import { useSession } from "next-auth/react";
 import ClipLoader from "react-spinners/ClipLoader";
+import { FiRefreshCw } from "react-icons/fi";
 
 export default function Page() {
   const { data: session } = useSession();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(true);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
 
   const toggleLoginModal = () => setLoginModalOpen(!isLoginModalOpen);
   const toggleSignupModal = () => setSignupModalOpen(!isSignupModalOpen);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch("/api/posts");
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-      } else {
-        // Handle error
-      }
-      setIsLoading(false);
-    };
 
+  const fetchPosts = async () => {
+    const response = await fetch("/api/posts");
+    if (response.ok) {
+      const data = await response.json();
+      setPosts(data);
+    } else {
+      // Handle error
+    }
+    setIsLoading(false);
+    setIsRefreshing(false); // stop refresh animation
+  };
+
+  useEffect(() => {
     fetchPosts();
   }, []);
+
+  const handleRefresh = () => {
+    setIsRefreshing(true); // start refresh animation
+    fetchPosts();
+  }
 
   return (
     <>
@@ -38,6 +47,11 @@ export default function Page() {
       {isLoginModalOpen && <LoginModal showModal={isLoginModalOpen} closeModal={toggleLoginModal} />}
       {isSignupModalOpen && <SignupModal showModal={isSignupModalOpen} closeModal={toggleSignupModal} />}
       <div className="content-container">
+        <div className="refresh-button-container">
+          <button onClick={handleRefresh} className={`refresh-button ${isRefreshing ? 'rotating' : ''}`}>
+            <FiRefreshCw />
+          </button>
+        </div>
         <h1 className="messages-header">Messages</h1>
         {isLoading ? (
           <div className="loading-container">
