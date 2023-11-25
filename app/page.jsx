@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header.jsx";
@@ -10,29 +10,27 @@ import ClipLoader from "react-spinners/ClipLoader";
 export default function Page() {
   const { data: session } = useSession();
   const [posts, setPosts] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
-  const [pageRendered, setPageRendered] = useState(false);
 
   const toggleLoginModal = () => setLoginModalOpen(!isLoginModalOpen);
   const toggleSignupModal = () => setSignupModalOpen(!isSignupModalOpen);
 
   useEffect(() => {
-    setPageRendered(prev => !prev);
-  }, []);
-
-  useEffect(() => {
-    async function fetchPosts() {
-      setIsLoading(true);
+    const fetchPosts = async () => {
       const response = await fetch("/api/posts");
-      const data = await response.json();
-      setPosts(data);
+      if (response.ok) {
+        const data = await response.json();
+        setPosts(data);
+      } else {
+        // Handle error
+      }
       setIsLoading(false);
-    }
+    };
 
     fetchPosts();
-  }, [pageRendered]);
+  }, []);
 
   return (
     <>
