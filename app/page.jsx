@@ -23,7 +23,9 @@ export default function Page() {
   const fetchPosts = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/posts");
+      const response = await fetch("/api/posts", {
+        cache: "no-cache", 
+      });
       if (response.ok) {
         const data = await response.json();
         console.log("Fetched posts:", data); // Log fetched data for debugging
