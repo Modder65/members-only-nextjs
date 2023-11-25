@@ -12,8 +12,6 @@ export default function Page() {
   const { data: session } = useSession();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
-  const [refreshCounter, setRefreshCounter] = useState(0);
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [isSignupModalOpen, setSignupModalOpen] = useState(false);
 
@@ -30,7 +28,6 @@ export default function Page() {
       if (response.ok) {
         const data = await response.json();
         setPosts(data); // spread into new array
-        console.log("Fetched posts:", data); // Log fetched data for debugging
       } else {
         console.error("Failed to fetch posts"); // Log error
       }
@@ -38,18 +35,13 @@ export default function Page() {
       console.error("Error fetching posts:", error); // Log network errors
     } finally {
       setIsLoading(false);
-      setIsRefreshing(false);
     }
   };
 
   useEffect(() => {
     fetchPosts();
-  }, [refreshCounter]);
+  }, []);
 
-  const handleRefresh = () => {
-    setIsRefreshing(true); // start refresh animation
-    setRefreshCounter(prev => prev + 1); //increment to trigger useEffect
-  }
 
   return (
     <>
@@ -57,11 +49,6 @@ export default function Page() {
       {isLoginModalOpen && <LoginModal showModal={isLoginModalOpen} closeModal={toggleLoginModal} />}
       {isSignupModalOpen && <SignupModal showModal={isSignupModalOpen} closeModal={toggleSignupModal} />}
       <div className="content-container">
-        <div className="refresh-button-container">
-          <button onClick={handleRefresh} className={`refresh-button ${isRefreshing ? 'rotating' : ''}`}>
-            <FiRefreshCw />
-          </button>
-        </div>
         <h1 className="messages-header">Messages</h1>
         {isLoading ? (
           <div className="loading-container">
