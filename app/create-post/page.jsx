@@ -66,7 +66,7 @@ export default function CreatePostPage() {
         </div>
         <div className="form-group">
           <label htmlFor="message">Message</label>
-          <textarea
+          <input
             name="message"
             id="message"
             value={message}
