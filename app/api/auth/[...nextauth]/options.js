@@ -25,6 +25,21 @@ const options = {
     maxAge: 60 * 60, // token is valid for 1 hour 
     // additional JWT configuration if needed
   },
+  // saves user id in token in session data
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.uid;
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+  },
   // Additional NextAuth configuration here
 };
 

@@ -22,6 +22,7 @@ export function Header({ openLoginModal, openSignupModal }) {
 
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
+import Link from "next/link";
 
 export function Header({ openLoginModal, openSignupModal }) {
   const { data: session } = useSession();
@@ -57,6 +58,7 @@ export function Header({ openLoginModal, openSignupModal }) {
               <span className="user-name">{session.user.name}</span>
               <div className={`dropdown-menu ${showDropdown ? 'show' : ''}`}>
                 <ul>
+                  <li><Link href="/create-post">Post Message</Link></li>
                   <li><a onClick={handleLogout}>Log Out</a></li>
                 </ul>
               </div>
