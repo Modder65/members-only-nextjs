@@ -21,9 +21,7 @@ export default function Page() {
   const fetchPosts = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch("/api/posts", {
-        cache: "no-cache", 
-      });
+      const response = await fetch("/api/posts");
       if (response.ok) {
         const data = await response.json();
         setPosts(data); 
