@@ -43,7 +43,7 @@ export async function POST(request) {
     await user.save();
     console.log("User created successfully", user);
 
-    /*
+    
     // Send verification email
     const mailOptions = {
       from: process.env.FROM_EMAIL,
@@ -56,7 +56,7 @@ export async function POST(request) {
 
     await transporter.sendMail(mailOptions);
     console.log("Email sent successfully");
-    */
+    
 
     return NextResponse.json({ message: "User registered successfully" }, { status: 200 });
   } catch (err) {
