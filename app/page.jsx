@@ -5,6 +5,7 @@ import { Header } from "../components/Header.jsx";
 import { LoginModal } from "../components/LoginModal.jsx";
 import { SignupModal } from "../components/SignupModal.jsx";
 import { useSession } from "next-auth/react";
+import { DateTime } from "luxon";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export default function Page() {
@@ -62,8 +63,8 @@ export default function Page() {
               <div className="message" key={post._id}>
                 <h2>{post.title}</h2>
                 <p>{post.message}</p>
-                {session && session.user.isMember && (
-                  <p>Posted by {post.user.name} on {new Date(post.createdAt).toLocaleDateString()}</p>
+                {post.user && (
+                  <p>Posted by {post.user.name} on {DateTime.fromISO(post.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
                 )}
               </div>
             ))}
