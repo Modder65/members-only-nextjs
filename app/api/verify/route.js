@@ -3,13 +3,15 @@ import { connectDB } from "../../../lib/connect-db.js";
 import { UserModel } from "../../../models/user.js";
 
 export async function POST(request) {
+  console.log("[API] Verification endpoint hit");
   await connectDB();
   const { code } = await request.json();
-  console.log(code);
+  console.log("Recieved code:", code);
   try {
     console.log("Verifying code:", code, "Type:", typeof code);
     const user = await UserModel.findOne({ verificationCode: code });
-    if (user && !user.isVerified) {
+    console.log("User found:", user);
+    if (user) {
       user.isVerified = true;
       await user.save();
       return NextResponse.json({ email: user.email, message: "Account verified "}, { status: 200 });

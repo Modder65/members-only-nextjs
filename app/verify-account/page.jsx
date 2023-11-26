@@ -17,13 +17,14 @@ export default function Verification() {
     setErrorMessage(""); // Reset error message
 
     try {
+      console.log("Submitting code for verification:", code);
       const response = await fetch("/api/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ code })
       });
-      
-      console.log("Client side", code);
+
+      console.log("Response received:", response);
 
       if (response.ok) {
         setIsVerified(true);
