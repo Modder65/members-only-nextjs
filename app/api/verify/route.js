@@ -5,7 +5,7 @@ import { UserModel } from "../../../models/user.js";
 export async function POST(request) {
   await connectDB();
   const { code } = await request.json();
-
+  console.log(code);
   try {
     const user = await UserModel.findOne({ verificationCode: code });
     if (user && !user.isVerified) {

@@ -23,6 +23,8 @@ export default function Verification() {
         body: JSON.stringify({ code })
       });
       
+      console.log("Client side", code);
+
       if (response.ok) {
         setIsVerified(true);
         setTimeout(() => {
