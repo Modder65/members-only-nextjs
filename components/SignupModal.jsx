@@ -1,13 +1,14 @@
 "use client"
 
-import { signIn } from "next-auth/react";
 import { useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export function SignupModal({ closeModal, showModal }) {
   const [isLoading, setIsLoading] = useState(false);
   // Closes the modal when you click on the modal div outside the modal content div
   const modalRef = useRef(null);
+  const router = useRouter();
 
   const handleClick = (event) => {
     if (modalRef.current === event.target) {
@@ -33,18 +34,7 @@ export function SignupModal({ closeModal, showModal }) {
       console.log("Signup response", response);
 
       if (response.ok) {
-        // Call signIn with credentials after successful signup
-        const signInResult = await signIn("credentials", {
-          redirect: false,
-          email: data.email,
-          password: data.password,
-        });
-
-        if (signInResult.error) {
-          console.error("Sign-in error after signup:", signInResult.error);
-        } else {
-          closeModal();
-        }
+        router.push("/verify-account");
       } else {
         // Handle sign-up errors 
         console.error("Signup failed:", error);
