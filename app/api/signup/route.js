@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "../../../lib/connect-db.js";
-import { body, validationResult } from "express-validator";
 import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 import { UserModel } from "../../../models/user.js";

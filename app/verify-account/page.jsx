@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ClipLoader from "react-spinners/ClipLoader";
 
-export function Verification() {
+export default function Verification() {
   const [code, setCode] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
