@@ -7,6 +7,7 @@ export async function POST(request) {
   const { code } = await request.json();
   console.log(code);
   try {
+    console.log("Verifying code:", code, "Type:", typeof code);
     const user = await UserModel.findOne({ verificationCode: code });
     if (user && !user.isVerified) {
       user.isVerified = true;
