@@ -1,7 +1,7 @@
 // app/api/auth/[...nextauth]/options.js
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { UserModel } from "../../../../models/user.js"; // Adjust the path as needed
+import { UserModel } from "../../../../models/user.js"; 
 
 const options = {
   providers: [
