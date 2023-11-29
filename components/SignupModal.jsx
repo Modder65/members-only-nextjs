@@ -85,7 +85,7 @@ export function SignupModal({ closeModal, showModal }) {
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Name</label>
-            <input type="text" name="name" id="name" placeholder="Name Here" required/>
+            <input type="text" name="name" id="name" placeholder="Name Here" maxLength="16" required/>
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
