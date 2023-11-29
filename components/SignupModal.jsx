@@ -7,12 +7,14 @@ import ClipLoader from "react-spinners/ClipLoader";
 export function SignupModal({ closeModal, showModal }) {
   const [isLoading, setIsLoading] = useState(false);
   const [emailError, setEmailError] = useState("");
-  // Closes the modal when you click on the modal div outside the modal content div
+  const [passwordError, setPasswordError] = useState("");
   const modalRef = useRef(null);
   const router = useRouter();
 
-  // Email validation regex 
+  // Email validation regex
   const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  // Password validation regex
+  const passwordRegex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
 
   const handleClick = (event) => {
     if (modalRef.current === event.target) {
@@ -24,13 +26,22 @@ export function SignupModal({ closeModal, showModal }) {
     event.preventDefault();
     setIsLoading(true);
     setEmailError(""); // Reset email error
+    setPasswordError(""); // Reset password error
 
     const form = event.target;
     const email = form.email.value;
+    const password = form.password.value;
 
     // Check if email matches the regex
     if (!emailRegex.test(email)) {
       setEmailError("Please enter a valid email address.");
+      setIsLoading(false);
+      return; // Stop form submission
+    }
+
+    // Check if password matches the regex
+    if (!passwordRegex.test(password)) {
+      setPasswordError("Password must be at least 8 characters long and include 1 uppercase letter, 1 number, and 1 special character.");
       setIsLoading(false);
       return; // Stop form submission
     }
@@ -84,6 +95,7 @@ export function SignupModal({ closeModal, showModal }) {
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input type="password" name="password" id="password" required/>
+            {passwordError && <p className="error-message">{passwordError}</p>}
           </div>
           <button className="modal-button" type="submit">Sign Up</button>
         </form>
