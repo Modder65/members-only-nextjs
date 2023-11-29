@@ -133,7 +133,7 @@ h1 {
   cursor: pointer;
 }
 
-.signup-form, .login-form, .verification-form {
+.signup-form, .login-form, .verification-form, .comment-form {
   display: flex;
   flex-direction: column;
   gap: 25px;
@@ -235,7 +235,7 @@ footer {
   gap: 25px;
 }
 
-.message-form-button, .verification-form-button {
+.message-form-button, .verification-form-button, .comment-form-button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
@@ -277,6 +277,14 @@ footer {
   padding-top: 10px;
 }
 
+.post-details {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
 .note {
   font-size: 0.9em; /* Smaller font size */
   color: #888; /* Lighter text color */
@@ -309,12 +317,35 @@ footer {
   margin-bottom: 10px;
 }
 
+
+/* COMMENT FORM / BUTTON */
+.comment-form {
+  gap: 10px;
+}
+
+.comment-form .form-group {
+  margin-top: 10px;
+}
+
+.comment-form .form-group input {
+  padding: 5px 5px;
+}
+
+.comment-form-button {
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
 /* HOVER BUTTONS */
 .message-form-button:hover {
   opacity: 0.8;
 }
 
 .verification-form-button:hover {
+  opacity: 0.8;
+}
+
+.comment-form-button:hover {
   opacity: 0.8;
 }
 
