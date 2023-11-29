@@ -13,17 +13,19 @@ import { FiMessageSquare, FiChevronDown, FiChevronUp } from "react-icons/fi";
 // (usually have to refresh page multiple times for posts to display on home page)
 
 export default function Page() {
-  const { data: session } = useSession();
-  const [posts, setPosts] = useState([]);
-  const [showCommentForm, setShowCommentForm] = useState([]);
-  const [showComments, setShowComments] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
-  const [isSignupModalOpen, setSignupModalOpen] = useState(false);
+  const { data: session } = useSession(); // Session data for the logged-in user
+  const [posts, setPosts] = useState([]); // Stores posts fetched from the API
+  const [showCommentForm, setShowCommentForm] = useState([]); // Tracks which comment forms to show
+  const [showComments, setShowComments] = useState({}); // Tracks which comments to display
+  const [isLoading, setIsLoading] = useState(true); // Loading state for API requests
+  const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State for login modal visibility
+  const [isSignupModalOpen, setSignupModalOpen] = useState(false); // State for signup modal visibility
 
+  // Toggles the visibility of login and signup modals
   const toggleLoginModal = () => setLoginModalOpen(!isLoginModalOpen);
   const toggleSignupModal = () => setSignupModalOpen(!isSignupModalOpen);
 
+  // Fetches posts from the API and updates the posts state
   const fetchPosts = async () => {
     setIsLoading(true);
     try {
@@ -41,10 +43,12 @@ export default function Page() {
     }
   };
 
+  // Fetch posts on component mount
   useEffect(() => {
     fetchPosts();
   }, []);
 
+  // Toggles the visibility of the comment form for a specific post
   const toggleCommentForm = (postId) => {
     setShowCommentForm(prevState => ({
       ...prevState,
@@ -52,6 +56,7 @@ export default function Page() {
     }));
   };
 
+  // Handles the submission of a new comment
   const handleCommentSubmit = async (event, postId) => {
     event.preventDefault();
     setIsLoading(true);
@@ -87,6 +92,7 @@ export default function Page() {
     }
   };
 
+  // Toggles the visibility of the comments section for a specific post
   const toggleCommentsDisplay = (postId) => {
     setShowComments(prevState => ({
       ...prevState,
