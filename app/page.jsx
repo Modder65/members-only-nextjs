@@ -93,6 +93,14 @@ export default function Page() {
   };
 
   // Toggles the visibility of the comments section for a specific post
+  /*
+    setShowComments state is an object where each key is a post ID, 
+    and the value is a boolean indicating whether the comments for 
+    that post should be shown or not. It sets the new state based on
+    the previous state using the spread operator (...prevState).
+    [postId] is a computed property name in JS. It means the property
+    name of the object will be the value of postId. 
+  */
   const toggleCommentsDisplay = (postId) => {
     setShowComments(prevState => ({
       ...prevState,
