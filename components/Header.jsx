@@ -21,14 +21,16 @@ export function Header({ openLoginModal, openSignupModal }) {
 
 
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 export function Header({ openLoginModal, openSignupModal }) {
   const { data: session } = useSession();
   const isLoggedIn = session !== null;
   console.log("Is logged in:", isLoggedIn, "Session data:", session);
   const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
@@ -37,6 +39,18 @@ export function Header({ openLoginModal, openSignupModal }) {
     console.log("Is logged in:", isLoggedIn, "Session data:", session);
   };
 
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setShowDropdown(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header>
@@ -54,8 +68,9 @@ export function Header({ openLoginModal, openSignupModal }) {
               <button className="header-button signup-button" onClick={openSignupModal}>Sign Up</button>
             </>
           ) : (
-            <div className="user-menu" onClick={toggleDropdown}>
+            <div className="user-menu" onClick={toggleDropdown} ref={dropdownRef}>
               <span className="user-name">{session.user.name}</span>
+              {showDropdown ? <FaChevronUp /> : <FaChevronDown />} {/* Chevron icon */}
               <div className={`dropdown-menu ${showDropdown ? 'show' : ''}`}>
                 <ul>
                   <li><Link href="/create-post">Post Message</Link></li>
