@@ -15,8 +15,10 @@ import { FiMessageSquare, FiChevronDown, FiChevronUp } from "react-icons/fi";
 export default function Page() {
   const { data: session } = useSession(); // Session data for the logged-in user
   const [posts, setPosts] = useState([]); // Stores posts fetched from the API
-  const [showCommentForm, setShowCommentForm] = useState([]); // Tracks which comment forms to show
+  const [showCommentForm, setShowCommentForm] = useState({}); // Tracks which comment forms to show
+  const [showReplyForm, setShowReplyForm] = useState({}); // Tracks which reply forms to show
   const [showComments, setShowComments] = useState({}); // Tracks which comments to display
+  const [showReplies, setShowReplies] = useState({}); // Tracks which replies to display
   const [isLoading, setIsLoading] = useState(true); // Loading state for API requests
   const [isLoginModalOpen, setLoginModalOpen] = useState(false); // State for login modal visibility
   const [isSignupModalOpen, setSignupModalOpen] = useState(false); // State for signup modal visibility
@@ -24,6 +26,46 @@ export default function Page() {
   // Toggles the visibility of login and signup modals
   const toggleLoginModal = () => setLoginModalOpen(!isLoginModalOpen);
   const toggleSignupModal = () => setSignupModalOpen(!isSignupModalOpen);
+
+  // Toggles the visibility of the comment form for a specific post
+  const toggleCommentForm = (postId) => {
+    setShowCommentForm(prevState => ({
+      ...prevState,
+      [postId]: !prevState[postId]
+    }));
+  };
+
+  // Toggles the visibility of the reply form for a specific comment
+  const toggleReplyForm = (commentId) => {
+    setShowReplyForm(prevState => ({
+      ...prevState,
+      [commentId]: !prevState[commentId]
+    }));
+  };
+
+  // Toggles the visibility of the comments section for a specific post
+  /*
+    setShowComments state is an object where each key is a post ID, 
+    and the value is a boolean indicating whether the comments for 
+    that post should be shown or not. It sets the new state based on
+    the previous state using the spread operator (...prevState).
+    [postId] is a computed property name in JS. It means the property
+    name of the object will be the value of postId. 
+  */
+  const toggleCommentsDisplay = (postId) => {
+    setShowComments(prevState => ({
+      ...prevState,
+      [postId]: !prevState[postId]
+    }));
+  };
+
+  // Toggles the visibility of the replies section for a specific comment
+  const toggleRepliesDisplay = (commentId) => {
+    setShowReplies(prevState => ({
+      ...prevState,
+      [commentId]: !prevState[commentId]
+    }));
+  };
 
   // Fetches posts from the API and updates the posts state
   const fetchPosts = async () => {
@@ -47,14 +89,6 @@ export default function Page() {
   useEffect(() => {
     fetchPosts();
   }, []);
-
-  // Toggles the visibility of the comment form for a specific post
-  const toggleCommentForm = (postId) => {
-    setShowCommentForm(prevState => ({
-      ...prevState,
-      [postId]: !prevState[postId]
-    }));
-  };
 
   // Handles the submission of a new comment
   const handleCommentSubmit = async (event, postId) => {
@@ -92,20 +126,39 @@ export default function Page() {
     }
   };
 
-  // Toggles the visibility of the comments section for a specific post
-  /*
-    setShowComments state is an object where each key is a post ID, 
-    and the value is a boolean indicating whether the comments for 
-    that post should be shown or not. It sets the new state based on
-    the previous state using the spread operator (...prevState).
-    [postId] is a computed property name in JS. It means the property
-    name of the object will be the value of postId. 
-  */
-  const toggleCommentsDisplay = (postId) => {
-    setShowComments(prevState => ({
-      ...prevState,
-      [postId]: !prevState[postId]
-    }));
+  const handleReplySubmit = async (event, commentId) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const replyText = formData.get("reply");
+
+    const replyData = {
+      message: replyText,
+      comment: commentId,
+      user: session.user.id
+    };
+
+    try {
+      const response = await fetch("/api/submit-reply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(replyData)
+      });
+
+      if (response.ok) {
+        console.log("Reply submitted successfully");
+      } else {
+        console.error("Failed to submit comment");
+      }
+    } catch (error) {
+      console.error("Error submitting reply:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -113,7 +166,7 @@ export default function Page() {
       <Header openLoginModal={toggleLoginModal} openSignupModal={toggleSignupModal} />
       {isLoginModalOpen && <LoginModal showModal={isLoginModalOpen} closeModal={toggleLoginModal} />}
       {isSignupModalOpen && <SignupModal showModal={isSignupModalOpen} closeModal={toggleSignupModal} />}
-
+  
       <div className="content-container">
         <h1 className="messages-header">Messages</h1>
         {isLoading ? (
@@ -131,9 +184,7 @@ export default function Page() {
               <div className="message" key={post._id}>
                 <h2>{post.title}</h2>
                 <p>{post.message}</p>
-                {post.user && (
-                  <p className="post-details">Posted by {post.user.name} on {DateTime.fromISO(post.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
-                )}
+                <p className="post-details">Posted by {post.user.name} on {DateTime.fromISO(post.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
                 {session && (
                   <>
                     <button onClick={() => toggleCommentForm(post._id)} className="comment-icon-button">
@@ -153,10 +204,33 @@ export default function Page() {
                     </button>
                     {showComments[post._id] && (
                       <div className="comments-section">
-                        {post.comments && post.comments.map(comment => (
+                        {post.comments.map(comment => (
                           <div key={comment._id} className="comment">
                             <p>{comment.message}</p>
                             <p className="comment-details">By {comment.user.name} on {DateTime.fromISO(comment.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
+                            <button onClick={() => toggleReplyForm(comment._id)} className="reply-button">Reply</button>
+                            {showReplyForm[comment._id] && (
+                              <form onSubmit={(e) => handleReplySubmit(e, comment._id)} className="reply-form">
+                                <div className="form-group">
+                                  <label htmlFor="reply">Reply</label>
+                                  <input type="text" placeholder="Write a reply..." name="reply" id="reply" required />
+                                </div>
+                                <button type="submit" className="reply-form-button">Submit Reply</button>
+                              </form>
+                            )}
+                            <button onClick={() => toggleRepliesDisplay(comment._id)} className="show-replies-button">
+                              {showReplies[comment._id] ? 'Hide Replies' : 'Show Replies'}
+                            </button>
+                            {showReplies[comment._id] && (
+                              <div className="replies-section">
+                                {comment.replies.map(reply => (
+                                  <div key={reply._id} className="reply">
+                                    <p>{reply.message}</p>
+                                    <p className="reply-details">By {reply.user.name} on {DateTime.fromISO(reply.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -169,5 +243,5 @@ export default function Page() {
         )}
       </div>
     </>
-  );
+  );  
 }
