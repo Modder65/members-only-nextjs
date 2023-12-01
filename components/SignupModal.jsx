@@ -79,13 +79,13 @@ export function SignupModal({ closeModal, showModal }) {
         <div className="loading-container">
           <ClipLoader loading={isLoading} size={50} />
         </div>
-      )}
+      )} 
       <div className="modal-content">
         <span className="close-button" onClick={closeModal}>&times;</span>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="name">Name</label>
-            <input type="text" name="name" id="name" placeholder="Name Here" maxLength="16" required/>
+            <input type="text" name="name" id="name" placeholder="Name Here" maxLength="80" required/>
           </div>
           <div className="form-group">
             <label htmlFor="email">Email</label>
