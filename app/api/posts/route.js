@@ -11,6 +11,7 @@ export async function GET() {
   await connectDB();
 
   try {
+    // Fetch posts and populate comments and replies in a nested manner
     const posts = await PostModel.find()
       .populate("user", "name")
       .lean(); // Use .lean() for faster reads
@@ -29,7 +30,6 @@ export async function GET() {
   
         post.comments = comments; // Attach comments to each post
       }
-
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     console.error("Error fetching posts:", error);
