@@ -1,6 +1,6 @@
 # MembersOnly
 
-MembersOnly is a blog-like platform built with Next.js, where users can engage in creating posts, commenting, and replying to comments in a community-driven environment. The application features robust user authentication and session management, powered by NextAuth and JSON Web Tokens.
+MembersOnly is a blog-like platform built with Next.js, where users can engage in creating posts, commenting, and replying to comments in a community-driven environment.
 
 ## Features
 
