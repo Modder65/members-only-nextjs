@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "../../../lib/connect-db.js";
-import { PostModel } from "../../../models/post.js";
+import { pusherServer } from "@/lib/pusher";
+import { connectDB } from "@/lib/connect-db.js";
+import { PostModel } from "@/models/post";
 
 export async function POST(request) {
   console.log("Post request received");
@@ -13,6 +14,17 @@ export async function POST(request) {
     console.log("Post to be saved:", post);
     await post.save();
     console.log("Post saved successfully");
+
+    // Trigger Pusher event
+    await pusherServer.trigger("posts-channel", "new-post", {
+      // Include necesary post data
+      _id: post._id,
+      title: post.title,
+      message: post.message,
+      user: userId,
+      createdAt: post.createdAt
+    });
+
     return NextResponse.json({ message: "Post created successfully" }, {
       status: 200,
       headers: { "Content-Type": "application/json" }
