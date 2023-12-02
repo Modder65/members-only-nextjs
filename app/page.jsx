@@ -1,5 +1,6 @@
 "use client"
 
+import { usePusher } from "@/lib/pusherContext.js";
 import { useState, useEffect } from "react";
 import { Header } from "../components/Header.jsx";
 import { LoginModal } from "../components/LoginModal.jsx";
@@ -15,6 +16,7 @@ import { FiMessageSquare, FiChevronDown, FiChevronUp } from "react-icons/fi";
 export default function Page() {
   const { data: session } = useSession(); // Session data for the logged-in user
   const [posts, setPosts] = useState([]); // Stores posts fetched from the API
+  const { setUpdatePosts } = usePusher(); // Use the setUpdatePosts function from Pusher Content
   const [showCommentForm, setShowCommentForm] = useState({}); // Tracks which comment forms to show
   const [showReplyForm, setShowReplyForm] = useState({}); // Tracks which reply forms to show
   const [showComments, setShowComments] = useState({}); // Tracks which comments to display
@@ -68,27 +70,30 @@ export default function Page() {
   };
 
   // Fetches posts from the API and updates the posts state
-  const fetchPosts = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/posts");
-      if (response.ok) {
-        const data = await response.json();
-        setPosts(data);
-      } else {
-        console.error("Failed to fetch posts");
-      }
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // Fetch posts on component mount
   useEffect(() => {
+    // Provide the update function to the Pusher context
+    setUpdatePosts(() => setPosts);
+
+    const fetchPosts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch("/api/posts");
+
+        if (response.ok) {
+          const data = await response.json();
+          setPosts(data);
+        } else {
+          console.error("Failed to fetch posts");
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    
     fetchPosts();
-  }, []);
+  }, [setUpdatePosts]);
 
   // Handles the submission of a new comment
   const handleCommentSubmit = async (event, postId) => {
@@ -166,7 +171,7 @@ export default function Page() {
       <Header openLoginModal={toggleLoginModal} openSignupModal={toggleSignupModal} />
       {isLoginModalOpen && <LoginModal showModal={isLoginModalOpen} closeModal={toggleLoginModal} />}
       {isSignupModalOpen && <SignupModal showModal={isSignupModalOpen} closeModal={toggleSignupModal} />}
-  
+    
       <div className="content-container">
         <h1 className="messages-header">Messages</h1>
         {isLoading ? (
@@ -204,6 +209,7 @@ export default function Page() {
                     </button>
                     {showComments[post._id] && (
                       <div className="comments-section">
+                      {console.log("Rendering comments for post:", post._id, post.comments)}
                         {post.comments.map(comment => (
                           <div key={comment._id} className="comment">
                             <p>{comment.message}</p>
@@ -223,7 +229,7 @@ export default function Page() {
                             </button>
                             {showReplies[comment._id] && (
                               <div className="replies-section">
-                                {comment.replies.map(reply => (
+                                {comment.replies && comment.replies.map(reply => (
                                   <div key={reply._id} className="reply">
                                     <p>{reply.message}</p>
                                     <p className="reply-details">By {reply.user.name} on {DateTime.fromISO(reply.createdAt).toLocaleString(DateTime.DATE_FULL)}</p>
