@@ -2,6 +2,7 @@
 
 import { signIn } from "next-auth/react";
 import { useRef, useState } from "react";
+import CustomLoader from "./CustomLoader";
 import ClipLoader from "react-spinners/ClipLoader";
 
 export function LoginModal({ closeModal, showModal }) {

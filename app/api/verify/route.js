@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { connectDB } from "../../../lib/connect-db.js";
+import { connectDB } from "../../libs/connect-db.js";
 import { UserModel } from "../../../models/user.js";
 
 export async function POST(request) {

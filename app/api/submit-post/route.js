@@ -1,29 +1,31 @@
 import { NextResponse } from "next/server";
-import { pusherServer } from "@/lib/pusher";
-import { connectDB } from "@/lib/connect-db.js";
-import { PostModel } from "@/models/post";
+import { pusherServer } from "@/app/libs/pusher";
+import prisma from "@/app/libs/prismadb";
+import getSession from "@/app/actions/getSession";
 
 export async function POST(request) {
-  console.log("Post request received");
-  await connectDB();
-  const { title, message, userId } = await request.json();
-  console.log("Received Data:", { title, message, userId });
+  const session = await getSession();
+  const userId = session.user.id;
+  const { title, message } = await request.json();
 
   try {
-    const post = new PostModel({ title, message, user: userId });
-    console.log("Post to be saved:", post);
-    await post.save();
-    console.log("Post saved successfully");
+    const post = await prisma.post.create({
+      data: {
+        title, 
+        message, 
+        user: { connect: { id: userId } },
+      }
+    });
 
-    // Trigger Pusher event
+    /*
     await pusherServer.trigger("posts-channel", "new-post", {
-      // Include necesary post data
-      _id: post._id,
+      _id: post.id, // Note: Prisma uses 'id' by default instead of '_id'
       title: post.title,
       message: post.message,
       user: userId,
       createdAt: post.createdAt
     });
+    */
 
     return NextResponse.json({ message: "Post created successfully" }, {
       status: 200,

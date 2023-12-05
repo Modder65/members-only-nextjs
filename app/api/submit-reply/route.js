@@ -1,35 +1,36 @@
 import { NextResponse } from "next/server";
-import { pusherServer } from "@/lib/pusher.js";
-import { connectDB } from "../../../lib/connect-db.js";
-import { ReplyModel } from "../../../models/reply.js";
+import { pusherServer } from "@/app/libs/pusher";
+import prisma from "@/app/libs/prismadb";
+import getSession from "@/app/actions/getSession";
 
 
 
 export async function POST(request) {
-  await connectDB();
-  const { message, comment, user } = await request.json();
+  const session = await getSession();
+  const userId = session.user.id;
+  const { message, commentId } = await request.json();
 
   try {
-    const newReply = new ReplyModel({
-      message,
-      comment,
-      user
+    const reply = await prisma.reply.create({
+      data: {
+        message, 
+        user: { connect: { id: userId } },
+        comment: { connect: { id: commentId }}
+      }
     });
+   
 
-    await newReply.save();
-    console.log("Reply added:", newReply);
-
-    // Trigger a Pusher event
+    /*
     await pusherServer.trigger("posts-channel", "new-reply", {
-      // Include necessary reply data
       _id: newReply._id,
       message: newReply.message,
       comment: newReply.comment,
       user: newReply.user,
       createdAt: newReply.createdAt
     })
+    */
 
-    return NextResponse.json({ message: "Reply added successfully" }, { status: 200 });
+    return NextResponse.json({ message: "Reply created successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error adding reply:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

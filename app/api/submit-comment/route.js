@@ -1,44 +1,37 @@
 import { NextResponse } from "next/server";
-import { pusherServer } from "@/lib/pusher.js";
-import { connectDB } from "../../../lib/connect-db.js";
-import { CommentModel } from "../../../models/comment.js";
-
-
+import { pusherServer } from "@/app/libs/pusher";
+import prisma from "@/app/libs/prismadb";
+import getSession from "@/app/actions/getSession";
 
 export async function POST(request) {
-  await connectDB();
-  const { message, post, user } = await request.json();
+  const session = await getSession();
+  const userId = session.user.id;
+  const { message, postId } = await request.json();
+  
 
   try {
-    const newComment = new CommentModel({
-      message,
-      post,
-      user
+    const comment = await prisma.comment.create({
+      data: {
+        message, 
+        user: { connect: { id: userId } },
+        post: { connect: { id: postId }}
+      }
     });
 
-    await newComment.save();
-    await newComment.populate({
-      path: "user",
-      select: "name"
-    });
-
-    console.log("Comment added:", newComment);
-
+    /*
     await pusherServer.trigger("posts-channel", "new-comment", {
-      _id: newComment._id, // Include the _id of the new comment
-      message: newComment.message,
-      post: newComment.post,
-      user: { name: newComment.user.name }, // Assuming you only need the name
-      createdAt: newComment.createdAt
+      _id: comment.id, // Note: Prisma uses 'id' by default instead of '_id'
+      message: comment.message,
+      user: userId,
+      createdAt: comment.createdAt
     });
-    console.log("Pusher trigger for comment successful");
+    */
 
-    return NextResponse.json({ message: "Comment created successfully" }, { status: 200});
+    return NextResponse.json({ message: "Comment created successfully" }, { status: 200 });
   } catch (error) {
-    console.error("Error adding comment:", error);
+    console.error("Error saving post", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
-
 
  

@@ -1,7 +1,7 @@
 "use client"
 
 import { SessionProvider } from "next-auth/react";
-import { PusherProvider } from "@/lib/pusherContext";
+import { PusherProvider } from "@/app/libs/pusherContext";
 
 export function Providers({ children }) {
   return (

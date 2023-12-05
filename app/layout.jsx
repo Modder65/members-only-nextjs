@@ -1,5 +1,9 @@
 import './globals.css'
-import { Providers } from "../components/Providers.jsx";
+import ToasterContext from './context/ToasterContext'
+import AuthContext from './context/AuthContext';
+import { Nunito } from 'next/font/google'
+
+const nunito = Nunito({ subsets: ['latin'] })
 
 export default function RootLayout({ children }) {
   return (
@@ -7,8 +11,11 @@ export default function RootLayout({ children }) {
       <head>
         <title>MembersOnly</title>
       </head>
-      <body>
-        <Providers>{children}</Providers>
+      <body className={`bg-neutral-100 ${nunito.className}`}>
+        <AuthContext>
+          <ToasterContext />
+          {children}
+        </AuthContext>
       </body>
     </html>
   )
