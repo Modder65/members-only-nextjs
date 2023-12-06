@@ -9,8 +9,9 @@ export async function GET() {
     // Fetch only posts with the user who created each post
     const posts = await prisma.post.findMany({
       include: {
-        user: {
-          select: { name: true } // Select only the name from the user
+        user: { select: { name: true } },
+        _count: {
+          select: { comments: true }
         }
       }
     });

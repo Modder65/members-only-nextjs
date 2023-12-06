@@ -9,7 +9,7 @@ import Button from "@/app/components/Button";
 import axios from "axios";
 
 
-export const RepliesSection = ({ commentId }) => {
+export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -55,14 +55,14 @@ export const RepliesSection = ({ commentId }) => {
       <button onClick={toggleRepliesDisplay}
        className="text-green-600 hover:text-green-800 text-sm"
        >
-        {showReplies ? 'Hide Replies' : `Show Replies (${replies.length})`}
+        {showReplies ? `Hide Replies (${replies.length})` : `Show Replies (${initialRepliesCount})`}
       </button>
       {showReplies && (
         <div className="mt-2">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
             <Input
               id="message" 
-              label="Message" 
+              label="Your Reply" 
               register={register}
               errors={errors}
               disabled={isLoading}

@@ -13,7 +13,7 @@ const CommentsSection = ({ comments }) => {
             <p className="text-sm text-gray-500">
               Posted by {comment.user.name} on {DateTime.fromISO(comment.createdAt).toLocaleString(DateTime.DATE_FULL)}
             </p>
-            <RepliesSection commentId={comment.id} />
+            <RepliesSection commentId={comment.id} initialRepliesCount={comment._count.replies} />
           </div>
         ))
       ) : (

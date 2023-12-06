@@ -11,7 +11,7 @@ import Button from "@/app/components/Button";
 import axios from "axios";
 
 
-const PostItem = ({ post, postId }) => {
+const PostItem = ({ post, postId, initialCommentsCount }) => {
   const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -66,7 +66,7 @@ const PostItem = ({ post, postId }) => {
            className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
            >
             <FiMessageSquare className="mr-2" />
-            {showComments ? 'Hide Comments' : 'Show Comments'}
+            {showComments ? `Hide Comments (${comments.length})` : `Show Comments (${initialCommentsCount})`}
           </button>
           {showComments && (
             <>

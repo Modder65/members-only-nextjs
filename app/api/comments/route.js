@@ -11,15 +11,14 @@ export async function GET(request) {
 
     // Fetch comments or a specified post
     const comments = await prisma.comment.findMany({
-      where: {
-        postId: postId // Filter comments by post ID
-      },
+      where: { postId: postId },
       include: {
-        user: {
-          select: { name: true } // Include the name of the user who made the comment
+        user: { select: { name: true } },
+        _count: {
+          select: { replies: true } // This counts the number of replies for each comment
         }
       }
-    })
+    });
 
     return NextResponse.json(comments, { status: 200 });
   } catch (error) {
