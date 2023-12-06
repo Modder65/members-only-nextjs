@@ -46,16 +46,7 @@ export default function Users() {
     pusherClient.subscribe("posts-channel");
 
     const postHandler = (post) => {
-      setPosts((current) => {
-        // Search for any message in the current posts state that already has an ID 
-        // of the new post coming in to ensure theres no duplicate data
-        // using lodash
-        if (find(current, { id: post.id })) {
-          return current;
-        }
-
-        return [...current, post];
-      })
+      setPosts((current) => [...current, post])
     }
 
     pusherClient.bind("post:created", postHandler)
