@@ -51,6 +51,7 @@ export default function CreatePostPage() {
           id="title" 
           label="Title" 
           register={register}
+          required
           errors={errors}
           disabled={isLoading}
         />
@@ -58,6 +59,7 @@ export default function CreatePostPage() {
           id="message" 
           label="Message" 
           register={register}
+          required
           errors={errors}
           disabled={isLoading}
         />
