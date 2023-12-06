@@ -47,23 +47,21 @@ export default function Users() {
   useEffect(() => {
     pusherClient.subscribe("posts-channel");
 
-    const postUpdateHandler = (updatedPost) => {
-      setPosts(currentPosts => 
-        currentPosts.map(post => 
-          post.id === updatedPost.id 
-            ? { ...post, _count: updatedPost._count } 
-            : post
-        )
-      );
+    const postHandler = (post) => {
+      // Check if the post already exists
+      if (!find(posts, { id: post.id })) {
+        setPosts(current => [post, ...current]); // Prepend new post to the list
+        notifyNewPost();
+      }
     };
 
-    pusherClient.bind("post:updated", postUpdateHandler)
+    pusherClient.bind("post:created", postHandler)
 
     return () => {
       pusherClient.unsubscribe("posts-channel");
-      pusherClient.unbind("post:updated", postUpdateHandler);
+      pusherClient.unbind("post:created", postHandler);
     }
-  }, []);
+  }, [posts]);
 
   if (isLoading) {
     return (

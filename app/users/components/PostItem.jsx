@@ -86,7 +86,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
            className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
            >
             <FiMessageSquare className="mr-2" />
-            {showComments ? `Hide Comments (${comments.length})` : `Show Comments (${initialCommentsCount})`}
+            {showComments ? `Hide Comments (${comments.length})` : `Show Comments (${comments.length})`}
           </button>
           {showComments && (
             <>

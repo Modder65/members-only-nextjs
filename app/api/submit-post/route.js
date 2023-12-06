@@ -34,17 +34,7 @@ export async function POST(request) {
       }
     });
 
-    // Fetch the post with the updated comment count
-    const updatedPost = await prisma.post.findUnique({
-      where: { id: newComment.postId },
-      include: {
-        _count: {
-          select: { comments: true }
-        }
-      }
-    });
-
-    await pusherServer.trigger("posts-channel", "post:updated", updatedPost);
+    await pusherServer.trigger("posts-channel", "post:created", newPost);
     
     return NextResponse.json({ message: "Post created successfully" }, { status: 200 });
   } catch (error) {
