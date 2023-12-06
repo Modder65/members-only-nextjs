@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { pusherClient } from "../libs/pusher";
 import { find } from "lodash";
-import { notifyNewPost } from "@/Custom-Toast-Messages/notifyNewPost";
+import { notifyNewPost } from "@/Custom-Toast-Messages/Notify";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
