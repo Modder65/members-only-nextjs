@@ -9,6 +9,8 @@ import CommentsSection from "./CommentsSection";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import axios from "axios";
+import { pusherClient } from "@/app/libs/pusher";
+import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 
 
 const PostItem = ({ post, postId, initialCommentsCount }) => {
@@ -44,6 +46,25 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    pusherClient.subscribe("comments-channel");
+
+    const commentHandler = (comment) => {
+      // Check if the comment already exists
+      if (!find(comments, { id: comment.id })) {
+        setComments(current => [comment, ...current]); // Prepend new post to the list
+        notifyNewComment(post.title);
+      }
+    };
+
+    pusherClient.bind("comment:created", commentHandler)
+
+    return () => {
+      pusherClient.unsubscribe("comments-channel");
+      pusherClient.unbind("comment:created", commentHandler);
+    }
+  }, [comments]);
 
   const toggleCommentsDisplay = async () => {
     // Fetch comments only if they are not currently shown
