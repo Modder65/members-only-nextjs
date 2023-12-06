@@ -61,7 +61,7 @@ export default function Users() {
       pusherClient.unsubscribe("posts-channel");
       pusherClient.unbind("post:created", postHandler);
     }
-  }, [posts]);
+  }, []);
 
   if (isLoading) {
     return (

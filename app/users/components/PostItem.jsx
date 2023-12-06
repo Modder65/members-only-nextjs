@@ -64,7 +64,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
       pusherClient.unsubscribe("comments-channel");
       pusherClient.unbind("comment:created", commentHandler);
     }
-  }, [comments, post.title]);
+  }, []);
 
   const toggleCommentsDisplay = async () => {
     // Fetch comments only if they are not currently shown
