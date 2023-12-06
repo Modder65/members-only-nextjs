@@ -9,22 +9,22 @@ export async function POST(request) {
   const { message, postId } = await request.json();
 
   try {
-    const comment = await prisma.comment.create({
+    const newComment = await prisma.comment.create({
       data: {
         message, 
         user: { connect: { id: userId } },
         post: { connect: { id: postId }}
+      },
+      // Needed to match data structure of fetching posts; for pusher
+      include: {
+        user: { select: { name: true }},
+        _count: {
+          select: { replies: true }
+        }
       }
     });
 
-    /*
-    await pusherServer.trigger("posts-channel", "new-comment", {
-      _id: comment.id, // Note: Prisma uses 'id' by default instead of '_id'
-      message: comment.message,
-      user: userId,
-      createdAt: comment.createdAt
-    });
-    */
+    await pusherServer.trigger("comments-channel", "comment:created", newComment);
 
     return NextResponse.json({ message: "Comment created successfully" }, { status: 200 });
   } catch (error) {
