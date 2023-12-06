@@ -27,15 +27,9 @@ export async function POST(request) {
     });
     */
 
-    return NextResponse.json({ message: "Post created successfully" }, {
-      status: 200,
-      headers: { "Content-Type": "application/json" }
-    });
+    return NextResponse.json({ message: "Post created successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error saving post", error);
-    return NextResponse.json({ error: "Internal server error" }, {
-      status: 500,
-      headers: { "Content-Type": "application/json" }
-    });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

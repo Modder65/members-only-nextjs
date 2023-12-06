@@ -7,7 +7,6 @@ export async function POST(request) {
   const session = await getSession();
   const userId = session.user.id;
   const { message, postId } = await request.json();
-  
 
   try {
     const comment = await prisma.comment.create({

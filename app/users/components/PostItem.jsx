@@ -12,10 +12,9 @@ import axios from "axios";
 
 
 const PostItem = ({ post, postId }) => {
+  const [comments, setComments] = useState([]);
   const [showComments, setShowComments] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const toggleCommentsDisplay = () => setShowComments(!showComments);
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { message: '' }
@@ -32,6 +31,26 @@ const PostItem = ({ post, postId }) => {
     } finally {
       setIsLoading(false);
     }
+  }
+
+  const fetchComments = async (postId) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`/api/comments?postId=${postId}`);
+      setComments(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch comments");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const toggleCommentsDisplay = async () => {
+    // Fetch comments only if they are not currently shown
+    if (!showComments) {
+      await fetchComments(postId);
+    }
+    setShowComments(!showComments);
   }
 
   return (
@@ -67,7 +86,7 @@ const PostItem = ({ post, postId }) => {
                   Submit Comment
                 </Button>
               </form>
-              <CommentsSection comments={post.comments} />
+              <CommentsSection comments={comments} />
             </>
           )}
         </div>

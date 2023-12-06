@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { toast } from "react-hot-toast";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
+
 
 export default function Users() {
   const [posts, setPosts] = useState([]);
@@ -17,7 +19,7 @@ export default function Users() {
         const response = await axios.get('/api/posts');
         setPosts(response.data);
       } catch (error) {
-        console.error("Failed to fetch posts:", error);
+        toast.error("Failed to fetch posts");
       } finally {
         setIsLoading(false);
       }

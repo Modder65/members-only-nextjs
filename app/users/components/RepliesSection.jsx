@@ -9,7 +9,8 @@ import Button from "@/app/components/Button";
 import axios from "axios";
 
 
-export const RepliesSection = ({ replies, commentId }) => {
+export const RepliesSection = ({ commentId }) => {
+  const [replies, setReplies] = useState([]);
   const [showReplies, setShowReplies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,9 +30,29 @@ export const RepliesSection = ({ replies, commentId }) => {
     }
   };
 
+  const fetchReplies = async (commentId) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(`/api/replies?commentId=${commentId}`);
+      setReplies(response.data);
+    } catch (error) {
+      toast.error("Failed to fetch replies");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const toggleRepliesDisplay = async () => {
+    // Fetch comments only if they are not currently shown
+    if (!showReplies) {
+      await fetchReplies(commentId);
+    }
+    setShowReplies(!showReplies);
+  }
+
   return (
     <div className="mt-2">
-      <button onClick={() => setShowReplies(!showReplies)}
+      <button onClick={toggleRepliesDisplay}
        className="text-green-600 hover:text-green-800 text-sm"
        >
         {showReplies ? 'Hide Replies' : `Show Replies (${replies.length})`}
