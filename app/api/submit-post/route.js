@@ -17,12 +17,8 @@ export async function POST(request) {
       }
     });
 
-    const updatedPost = await prisma.post.findUnique({
-      where: { id: newPost.id },
-      include: {
-        comments: true,
-      }
-    });
+    // Manually add _count property for comments
+    const updatedPost = { ...newPost, _count: { comments: 0 } };
 
     await pusherServer.trigger("posts-channel", "post:created", updatedPost);
     
