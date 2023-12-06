@@ -52,14 +52,14 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
 
     const commentHandler = (postId, updatedCommentCount ) => {
       // Check if the comment already exists
-      if (!find(comments, { id: comment.id })) {
+
         setPosts(currentPosts => 
           currentPosts.map(post => 
             post.id === postId ? { ...post, _count: { ...post._count, comments: updatedCommentCount } } : post
           )
         );
-        notifyNewComment(post.title);
-      }
+        
+      
     };
 
     pusherClient.bind("comment:created", commentHandler)

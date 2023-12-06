@@ -25,7 +25,7 @@ export async function POST(request) {
     });
 
     const updatedCommentCount = await prisma.comment.count({
-      where: { postId: newComment.postId }
+      where: { postId: newComment.postId },
     });
 
     await pusherServer.trigger("comments-channel", "comment:created", {
