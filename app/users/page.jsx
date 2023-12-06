@@ -45,11 +45,7 @@ export default function Users() {
   const notifyNewPost = () =>
     toast('New post available!', {
       icon: '🆕',
-      duration: 4000,
-      onClick: () => {
-        fetchPosts(true); // Fetch new posts when toast is clicked
-        toast.dismiss(); // Dismiss the toast
-      },
+      duration: 1000
     });
 
   useEffect(() => {
