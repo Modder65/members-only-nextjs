@@ -14,12 +14,6 @@ export async function POST(request) {
         title, 
         message, 
         user: { connect: { id: userId } }
-      },
-      include: {
-        user: true,
-        _count: {
-          select: { comments: true }
-        }
       }
     });
 
@@ -30,4 +24,4 @@ export async function POST(request) {
     console.error("Error saving post", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
-}  
+}
