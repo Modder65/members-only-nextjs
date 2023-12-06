@@ -3,11 +3,13 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
+import { pusherClient } from "../libs/pusher";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { BsTypeH4 } from "react-icons/bs";
+import { find } from "lodash";
+
 
 export default function Users() {
   const [posts, setPosts] = useState([]);
@@ -39,6 +41,30 @@ export default function Users() {
   useEffect(() => {
     fetchPosts();
   }, [page]);
+
+  useEffect(() => {
+    pusherClient.subscribe("posts-channel");
+
+    const postHandler = (post) => {
+      setPosts((current) => {
+        // Search for any message in the current posts state that already has an ID 
+        // of the new post coming in to ensure theres no duplicate data
+        // using lodash
+        if (find(current, { id: post.id })) {
+          return current;
+        }
+
+        return [...current, post];
+      })
+    }
+
+    pusherClient.bind("posts:new", postHandler)
+
+    return () => {
+      pusherClient.unsubscribe("posts-channel");
+      pusherClient.unbind("posts:new", postHandler);
+    }
+  }, []);
 
   if (isLoading) {
     return (
