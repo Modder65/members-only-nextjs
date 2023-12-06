@@ -17,12 +17,15 @@ export async function POST(request) {
       }
     });
 
-    // Manually add related data that may not be present yet
-    newPost.comments = [];
+    const updatedPost = await prisma.post.findUnique({
+      where: { id: newPost.id },
+      include: {
+        comments: true,
+      }
+    });
 
-    await pusherServer.trigger("posts-channel", "post:created", newPost);
+    await pusherServer.trigger("posts-channel", "post:created", updatedPost);
     
-
     return NextResponse.json({ message: "Post created successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error saving post", error);
