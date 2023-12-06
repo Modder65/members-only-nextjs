@@ -4,11 +4,13 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { pusherClient } from "../libs/pusher";
+import { find } from "lodash";
+import { notifyNewPost } from "@/Custom-Toast-Messages/notifyNewPost";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { find } from "lodash";
+
 
 
 export default function Users() {
@@ -41,12 +43,6 @@ export default function Users() {
   useEffect(() => {
     fetchPosts();
   }, [page]);
-
-  const notifyNewPost = () =>
-    toast('New post available!', {
-      icon: '🆕',
-      duration: 1000
-    });
 
   useEffect(() => {
     pusherClient.subscribe("posts-channel");
