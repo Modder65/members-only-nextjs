@@ -13,14 +13,17 @@ export async function POST(request) {
       data: {
         title, 
         message, 
-        user: { connect: { id: userId } },
+        user: { connect: { id: userId } }
+      },
+      include: {
+        user: true,
+        _count: {
+          select: { comments: true }
+        }
       }
     });
 
-    // Manually add _count property for comments
-    const updatedPost = { ...newPost, _count: { comments: 0 } };
-
-    await pusherServer.trigger("posts-channel", "post:created", updatedPost);
+    await pusherServer.trigger("posts-channel", "post:created", newwwwwwPost);
     
     return NextResponse.json({ message: "Post created successfully" }, { status: 200 });
   } catch (error) {
