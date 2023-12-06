@@ -26,7 +26,7 @@ export async function POST(request) {
         user: { connect: { id: userId }}
       },
       include: {
-        user: true,
+        user: { select: { name: true } },
         _count: {
           select: { comments: true }
         }
