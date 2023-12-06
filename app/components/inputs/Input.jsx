@@ -16,7 +16,7 @@ const Input = ({
       <label 
         className="
           block
-          text-sm
+          text-base
           font-medium
           leading-6
           text-gray-900
