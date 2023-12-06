@@ -25,6 +25,7 @@ export async function POST(request) {
         message,
         user: { connect: { id: userId }}
       },
+      // Needed to match data structure of fetching posts; for pusher
       include: {
         user: { select: { name: true } },
         _count: {
