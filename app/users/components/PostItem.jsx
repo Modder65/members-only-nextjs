@@ -50,16 +50,11 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
   useEffect(() => {
     pusherClient.subscribe("comments-channel");
 
-    const commentHandler = (postId, updatedCommentCount ) => {
+    const commentHandler = (comment) => {
       // Check if the comment already exists
-
-        setPosts(currentPosts => 
-          currentPosts.map(post => 
-            post.id === postId ? { ...post, _count: { ...post._count, comments: updatedCommentCount } } : post
-          )
-        );
-        
-      
+      if (!find(comments, { id: comment.id })) {
+        setComments(current => [comment, ...current]); // Prepend new post to the list
+      }
     };
 
     pusherClient.bind("comment:created", commentHandler)

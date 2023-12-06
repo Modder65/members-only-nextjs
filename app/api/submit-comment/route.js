@@ -23,15 +23,8 @@ export async function POST(request) {
         }
       }
     });
-
-    const updatedCommentCount = await prisma.comment.count({
-      where: { postId: newComment.postId },
-    });
-
-    await pusherServer.trigger("comments-channel", "comment:created", {
-      postId: newComment.postId,
-      updatedCommentCount
-    });
+    
+    await pusherServer.trigger("comments-channel", "comment:created", newComment);
 
     return NextResponse.json({ message: "Comment created successfully" }, { status: 200 });
   } catch (error) {
