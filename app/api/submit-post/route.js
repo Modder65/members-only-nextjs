@@ -9,11 +9,27 @@ export async function POST(request) {
   const { title, message } = await request.json();
 
   try {
+    /*
     const newPost = await prisma.post.create({
       data: {
         title, 
         message, 
         user: { connect: { id: userId } }
+      }
+    });
+    */
+
+    const newPost = await prisma.post.create({
+      data: {
+        title,
+        message,
+        user: { connect: { id: userId }}
+      },
+      include: {
+        user: true,
+        _count: {
+          select: { comments: true }
+        }
       }
     });
 
