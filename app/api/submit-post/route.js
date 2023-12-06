@@ -17,8 +17,10 @@ export async function POST(request) {
       }
     });
 
-    
-    await pusherServer.trigger("posts-channel", "posts:new", newPost);
+    // Manually add related data that may not be present yet
+    newPost.comments = [];
+
+    await pusherServer.trigger("posts-channel", "post:created", newPost);
     
 
     return NextResponse.json({ message: "Post created successfully" }, { status: 200 });

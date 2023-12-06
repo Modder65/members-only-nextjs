@@ -58,11 +58,11 @@ export default function Users() {
       })
     }
 
-    pusherClient.bind("posts:new", postHandler)
+    pusherClient.bind("post:created", postHandler)
 
     return () => {
       pusherClient.unsubscribe("posts-channel");
-      pusherClient.unbind("posts:new", postHandler);
+      pusherClient.unbind("post:created", postHandler);
     }
   }, []);
 
