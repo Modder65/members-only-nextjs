@@ -42,24 +42,26 @@ export default function Users() {
     fetchPosts();
   }, [page]);
 
+  const notifyNewPost = () =>
+    toast('New post available!', {
+      icon: '🆕',
+      duration: 4000,
+      onClick: () => {
+        fetchPosts(true); // Fetch new posts when toast is clicked
+        toast.dismiss(); // Dismiss the toast
+      },
+    });
+
   useEffect(() => {
     pusherClient.subscribe("posts-channel");
-    console.log("Subscribing to Pusher channel");
 
     const postHandler = (post) => {
-      console.log("Received new post via Pusher:", post);
-      setPosts((current) => {
-        // Search for any message in the current posts state that already has an ID 
-        // of the new post coming in to ensure theres no duplicate data
-        // using lodash
-        if (find(current, { id: post.id })) {
-          return current;
-        }
-
-        return [...current, post];
-      })
-      fetchPosts();
-    }
+      // Check if the post already exists
+      if (!find(posts, { id: post.id })) {
+        setPosts(current => [post, ...current]); // Prepend new post to the list
+        notifyNewPost();
+      }
+    };
 
     pusherClient.bind("post:created", postHandler)
 
@@ -67,7 +69,7 @@ export default function Users() {
       pusherClient.unsubscribe("posts-channel");
       pusherClient.unbind("post:created", postHandler);
     }
-  }, []);
+  }, [posts]);
 
   if (isLoading) {
     return (
