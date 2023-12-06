@@ -9,7 +9,7 @@ export async function POST(request) {
   const { title, message } = await request.json();
 
   try {
-    const post = await prisma.post.create({
+    const newPost = await prisma.post.create({
       data: {
         title, 
         message, 
@@ -17,15 +17,9 @@ export async function POST(request) {
       }
     });
 
-    /*
-    await pusherServer.trigger("posts-channel", "new-post", {
-      _id: post.id, // Note: Prisma uses 'id' by default instead of '_id'
-      title: post.title,
-      message: post.message,
-      user: userId,
-      createdAt: post.createdAt
-    });
-    */
+    
+    await pusherServer.trigger("posts-channel", "posts:new", newPost);
+    
 
     return NextResponse.json({ message: "Post created successfully" }, { status: 200 });
   } catch (error) {
