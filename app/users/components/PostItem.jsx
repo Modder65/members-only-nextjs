@@ -48,7 +48,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
   };
 
   useEffect(() => {
-    pusherClient.subscribe("comments-channel");
+    pusherClient.subscribe("posts-channel");
 
     const commentHandler = (comment) => {
       // Check if the comment already exists
@@ -60,7 +60,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
     pusherClient.bind("comment:created", commentHandler)
 
     return () => {
-      pusherClient.unsubscribe("comments-channel");
+      pusherClient.unsubscribe("posts-channel");
       pusherClient.unbind("comment:created", commentHandler);
     }
   }, []);

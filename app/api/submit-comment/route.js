@@ -24,7 +24,7 @@ export async function POST(request) {
       }
     });
     
-    await pusherServer.trigger("comments-channel", "comment:created", newComment);
+    await pusherServer.trigger("posts-channel", "comment:created", newComment);
 
     return NextResponse.json({ message: "Comment created successfully" }, { status: 200 });
   } catch (error) {
