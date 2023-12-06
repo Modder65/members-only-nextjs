@@ -19,3 +19,5 @@ MembersOnly is a blog-like platform built with Next.js, where users can engage i
 - **MongoDB**: A NoSQL database used to store user data, posts, comments, and replies.
 - **Pusher**: A hosted API service that handles real-time data updates.
 - **JSON Web Tokens**: For secure and efficient session management.
+
+
