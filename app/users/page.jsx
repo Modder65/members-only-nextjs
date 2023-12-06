@@ -44,9 +44,21 @@ export default function Users() {
 
   useEffect(() => {
     pusherClient.subscribe("posts-channel");
+    console.log("Subscribing to Pusher channel");
 
     const postHandler = (post) => {
-      setPosts((current) => [...current, post])
+      console.log("Received new post via Pusher:", post);
+      setPosts((current) => {
+        // Search for any message in the current posts state that already has an ID 
+        // of the new post coming in to ensure theres no duplicate data
+        // using lodash
+        if (find(current, { id: post.id })) {
+          return current;
+        }
+
+        return [...current, post];
+      })
+      fetchPosts();
     }
 
     pusherClient.bind("post:created", postHandler)
