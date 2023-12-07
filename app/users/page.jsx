@@ -99,7 +99,7 @@ export default function Users() {
           </p>
         }
       >
-        <PostList posts={posts} comments={comments} setComments={setComments} />
+        <PostList posts={posts} />
       </InfiniteScroll>
     </div>
   );
