@@ -15,6 +15,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Users() {
   const [posts, setPosts] = useState([]);
+  const [comments, setComments] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +64,24 @@ export default function Users() {
     }
   }, [posts]);
 
+  useEffect(() => {
+    pusherClient.subscribe("comments-channel");
+
+    const commentHandler = (comment) => {
+      // Check if the comment already exists
+      if (!find(comments, { id: comment.id })) {
+        setComments(current => [comment, ...current]); // Prepend new post to the list
+      }
+    };
+
+    pusherClient.bind("comment:created", commentHandler)
+
+    return () => {
+      pusherClient.unsubscribe("comments-channel");
+      pusherClient.unbind("comment:created", commentHandler);
+    }
+  }, []);
+
   if (isLoading) {
     return (
       <div className="
@@ -99,7 +118,7 @@ export default function Users() {
           </p>
         }
       >
-        <PostList posts={posts} />
+        <PostList posts={posts} comments={comments} setComments={setComments} />
       </InfiniteScroll>
     </div>
   );

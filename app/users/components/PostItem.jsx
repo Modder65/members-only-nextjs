@@ -13,8 +13,8 @@ import { pusherClient } from "@/app/libs/pusher";
 import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 
 
-const PostItem = ({ post, postId, initialCommentsCount }) => {
-  const [comments, setComments] = useState([]);
+const PostItem = ({ post, postId, comments, setComments, initialCommentsCount }) => {
+  
   const [showComments, setShowComments] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -46,24 +46,6 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
       setIsLoading(false);
     }
   };
-
-  useEffect(() => {
-    pusherClient.subscribe("posts-channel");
-
-    const commentHandler = (comment) => {
-      // Check if the comment already exists
-      if (!find(comments, { id: comment.id })) {
-        setComments(current => [comment, ...current]); // Prepend new post to the list
-      }
-    };
-
-    pusherClient.bind("comment:created", commentHandler)
-
-    return () => {
-      pusherClient.unsubscribe("posts-channel");
-      pusherClient.unbind("comment:created", commentHandler);
-    }
-  }, []);
 
   const toggleCommentsDisplay = async () => {
     // Fetch comments only if they are not currently shown
