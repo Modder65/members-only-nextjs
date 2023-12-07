@@ -15,6 +15,7 @@ import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 
 const PostItem = ({ post, postId, initialCommentsCount }) => {
   const [comments, setComments] = useState([]);
+  const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [showComments, setShowComments] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -55,6 +56,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
       if (!find(comments, { id: comment.id })) {
         if (comment.postId === postId) {
           setComments(current => [comment, ...current]); // Prepend new post to the list
+          setCommentCount(currentCount => currentCount + 1); // Increment comment count
           notifyNewComment(post.title);
         }
       }
@@ -89,7 +91,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
            className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
            >
             <FiMessageSquare className="mr-2" />
-            {showComments ? `Hide Comments (${comments.length})` : `Show Comments (${initialCommentsCount})`}
+            {showComments ? `Hide Comments (${comments.length})` : `Show Comments (${comments.length})`}
           </button>
           {showComments && (
             <>
