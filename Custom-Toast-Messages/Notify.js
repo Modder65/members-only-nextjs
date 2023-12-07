@@ -11,3 +11,9 @@ export const notifyNewComment = (postTitle) =>
       icon: '🆕',
       duration: 2000,
     });
+
+    export const notifyNewReply = () =>
+    toast('New reply available!', {
+      icon: '🆕',
+      duration: 2000,
+    });
