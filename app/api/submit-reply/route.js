@@ -11,25 +11,22 @@ export async function POST(request) {
   const { message, commentId } = await request.json();
 
   try {
-    const reply = await prisma.reply.create({
+    const newreply = await prisma.reply.create({
       data: {
         message, 
         user: { connect: { id: userId } },
         comment: { connect: { id: commentId }}
+      },
+      // Needed to match data structure of fetching replies; for pusher
+      include: {
+        user: {
+          select: { name: true }
+        }
       }
     });
    
-
-    /*
-    await pusherServer.trigger("posts-channel", "new-reply", {
-      _id: newReply._id,
-      message: newReply.message,
-      comment: newReply.comment,
-      user: newReply.user,
-      createdAt: newReply.createdAt
-    })
-    */
-
+    await pusherServer.trigger("replies-channel", "reply:created", newreply);
+   
     return NextResponse.json({ message: "Reply created successfully" }, { status: 200 });
   } catch (error) {
     console.error("Error adding reply:", error);
