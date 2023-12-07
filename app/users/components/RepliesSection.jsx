@@ -7,10 +7,13 @@ import { toast } from "react-hot-toast";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import axios from "axios";
+import { pusherClient } from "@/app/libs/pusher";
+import { notifyNewReply } from "@/Custom-Toast-Messages/Notify";
 
 
 export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   const [replies, setReplies] = useState([]);
+  const [replyCount, setReplyCount] = useState(initialRepliesCount);
   const [showReplies, setShowReplies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,6 +45,28 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
     }
   };
 
+  useEffect(() => {
+    pusherClient.subscribe("replies-channel");
+
+    const replyHandler = (reply) => {
+      // Check if the reply already exists
+      if (!find(replies, { id: reply.id })) {
+        if (reply.commentId === commentId) {
+          setReplies(current => [reply, ...current]); // Prepend new post to the list
+          setReplyCount(currentCount => currentCount + 1); // Increment comment count
+          notifyNewReply();
+        }
+      }
+    };
+
+    pusherClient.bind("reply:created", replyHandler)
+
+    return () => {
+      pusherClient.unsubscribe("replies-channel");
+      pusherClient.unbind("reply:created", replyHandler);
+    }
+  }, [commentId]);
+
   const toggleRepliesDisplay = async () => {
     // Fetch comments only if they are not currently shown
     if (!showReplies) {
@@ -55,7 +80,7 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
       <button onClick={toggleRepliesDisplay}
        className="text-green-600 hover:text-green-800 text-sm"
        >
-        {showReplies ? `Hide Replies (${replies.length})` : `Show Replies (${initialRepliesCount})`}
+        {showReplies ? `Hide Replies (${replyCount})` : `Show Replies (${replyCount})`}
       </button>
       {showReplies && (
         <div className="mt-2">
