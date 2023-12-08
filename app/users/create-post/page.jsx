@@ -49,14 +49,14 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-5">
+    <div className="mx-auto max-w-6xl px-5 py-5 flex flex-col">
       <h1 className="text-2xl font-bold mb-5">Post a Message</h1>
       {isLoading && (
         <div className="flex justify-center items-center absolute inset-0 bg-white bg-opacity-80 z-10">
           <ClipLoader loading={isLoading} size={50} />
         </div>
       )}
-      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
         <Input 
           id="title" 
           label="Title" 

@@ -86,7 +86,7 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   }
 
   return (
-    <div className="mt-2">
+    <div className="mt-3">
       <button onClick={toggleRepliesDisplay}
        className="text-green-600 hover:text-green-800 text-sm"
        >
@@ -94,7 +94,7 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
       </button>
       {showReplies && (
         <div className="mt-2">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
             <Input
               id="message" 
               label="Your Reply" 
