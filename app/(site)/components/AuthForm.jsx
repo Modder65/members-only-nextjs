@@ -130,6 +130,7 @@ const AuthForm = () => {
               id="name" 
               label="Name" 
               register={register} 
+              validation={ { required: "Name is required"} }
               errors={errors}
               disabled={isLoading}
             />
@@ -138,7 +139,8 @@ const AuthForm = () => {
               id="email" 
               label="Email address" 
               type="email"
-              register={register} 
+              register={register}
+              validation={ { required: "Email is required"} } 
               errors={errors}
               disabled={isLoading}
             />
@@ -146,7 +148,8 @@ const AuthForm = () => {
               id="password" 
               label="Password" 
               type="password"
-              register={register} 
+              register={register}
+              validation={ { required: "Password is required"} }
               errors={errors}
               disabled={isLoading}
             />
