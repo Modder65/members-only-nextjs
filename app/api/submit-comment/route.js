@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { pusherServer } from "@/app/libs/pusher";
+import sanitizeHtml from "sanitize-html";
 import prisma from "@/app/libs/prismadb";
 import getSession from "@/app/actions/getSession";
 
@@ -8,10 +9,18 @@ export async function POST(request) {
   const userId = session.user.id;
   const { message, postId } = await request.json();
 
+  const sanitizedMessage = sanitizeHtml(message, {
+    allowedTags: [],
+    allowedAttributes: {},
+    textFilter: function(text) {
+      return text.replace(/\s+/g, ' ').trim();
+    }
+  });
+
   try {
     const newComment = await prisma.comment.create({
       data: {
-        message, 
+        message: sanitizedMessage,
         user: { connect: { id: userId } },
         post: { connect: { id: postId }}
       },
