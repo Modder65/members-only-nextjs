@@ -32,7 +32,17 @@ export default function CreatePostPage() {
       toast.success("Post submitted successfully!");
       router.push("/");
     } catch (error) {
-      toast.error("Error submitting post");
+      let errorMessage = "An unexpected error occurred. Please try again.";
+
+      if (error.response) {
+        errorMessage = `Server Error: ${error.response.status}. ${error.response.data.message || ''}`;
+      } else if (error.request) {
+        errorMessage = "Network Error: Unable to reach the server. Please check your connection.";
+      } else {
+        errorMessage = `Error: ${error.message}`;
+      }
+
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +61,11 @@ export default function CreatePostPage() {
           id="title" 
           label="Title" 
           register={register}
-          required
+          validation={{
+            required: "Title is required",
+            minLength: { value: 4, message: "Title must be at least 4 characters long" },
+            maxLength: { value: 50, message: "Title has 50 character limit"}
+          }}
           errors={errors}
           disabled={isLoading}
         />
@@ -59,7 +73,11 @@ export default function CreatePostPage() {
           id="message" 
           label="Message" 
           register={register}
-          required
+          validation={{
+            required: "Message is required",
+            minLength: { value: 4, message: "Message must be at least 4 characters long" },
+            maxLength: { value: 280, message: "Message has 280 character limit"}
+          }}
           errors={errors}
           disabled={isLoading}
         />
