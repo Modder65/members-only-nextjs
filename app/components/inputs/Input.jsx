@@ -6,7 +6,7 @@ const Input = ({
   label,
   id,
   type,
-  required,
+  validation,
   register,
   errors,
   disabled
@@ -31,7 +31,7 @@ const Input = ({
           type={type}
           autoComplete={id}
           disabled={disabled}
-          {...register(id, { required })}
+          {...register(id, validation)}
           className={clsx(`
             form-input
             block
@@ -54,6 +54,11 @@ const Input = ({
             disabled && "opacity-50 cursor-default"
             )}
         />
+        {errors[id] && (
+          <p className="text-rose-600 text-sm mt-1">
+            {errors[id].message || 'Invalid input'}
+          </p>
+        )}
       </div>
     </div>
   );
