@@ -30,7 +30,17 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
       await axios.post('/api/submit-comment', { ...data, postId });
       toast.success("Comment submitted successfully!")
     } catch (error) {
-      toast.error("Error submitting comment");
+      let errorMessage = "An unexpected error occurred. Please try again.";
+
+      if (error.response) {
+        errorMessage = `Server Error: ${error.response.status}. ${error.response.data.message || ''}`;
+      } else if (error.request) {
+        errorMessage = "Network Error: Unable to reach the server. Please check your connection.";
+      } else {
+        errorMessage = `Error: ${error.message}`;
+      }
+
+      toast.error(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -55,7 +65,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
       // Check if the comment already exists
       if (!find(comments, { id: comment.id })) {
         if (comment.postId === postId) {
-          setComments(current => [comment, ...current]); // Prepend new post to the list
+          setComments(current => [comment, ...current]); // Prepend new comment to the list
           setCommentCount(currentCount => currentCount + 1); // Increment comment count
           notifyNewComment(post.title);
         }
@@ -100,6 +110,11 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
                   id="message" 
                   label="Your Comment" 
                   register={register}
+                  validation={{
+                    required: "Message is required",
+                    minLength: { value: 4, message: "Message must be at least 4 characters long" },
+                    maxLength: { value: 280, message: "Message has 280 character limit"}
+                  }}
                   errors={errors}
                   disabled={isLoading}
                 />
