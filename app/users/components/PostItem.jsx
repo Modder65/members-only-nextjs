@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -15,6 +15,7 @@ import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 
 const PostItem = ({ post, postId, initialCommentsCount }) => {
   const [comments, setComments] = useState([]);
+  const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [showComments, setShowComments] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,38 +48,20 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
   }
 
   const fetchComments = async (postId) => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(`/api/comments?postId=${postId}`);
-      setComments(response.data);
-    } catch (error) {
-      toast.error("Failed to fetch comments");
-    } finally {
-      setIsLoading(false);
+    // Check if comments have already been loaded or if there are no comments to load
+    if (!commentsLoaded && initialCommentsCount > 0) {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`/api/comments?postId=${postId}`);
+        setComments(response.data);
+        setCommentsLoaded(true);
+      } catch (error) {
+        toast.error("Failed to fetch comments");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
-
-  useEffect(() => {
-    pusherClient.subscribe("comments-channel");
-
-    const commentHandler = (comment) => {
-      // Check if the comment already exists
-      if (!find(comments, { id: comment.id })) {
-        if (comment.postId === postId) {
-          setComments(current => [comment, ...current]); // Prepend new comment to the list
-          setCommentCount(currentCount => currentCount + 1); // Increment comment count
-          notifyNewComment(post.title);
-        }
-      }
-    };
-
-    pusherClient.bind("comment:created", commentHandler)
-
-    return () => {
-      pusherClient.unsubscribe("comments-channel");
-      pusherClient.unbind("comment:created", commentHandler);
-    }
-  }, [postId]);
 
   const toggleCommentsDisplay = async () => {
     // Fetch comments only if they are not currently shown
@@ -87,6 +70,32 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
     }
     setShowComments(!showComments);
   }
+
+  const commentHandler = useCallback((comment) => {
+    if (comment.postId === postId) {
+      setComments(current => {
+        // If a comment with this ID already exists in the current state, don't add it
+        if (!find(current, { id: comment.id })) {
+          return [comment, ...current];
+        }
+        return current;
+      });
+      setCommentCount(currentCount => currentCount + 1);
+    }
+    notifyNewComment(post.title);
+  }, [postId, post.title]);
+
+  useEffect(() => {
+    pusherClient.subscribe("comments-channel");
+    pusherClient.bind("comment:created", commentHandler)
+
+    return () => {
+      pusherClient.unsubscribe("comments-channel");
+      pusherClient.unbind("comment:created", commentHandler);
+    }
+  }, [commentHandler]);
+
+  
 
   return (
     <div className="max-auto max-w-6xl px-5 mb-5">
