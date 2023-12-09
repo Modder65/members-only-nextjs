@@ -6,10 +6,11 @@ import { toast } from "react-hot-toast";
 import { pusherClient } from "../libs/pusher";
 import { find } from "lodash";
 import { notifyNewPost } from "@/Custom-Toast-Messages/Notify";
+import { useInView } from "react-intersection-observer";
+import { CustomLoader } from "@/components/CustomLoader";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
-import { useInView } from "react-intersection-observer";
 
 
 export default function Users() {
@@ -93,18 +94,20 @@ export default function Users() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
-      <h2 className="mb-5 text-3xl font-bold">Messages</h2>
-      {status === 'authenticated' && session.user ? (
-        <p className="mb-5 text-xl">Welcome <strong>{session.user.name}</strong>!</p>
-      ) : (
-        <p>Welcome to the members only page!</p>
-      )}
-      <PostList posts={posts} />
-      {hasMore && (
-        <div ref={ref}>
-          <h4>Loading...</h4>
-        </div>
-      )}
-    </div>
+    <h2 className="mb-5 text-3xl font-bold">Messages</h2>
+    {status === 'authenticated' && session.user ? (
+      <p className="mb-5 text-xl">Welcome <strong>{session.user.name}</strong>!</p>
+    ) : (
+      <p>Welcome to the members only page!</p>
+    )}
+    <PostList posts={posts} />
+    {hasMore ? (
+      <div ref={ref} className="flex justify-center">
+        <CustomLoader />
+      </div>
+    ) : (
+      <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
+    )}
+  </div>
   );
 }
