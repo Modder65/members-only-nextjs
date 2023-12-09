@@ -13,6 +13,7 @@ import { notifyNewReply } from "@/Custom-Toast-Messages/Notify";
 
 export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   const [replies, setReplies] = useState([]);
+  const [repliesLoaded, setRepliesLoaded] = useState(false);
   const [replyCount, setReplyCount] = useState(initialRepliesCount);
   const [showReplies, setShowReplies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,38 +45,20 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   };
 
   const fetchReplies = async (commentId) => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(`/api/replies?commentId=${commentId}`);
-      setReplies(response.data);
-    } catch (error) {
-      toast.error("Failed to fetch replies");
-    } finally {
-      setIsLoading(false);
+    // Check if replies have already been loaded or if there are no replies to load
+    if (!repliesLoaded && initialRepliesCount > 0) {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`/api/replies?commentId=${commentId}`);
+        setReplies(response.data);
+        setRepliesLoaded(true);
+      } catch (error) {
+        toast.error("Failed to fetch replies");
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
-
-  useEffect(() => {
-    pusherClient.subscribe("replies-channel");
-
-    const replyHandler = (reply) => {
-      // Check if the reply already exists
-      if (!find(replies, { id: reply.id })) {
-        if (reply.commentId === commentId) {
-          setReplies(current => [reply, ...current]); // Prepend new post to the list
-          setReplyCount(currentCount => currentCount + 1); // Increment comment count
-          notifyNewReply();
-        }
-      }
-    };
-
-    pusherClient.bind("reply:created", replyHandler)
-
-    return () => {
-      pusherClient.unsubscribe("replies-channel");
-      pusherClient.unbind("reply:created", replyHandler);
-    }
-  }, [commentId]);
 
   const toggleRepliesDisplay = async () => {
     // Fetch comments only if they are not currently shown
@@ -84,6 +67,30 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
     }
     setShowReplies(!showReplies);
   }
+
+  const replyHandler = useCallback((reply) => {
+    if (reply.commentId === commentId) {
+      setReplies(current => {
+        // If a comment with this ID already exists in the current state, don't add it
+        if (!find(current, { id: reply.id })) {
+          return [reply, ...current];
+        }
+        return current;
+      });
+      setReplyCount(currentCount => currentCount + 1);
+      notifyNewReply()
+    }
+  }, [commentId]);
+
+  useEffect(() => {
+    pusherClient.subscribe("replies-channel");
+    pusherClient.bind("reply:created", replyHandler)
+
+    return () => {
+      pusherClient.unsubscribe("replies-channel");
+      pusherClient.unbind("reply:created", replyHandler);
+    }
+  }, [replyHandler]);
 
   return (
     <div className="mt-3">
