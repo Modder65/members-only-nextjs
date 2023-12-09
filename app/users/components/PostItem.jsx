@@ -81,8 +81,8 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
         return current;
       });
       setCommentCount(currentCount => currentCount + 1);
+      notifyNewComment(post.title);
     }
-    notifyNewComment(post.title);
   }, [postId, post.title]);
 
   useEffect(() => {
