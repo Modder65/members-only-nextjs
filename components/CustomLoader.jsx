@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import gsap from "gsap/gsap-core";
+import gsap from "gsap";
 
 export const CustomLoader = () => {
   const spinnerRef = useRef(null);
