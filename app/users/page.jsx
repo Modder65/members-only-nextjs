@@ -67,7 +67,7 @@ export default function Users() {
 
   useEffect(() => {
     pusherClient.subscribe("posts-channel");
-    pusherClient.bind("post:created", postHandler)
+    pusherClient.bind("post:created", postHandler);
 
     return () => {
       pusherClient.unsubscribe("posts-channel");
