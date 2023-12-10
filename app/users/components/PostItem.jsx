@@ -1,16 +1,17 @@
 'use client'
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { FiMessageSquare } from "react-icons/fi";
+import { pusherClient } from "@/app/libs/pusher";
+import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
+import { useInView } from 'react-intersection-observer';
 import CommentsSection from "./CommentsSection";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
 import axios from "axios";
-import { pusherClient } from "@/app/libs/pusher";
-import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 
 
 const PostItem = ({ post, postId, initialCommentsCount }) => {
