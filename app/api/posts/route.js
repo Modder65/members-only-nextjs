@@ -1,4 +1,5 @@
 import prisma from "@/app/libs/prismadb";
+import getSession from "@/app/actions/getSession";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // makes sure the route is dynamic and fetch request always has the latest updated data
@@ -6,6 +7,9 @@ export const dynamic = "force-dynamic"; // makes sure the route is dynamic and f
 
 export async function GET(request) {
   try {
+    const session = await getSession(request);
+    const userId = session.user.id;
+
     const { searchParams } = new URL(request.url);
     // Convert page and limit to integers. Default to 0 for page and 10 for limit if not provided
     const page = parseInt(searchParams.get("page") || "0", 10);
@@ -24,8 +28,12 @@ export async function GET(request) {
       include: {
         user: { select: { name: true } },
         _count: {
-          select: { comments: true }
-        }
+          select: { comments: true, likes: true }
+        },
+        likes: userId ? {
+          where: { userId: userId },
+          select: { id: true }
+        } : false
       }
     });
 
