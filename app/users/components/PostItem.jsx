@@ -7,14 +7,14 @@ import { toast } from "react-hot-toast";
 import { FiMessageSquare } from "react-icons/fi";
 import { pusherClient } from "@/app/libs/pusher";
 import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
-import { useInView } from 'react-intersection-observer';
 import CommentsSection from "./CommentsSection";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
+import LikeIcon from "./LikeIcon";
 import axios from "axios";
 
 
-const PostItem = ({ post, postId, initialCommentsCount }) => {
+const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount }) => {
   const [comments, setComments] = useState([]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
@@ -96,8 +96,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
     }
   }, [commentHandler]);
 
-  
-
+ 
   return (
     <div className="max-auto max-w-6xl px-5 mb-5">
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
@@ -139,6 +138,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
               <CommentsSection comments={comments} />
             </>
           )}
+          <LikeIcon postId={postId} initialLikesCount={initialLikesCount}/>
         </div>
       </div>
     </div>
