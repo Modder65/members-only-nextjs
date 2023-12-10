@@ -17,3 +17,13 @@ export const notifyNewComment = (postTitle) =>
       icon: '🆕',
       duration: 2000,
     });
+
+    export const notifyLike = () =>
+    toast('Liked!', {
+      icon: '💗',
+      duration: 2000,
+    });
+
+
+
+  
