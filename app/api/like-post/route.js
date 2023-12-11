@@ -49,7 +49,11 @@ export async function POST(request) {
       userLikedPost // Indicates if the action was like or unlike
     });
 
-    return NextResponse.json({ message: "Like updated successfully" }, { status: 200 });
+    return NextResponse.json({ 
+      message: "Like updated successfully", 
+      likeCount: updatedLikeCount,
+      userLikedPost: userLikedPost
+  }, { status: 200 });
   } catch (error) {
     console.error("Error updating like:", error);
     return NextResponse.json({ error: error.message || "Internal server error" }, { status: 500 });
