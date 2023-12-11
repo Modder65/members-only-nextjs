@@ -43,20 +43,22 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
   };
 
   useEffect(() => {
-    pusherClient.subscribe("likes-channel");
-    pusherClient.bind("post:liked", (data) => {
+    const handleLikeUpdate = (data) => {
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
 
         // Update isLiked based on whether the current user liked the post
         setIsLiked(data.actionUserId === session.user.id && data.likeCount > 0);
       }
-    });
+    };
+
+    pusherClient.subscribe("likes-channel");
+    pusherClient.bind("post:liked", handleLikeUpdate);
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("post:liked");
-    }
+      pusherClient.unbind("post:liked", handleLikeUpdate);
+    };
   }, [postId, session.user.id]);
 
 
