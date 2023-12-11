@@ -46,12 +46,21 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
 
   useEffect(() => {
     const handleLikeUpdate = (data) => {
+
+      console.log("Pusher data:", data);
+      console.log("Current isLiked:", isLiked);
+      console.log("Session user ID:", session.user.id);
+ 
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
 
-        // Update isLiked based on the current user's action
-        const userLikedPost = data.actionUserId === session.user.id ? data.likeCount > 0 : isLiked;
+        // Determine if the current user has liked the post
+        const userLikedPost = data.actionUserId === session.user.id 
+                              ? data.likeCount > 0 
+                              : (isLiked && data.likeCount > 0);
+
         setIsLiked(userLikedPost);
+        console.log("Updated isLiked:", userLikedPost);
       }
     };
 
