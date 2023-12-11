@@ -26,25 +26,20 @@ export async function GET(request) {
       include: {
         user: { select: { name: true } },
         _count: { select: { comments: true, likes: true } },
-        // Add a custom field to indicate if the current user has liked the post
-        currentUserLiked: {
-          select: {
-            id: true,
-            _count: {
-              select: { id: true, filter: { where: { userId } } }
-            }
-          }
+        likes: {
+          where: { userId: userId },
+          select: { id: true }
         }
       }
     });
 
-    // Modify the structure to include a boolean field for user like status
+    // Add the currentUserLiked field
     const modifiedPosts = posts.map(post => ({
       ...post,
-      currentUserLiked: post.currentUserLiked.length > 0
+      currentUserLiked: post.likes.some(like => like.userId === userId)
     }));
 
-    return NextResponse.json(modifiedPosts, { status: 200 });
+    return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     console.error("Error fetching posts:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
