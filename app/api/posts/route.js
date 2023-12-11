@@ -36,7 +36,7 @@ export async function GET(request) {
     // Add the currentUserLiked field to each post
     const modifiedPosts = posts.map(post => ({
       ...post,
-      currentUserLiked: post.likes.some(like => like.userId === userId)
+      currentUserLiked: post.currentUserLiked.length > 0
     }));
 
     return NextResponse.json(modifiedPosts, { status: 200 });
