@@ -9,6 +9,8 @@ export async function POST(request) {
   const { postId } = await request.json();
 
   try {
+    let userLikedPost = false;
+
     // Check if like already exists
     const existingLike = await prisma.like.findUnique({
       where: {
@@ -26,10 +28,12 @@ export async function POST(request) {
           post: { connect: { id: postId } },
         },
       });
+      userLikedPost = true; // User liked the post
     } else {
       await prisma.like.delete({
         where: { id: existingLike.id },
       });
+      userLikedPost = false; // User unliked the post
     }
 
     // Get updated like count
@@ -41,7 +45,8 @@ export async function POST(request) {
     await pusherServer.trigger("likes-channel", "post:liked", {
       postId,
       likeCount: updatedLikeCount,
-      actionUserId: userId // User who performed the action
+      actionUserId: userId, // User who performed the action
+      userLikedPost // Indicates if the action was like or unlike
     });
 
     return NextResponse.json({ message: "Like updated successfully" }, { status: 200 });

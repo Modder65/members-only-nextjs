@@ -54,12 +54,10 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
 
-        // Determine if the current user has liked the post
-        const userLikedPost = data.actionUserId === session.user.id 
-                              ? data.likeCount > 0 
-                              : (data.likeCount > 0 && isLiked);
-
-        setIsLiked(userLikedPost);
+        // Update isLiked only if the action is performed by the current user
+        if (data.actionUserId === session.user.id) {
+          setIsLiked(data.userLikedPost);
+        }
         console.log("Updated isLiked:", userLikedPost);
       }
     };
