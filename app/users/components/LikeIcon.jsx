@@ -10,8 +10,8 @@ import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
-const LikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
-  const [isLiked, setIsLiked] = useState(currentUserLiked);
+const LikeIcon = ({ postId, initialLikesCount }) => {
+  const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(initialLikesCount);
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
@@ -19,19 +19,18 @@ const LikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
 
   const toggleLike = async () => {
     setIsLoading(true);
-    const newLikeState = !isLiked;
 
     // Optimistically update the UI
-    setIsLiked(newLikeState);
-    setLikeCount(newLikeState ? likeCount + 1 : likeCount - 1);
+    setIsLiked(!isLiked);
+    setLikeCount(!isLiked ? likeCount + 1 : likeCount - 1);
     animateHeartIcon();
 
     try {
       await axios.post('/api/like-post', { postId });
     } catch (error) {
       // Revert UI changes on error
-      setIsLiked(!newLikeState);
-      setLikeCount(newLikeState ? likeCount - 1 : likeCount + 1);
+      setIsLiked(isLiked);
+      setLikeCount(!isLiked ? likeCount - 1 : likeCount + 1);
       toast.error("Error updating like.");
     } finally {
       setIsLoading(false);
