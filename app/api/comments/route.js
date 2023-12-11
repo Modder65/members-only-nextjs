@@ -15,12 +15,30 @@ export async function GET(request) {
       include: {
         user: { select: { name: true } },
         _count: {
-          select: { replies: true } // This counts the number of replies for each comment
+          select: { replies: true, likes: true } // This counts the number of replies for each comment
         }
       }
     });
 
-    return NextResponse.json(comments, { status: 200 });
+    // Extract comment IDs
+    const commentIds = comments.map(comment => comment.id);
+
+    // Find all likes that the current user has made on these comments
+    const likedComments = await prisma.like.findMany({
+      where: {
+        commentId: { in: commentIds },
+        userId: userId
+      },
+      select: { commentId: true }
+    });
+
+    // Map these likes back to the corresponding comments
+    const commentsWithLikeStatus = comments.map(comment => ({
+      ...comment,
+      currentUserLiked: likedComments.some(like => like.commentId === comment.id)
+    }));
+
+    return NextResponse.json(commentsWithLikeStatus, { status: 200 });
   } catch (error) {
     console.error("Error fetching posts:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
