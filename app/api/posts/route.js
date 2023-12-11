@@ -37,6 +37,12 @@ export async function GET(request) {
       }
     });
 
+    // Add field 'userHasLiked' to each post
+    const postsWithLikeInfo = posts.map(post => ({
+      ...post,
+      userHasLiked: post.likes.length > 0
+    }));
+
     return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     console.error("Error fetching posts:", error);

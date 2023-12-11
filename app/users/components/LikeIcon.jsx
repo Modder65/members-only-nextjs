@@ -9,8 +9,8 @@ import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
-const LikeIcon = ({ postId, initialLikesCount }) => {
-  const [isLiked, setIsLiked] = useState(initialLikesCount > 0);
+const LikeIcon = ({ postId, initialLikesCount, isUserLiked }) => {
+  const [isLiked, setIsLiked] = useState(isUserLiked);
   const [likeCount, setLikeCount] = useState(initialLikesCount);
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
