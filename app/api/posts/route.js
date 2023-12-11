@@ -29,6 +29,10 @@ export async function GET(request) {
         likes: {
           where: { userId: userId },
           select: { id: true }
+        },
+        currentUserLiked: {
+          where: { userId: userId },
+          select: { id: true }
         }
       }
     });

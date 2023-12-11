@@ -10,6 +10,7 @@ const PostList = ({ posts }) => {
         postId={post.id} 
         initialCommentsCount={post._count.comments} 
         initialLikesCount={post._count.likes}
+        currentUserLiked={post.currentUserLiked}
         />
       ))}
     </>

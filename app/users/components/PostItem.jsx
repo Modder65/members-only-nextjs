@@ -14,7 +14,7 @@ import LikeIcon from "./LikeIcon";
 import axios from "axios";
 
 
-const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount }) => {
+const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, currentUserLiked }) => {
   const [comments, setComments] = useState([]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
@@ -138,7 +138,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount }) => 
               <CommentsSection comments={comments} />
             </>
           )}
-          <LikeIcon postId={postId} initialLikesCount={initialLikesCount} />
+          <LikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
         </div>
       </div>
     </div>
