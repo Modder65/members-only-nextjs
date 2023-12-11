@@ -48,10 +48,8 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
 
-        // Check if the current user performed the action
-        if (data.actionUserId === session.user.id) {
-          setIsLiked(data.likeCount > 0);
-        }
+        // Update isLiked based on whether the current user liked the post
+        setIsLiked(data.actionUserId === session.user.id && data.likeCount > 0);
       }
     });
 
@@ -59,7 +57,7 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
       pusherClient.unsubscribe("likes-channel");
       pusherClient.unbind("post:liked");
     }
-  }, [postId, likeCount, session.user.id]);
+  }, [postId, session.user.id]);
 
 
   return ( 
