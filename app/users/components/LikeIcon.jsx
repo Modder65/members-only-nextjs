@@ -5,15 +5,17 @@ import { FiHeart } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import { notifyLike } from "@/Custom-Toast-Messages/Notify";
 import { pusherClient } from "@/app/libs/pusher";
+import { useSession } from "next-auth/react";
 import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
-const LikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
-  const [isLiked, setIsLiked] = useState(currentUserLiked);
+const LikeIcon = ({ postId, initialLikesCount }) => {
+  const [isLiked, setIsLiked] = useState(initialLikesCount > 0);
   const [likeCount, setLikeCount] = useState(initialLikesCount);
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
+  const { data: session } = useSession();
 
   const toggleLike = async () => {
     setIsLoading(true);
@@ -45,7 +47,11 @@ const LikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
     pusherClient.bind("post:liked", (data) => {
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
-        setIsLiked(data.currentUserLiked);
+
+        // Check if the current user performed the action
+        if (data.actionUserId === session.user.id) {
+          setIsLiked(data.likeCount > 0);
+        }
       }
     });
 
@@ -53,7 +59,7 @@ const LikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
       pusherClient.unsubscribe("likes-channel");
       pusherClient.unbind("post:liked");
     }
-  }, [postId]);
+  }, [postId, likeCount, session.user.id]);
 
 
   return ( 
