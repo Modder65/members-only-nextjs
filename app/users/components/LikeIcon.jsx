@@ -20,6 +20,8 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
   const toggleLike = async () => {
     setIsLoading(true);
     const newLikeState = !isLiked;
+
+    // Optimistically update the UI
     setIsLiked(newLikeState);
     setLikeCount(newLikeState ? likeCount + 1 : likeCount - 1);
     animateHeartIcon();
@@ -47,10 +49,9 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
 
-        // Update isLiked if the action was performed by the current user
-        if (session?.user?.id === data.actionUserId) {
-          setIsLiked(data.likeCount > 0);
-        }
+        // Update isLiked based on the current user's action
+        const userLikedPost = data.actionUserId === session.user.id ? data.likeCount > 0 : isLiked;
+        setIsLiked(userLikedPost);
       }
     };
 
@@ -59,9 +60,9 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("post:liked", handleLikeUpdate);
+      pusherClient.unbind("post:liked", handleLikeUpdate); 
     };
-  }, [postId, session?.user?.id]);
+  }, [postId, session.user.id, isLiked]);
 
 
   return ( 
