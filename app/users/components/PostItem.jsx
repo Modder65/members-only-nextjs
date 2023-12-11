@@ -138,7 +138,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount }) => 
               <CommentsSection comments={comments} />
             </>
           )}
-          <LikeIcon postId={postId} initialLikesCount={initialLikesCount} isUserLiked={post.userHasLiked} />
+          <LikeIcon postId={postId} initialLikesCount={initialLikesCount} userHasLiked={post.currentUserLiked} />
         </div>
       </div>
     </div>

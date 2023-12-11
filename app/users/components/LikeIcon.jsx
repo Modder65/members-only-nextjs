@@ -9,8 +9,8 @@ import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
-const LikeIcon = ({ postId, initialLikesCount, isUserLiked }) => {
-  const [isLiked, setIsLiked] = useState(isUserLiked);
+const LikeIcon = ({ postId, initialLikesCount, userHasLiked}) => {
+  const [isLiked, setIsLiked] = useState(userHasLiked);
   const [likeCount, setLikeCount] = useState(initialLikesCount);
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
@@ -42,7 +42,7 @@ const LikeIcon = ({ postId, initialLikesCount, isUserLiked }) => {
     pusherClient.bind("post:liked", (data) => {
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
-        setIsLiked(data.likeCount > 0);
+        setIsLiked(data.hasUserLiked);
       }
     });
 
