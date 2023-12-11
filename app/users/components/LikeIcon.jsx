@@ -9,13 +9,14 @@ import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
-const LikeIcon = ({ postId, initialLikesCount, userHasLiked}) => {
-  const [isLiked, setIsLiked] = useState(userHasLiked);
+const LikeIcon = ({ postId, initialLikesCount }) => {
+  const [isLiked, setIsLiked] = useState(initialLikesCount > 0);
   const [likeCount, setLikeCount] = useState(initialLikesCount);
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
 
   const toggleLike = async () => {
+    setIsLoading(true);
     const newLikeState = !isLiked;
     setIsLiked(newLikeState);
     setLikeCount(newLikeState ? likeCount + 1 : likeCount - 1);
@@ -28,6 +29,8 @@ const LikeIcon = ({ postId, initialLikesCount, userHasLiked}) => {
       setIsLiked(!newLikeState);
       setLikeCount(newLikeState ? likeCount - 1 : likeCount + 1);
       toast.error("Error updating like.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,7 +45,7 @@ const LikeIcon = ({ postId, initialLikesCount, userHasLiked}) => {
     pusherClient.bind("post:liked", (data) => {
       if (data.postId === postId) {
         setLikeCount(data.likeCount);
-        setIsLiked(data.hasUserLiked);
+        setIsLiked(data.likeCount > 0);
       }
     });
 

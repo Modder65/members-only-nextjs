@@ -37,13 +37,7 @@ export async function GET(request) {
       }
     });
 
-    // Add currentUserLiked field to each post
-    const postsWithLikeStatus = posts.map(post => ({
-      ...post,
-      currentUserLiked: post.likes.some(like => like.userId === userId)
-    }));
-
-    return NextResponse.json(postsWithLikeStatus, { status: 200 });
+    return NextResponse.json(posts, { status: 200 });
   } catch (error) {
     console.error("Error fetching posts:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
