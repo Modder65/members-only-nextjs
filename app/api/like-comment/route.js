@@ -42,7 +42,7 @@ export async function POST(request) {
     });
 
     // Pusher broadcast
-    await pusherServer.trigger("likes-channel", "post:liked", {
+    await pusherServer.trigger("likes-channel", "comment:liked", {
       commentId,
       likeCount: updatedLikeCount,
       actionUserId: userId, // User who performed the action
