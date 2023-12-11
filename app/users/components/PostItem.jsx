@@ -10,8 +10,8 @@ import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 import CommentsSection from "./CommentsSection";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
-import LikeIcon from "./LikeIcon";
 import axios from "axios";
+import PostLikeIcon from "./PostLikeIcon";
 
 
 const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, currentUserLiked }) => {
@@ -138,7 +138,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
               <CommentsSection comments={comments} />
             </>
           )}
-          <LikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
+          <PostLikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
         </div>
       </div>
     </div>
