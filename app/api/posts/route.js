@@ -26,14 +26,28 @@ export async function GET(request) {
       include: {
         user: { select: { name: true } },
         _count: { select: { comments: true, likes: true } },
-        likes: {
-          where: { userId: userId },
-          select: { id: true }
-        }
       }
     });
 
-    return NextResponse.json(posts, { status: 200 });
+     // Extract post IDs
+     const postIds = posts.map(post => post.id);
+
+     // Find all likes that the current user has made on these posts
+    const likedPosts = await prisma.like.findMany({
+      where: {
+        postId: { in: postIds },
+        userId: userId
+      },
+      select: { postId: true }
+    });
+
+    // Map these likes back to the corresponding posts
+    const postsWithLikeStatus = posts.map(post => ({
+      ...post,
+      currentUserLiked: likedPosts.some(like => like.postId === post.id)
+    }));
+
+    return NextResponse.json(postsWithLikeStatus, { status: 200 });
   } catch (error) {
     console.error("Error fetching posts:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
