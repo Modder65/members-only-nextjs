@@ -63,7 +63,7 @@ const LikeIcon = ({ postId, initialLikesCount }) => {
       pusherClient.unsubscribe("likes-channel");
       pusherClient.unbind("post:liked", handleLikeUpdate); 
     };
-  }, [postId, session.user.id]);
+  }, [postId, session?.user?.id]);
 
 
   return ( 
