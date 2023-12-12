@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 // The posts object will store the like status and count for each post
 const initialState = {
   posts: {},
+  comments: {},
 }
 
 export const likesSlice = createSlice({
