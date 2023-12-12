@@ -6,23 +6,45 @@ import { toast } from "react-hot-toast";
 import { notifyLike } from "@/Custom-Toast-Messages/Notify";
 import { pusherClient } from "@/app/libs/pusher";
 import { useSession } from "next-auth/react";
+import { togglePostLike } from "@/redux/features/likesSlice";
+import { useDispatch, useSelector } from "react-redux";
 import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
-import { togglePostLike } from "@/redux/features/likesSlice";
-import { useDispatch, useSelector } from "react-redux";
+
 
 const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
   const dispatch = useDispatch();
+  const { data: session } = useSession();
+  const userId = session?.user?.id;
 
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
-  const { data: session } = useSession();
-
-  const userId = session?.user?.id;
+  
   const postLikes = useSelector((state) => state.likes.posts[postId]);
   const isLiked = postLikes?.userLikes[userId] ?? currentUserLiked;
   const likeCount = postLikes?.likeCount ?? initialLikesCount;
+
+  useEffect(() => {
+    const handleLikeUpdate = (data) => {
+      if (data.postId === postId) {
+        dispatch(togglePostLike({
+          postId: data.postId,
+          userId: data.actionUserId,
+          isLiked: data.userLikedPost,
+          likeCount: data.likeCount
+        }));
+      }
+    };
+
+    pusherClient.subscribe("likes-channel");
+    pusherClient.bind("post:liked", handleLikeUpdate);
+
+    return () => {
+      pusherClient.unsubscribe("likes-channel");
+      pusherClient.unbind("post:liked", handleLikeUpdate); 
+    };
+  }, [postId, dispatch]);
 
   const handleToggleLike = async () => {
     setIsLoading(true);
@@ -49,27 +71,6 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
       { scale: 1.5, duration: 0.2, ease: 'power1.out', yoyo: true, repeat: 1 }
     );
   };
-
-  useEffect(() => {
-    const handleLikeUpdate = (data) => {
-      if (data.postId === postId) {
-        dispatch(togglePostLike({
-          postId: data.postId,
-          userId: data.actionUserId,
-          isLiked: data.userLikedPost,
-          likeCount: data.likeCount
-        }));
-      }
-    };
-
-    pusherClient.subscribe("likes-channel");
-    pusherClient.bind("post:liked", handleLikeUpdate);
-
-    return () => {
-      pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("post:liked", handleLikeUpdate); 
-    };
-  }, [postId, dispatch]);
 
   return ( 
     <div className="flex items-center mt-2">
