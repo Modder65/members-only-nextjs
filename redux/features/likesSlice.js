@@ -15,5 +15,5 @@ export const likesSlice = createSlice({
   },
 });
 
-export const { togglePostLike } = likes.actions;
+export const { togglePostLike } = likesSlice.actions;
 export default likesSlice.reducer;
