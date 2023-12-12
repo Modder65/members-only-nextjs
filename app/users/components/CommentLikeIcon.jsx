@@ -14,7 +14,7 @@ import { useLikes } from '@/app/context/LikesContext';
 const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => {
   const { state, dispatch } = useLikes(); // Use the global likes state
   const isLiked = state.commentLikes[commentId] ?? currentUserLiked; // Get the like status from the global state
-  const [likeCount, setLikeCount] = useState(initialLikesCount);
+  const likeCount = state.commentLikeCounts[commentId] || initialLikesCount;
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
   const { data: session } = useSession();
@@ -29,10 +29,9 @@ const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => 
       // Dispatch action to update global state
       dispatch({
         type: 'TOGGLE_COMMENT_LIKE',
-        payload: { commentId, isLiked: userLikedComment },
+        payload: { commentId, isLiked: userLikedComment, likeCount: likeCount },
       });
 
-      setLikeCount(likeCount);
       animateHeartIcon();
       notifyLike();
     } catch (error) {
@@ -53,12 +52,21 @@ const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => 
   useEffect(() => {
     const handleLikeUpdate = (data) => {
       if (data.commentId === commentId) {
-        setLikeCount(data.likeCount);
+        dispatch({
+          type: 'UPDATE_COMMENT_LIKE_COUNT',
+          payload: { 
+            commentId: data.commentId, 
+            likeCount: data.likeCount 
+          },
+        });
 
         if (data.actionUserId === session.user.id) {
           dispatch({
             type: 'TOGGLE_COMMENT_LIKE',
-            payload: { commentId, isLiked: data.userLikedComment },
+            payload: { 
+              commentId: data.commentId, 
+              isLiked: data.userLikedComment 
+            },
           });
         }
       }
