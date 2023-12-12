@@ -36,7 +36,7 @@ export const likesSlice = createSlice({
         state.comments[commentId] = { userLikes: {}, Count: 0 };
       }
 
-      state.comment[commentId].userLikes[userId] = isLiked;
+      state.comments[commentId].userLikes[userId] = isLiked;
       state.comments[commentId].likeCount = likeCount;
     },
   },
