@@ -2,6 +2,7 @@ import './globals.css'
 import ToasterContext from './context/ToasterContext'
 import AuthContext from './context/AuthContext';
 import { Nunito } from 'next/font/google'
+import { LikesProvider } from './context/LikesContext';
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -13,8 +14,10 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`bg-neutral-100 ${nunito.className}`}>
         <AuthContext>
-          <ToasterContext />
-          {children}
+          <LikesProvider>
+            <ToasterContext />
+            {children}
+          </LikesProvider>
         </AuthContext>
       </body>
     </html>

@@ -1,17 +1,17 @@
-"use client"
-
-import { useState, useRef, useEffect } from "react";
-import { FiHeart } from "react-icons/fi";
-import { toast } from "react-hot-toast";
-import { notifyLike } from "@/Custom-Toast-Messages/Notify";
-import { pusherClient } from "@/app/libs/pusher";
-import { useSession } from "next-auth/react";
-import clsx from "clsx";
-import gsap from "gsap";
-import axios from "axios";
+import { useState, useRef, useEffect } from 'react';
+import { FiHeart } from 'react-icons/fi';
+import { toast } from 'react-hot-toast';
+import { notifyLike } from '@/Custom-Toast-Messages/Notify';
+import { pusherClient } from '@/app/libs/pusher';
+import { useSession } from 'next-auth/react';
+import clsx from 'clsx';
+import gsap from 'gsap';
+import axios from 'axios';
+import { useLikes } from 'path/to/LikesContext'; // Import useLikes
 
 const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => {
-  const [isLiked, setIsLiked] = useState(currentUserLiked);
+  const { state, dispatch } = useLikes(); // Use the global likes state
+  const isLiked = state.commentLikes[commentId] ?? currentUserLiked; // Get the like status from the global state
   const [likeCount, setLikeCount] = useState(initialLikesCount);
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
@@ -24,23 +24,28 @@ const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => 
       const response = await axios.post('/api/like-comment', { commentId });
       const { likeCount, userLikedComment } = response.data;
 
-      // Update UI based on server response
-      setIsLiked(userLikedComment);
+      // Dispatch action to update global state
+      dispatch({
+        type: 'TOGGLE_COMMENT_LIKE',
+        payload: { commentId, isLiked: userLikedComment },
+      });
+
       setLikeCount(likeCount);
       animateHeartIcon();
-
       notifyLike();
     } catch (error) {
-      toast.error("Error updating like.");
+      toast.error('Error updating like.');
     } finally {
       setIsLoading(false);
     }
   };
 
   const animateHeartIcon = () => {
-    gsap.fromTo(heartIconRef.current, 
-      { scale: 1 }, 
-      { scale: 1.5, duration: 0.2, ease: "power1.out", yoyo: true, repeat: 1 });
+    gsap.fromTo(
+      heartIconRef.current,
+      { scale: 1 },
+      { scale: 1.5, duration: 0.2, ease: 'power1.out', yoyo: true, repeat: 1 }
+    );
   };
 
   useEffect(() => {
@@ -48,39 +53,40 @@ const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => 
       if (data.commentId === commentId) {
         setLikeCount(data.likeCount);
 
-        // Update isLiked only if the action is performed by the current user
         if (data.actionUserId === session.user.id) {
-          setIsLiked(data.userLikedComment);
+          dispatch({
+            type: 'TOGGLE_COMMENT_LIKE',
+            payload: { commentId, isLiked: data.userLikedComment },
+          });
         }
       }
     };
 
-    pusherClient.subscribe("likes-channel");
-    pusherClient.bind("comment:liked", handleLikeUpdate);
+    pusherClient.subscribe('likes-channel');
+    pusherClient.bind('comment:liked', handleLikeUpdate);
 
     return () => {
-      pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("comment:liked", handleLikeUpdate); 
+      pusherClient.unsubscribe('likes-channel');
+      pusherClient.unbind('comment:liked', handleLikeUpdate);
     };
-  }, [commentId, session?.user?.id]);
+  }, [commentId, session?.user?.id, dispatch]);
 
-
-  return ( 
-    <div className="flex justify-end items-center">
+  return (
+    <div className='flex justify-end items-center'>
       <button
-        className="flex items-center"
+        className='flex items-center'
         onClick={toggleLike}
         disabled={isLoading}
       >
-        <span ref={heartIconRef} className="text-rose-600">
-          <FiHeart className={clsx('mr-1', {'fill-current': isLiked})} />
+        <span ref={heartIconRef} className='text-rose-600'>
+          <FiHeart className={clsx('mr-1', { 'fill-current': isLiked })} />
         </span>
         <span style={{ opacity: likeCount > 0 ? 1 : 0 }}>
           {likeCount}
         </span>
       </button>
     </div>
-   );
-}
- 
+  );
+};
+
 export default CommentLikeIcon;

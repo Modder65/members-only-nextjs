@@ -48,6 +48,8 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
     }
   }
 
+  
+
   const fetchComments = async (postId) => {
     // Check if comments have already been loaded or if there are no comments to load
     if (!commentsLoaded && initialCommentsCount > 0) {
