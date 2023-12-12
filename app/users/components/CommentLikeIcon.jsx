@@ -6,52 +6,61 @@ import { toast } from "react-hot-toast";
 import { notifyLike } from "@/Custom-Toast-Messages/Notify";
 import { pusherClient } from "@/app/libs/pusher";
 import { useSession } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCommentLike } from "@/redux/features/likesSlice"; 
 import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
 const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => {
-  const [isLiked, setIsLiked] = useState(currentUserLiked);
-  const [likeCount, setLikeCount] = useState(initialLikesCount);
-  const [isLoading, setIsLoading] = useState(false);
-  const heartIconRef = useRef(null);
+  const dispatch = useDispatch();
   const { data: session } = useSession();
+  const userId = session?.user?.id;
 
-  const toggleLike = async () => {
+  const commentLikes = useSelector((state) => state.likes.comments[commentId]);
+  const isLiked = commentLikes?.userLikes[userId] ?? currentUserLiked;
+  const likeCount = commentLikes?.likeCount ?? initialLikesCount;
+
+  const heartIconRef = useRef(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleToggleLike = async () => {
     setIsLoading(true);
 
     try {
       const response = await axios.post('/api/like-comment', { commentId });
       const { likeCount, userLikedComment } = response.data;
 
-      // Update UI based on server response
-      setIsLiked(userLikedComment);
-      setLikeCount(likeCount);
-      animateHeartIcon();
+      // Dispatch action to update global state
+      dispatch(toggleCommentLike({ commentId, userId, isLiked: userLikedComment, likeCount }));
 
+      animateHeartIcon();
       notifyLike();
     } catch (error) {
-      toast.error("Error updating like.");
+      toast.error('Error updating like.');
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   const animateHeartIcon = () => {
-    gsap.fromTo(heartIconRef.current, 
-      { scale: 1 }, 
-      { scale: 1.5, duration: 0.2, ease: "power1.out", yoyo: true, repeat: 1 });
+    gsap.fromTo(
+      heartIconRef.current,
+      { scale: 1 },
+      { scale: 1.5, duration: 0.2, ease: 'power1.out', yoyo: true, repeat: 1 }
+    );
   };
 
   useEffect(() => {
     const handleLikeUpdate = (data) => {
       if (data.commentId === commentId) {
-        setLikeCount(data.likeCount);
-
-        // Update isLiked only if the action is performed by the current user
-        if (data.actionUserId === session.user.id) {
-          setIsLiked(data.userLikedComment);
-        }
+        // Dispatch action for real-time updates
+        dispatch(toggleCommentLike({
+          commentId: data.commentId,
+          userId: data.actionUserId,
+          isLiked: data.userLikedComment,
+          likeCount: data.likeCount
+        }));
       }
     };
 
@@ -60,16 +69,15 @@ const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => 
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("comment:liked", handleLikeUpdate); 
+      pusherClient.unbind("comment:liked", handleLikeUpdate);
     };
-  }, [commentId, session?.user?.id]);
-
+  }, [commentId, dispatch]);
 
   return ( 
     <div className="flex justify-end items-center">
       <button
         className="flex items-center"
-        onClick={toggleLike}
+        onClick={handleToggleLike}
         disabled={isLoading}
       >
         <span ref={heartIconRef} className="text-rose-600">
