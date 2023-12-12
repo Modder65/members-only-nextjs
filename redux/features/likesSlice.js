@@ -9,8 +9,12 @@ export const likesSlice = createSlice({
   initialState,
   reducers: {
     togglePostLike: (state, action) => {
-      const { postId, isLiked, likeCount } = action.payload;
-      state.posts[postId] = { isLiked, likeCount };
+      const { postId, userId, isLiked, likeCount } = action.payload;
+      if (!state.posts[postId]) {
+        state.posts[postId] = { userLikes: {}, likeCount: 0 };
+      }
+      state.posts[postId].userLikes[userId] = isLiked;
+      state.posts[postId].likeCount = likeCount;
     },
   },
 });

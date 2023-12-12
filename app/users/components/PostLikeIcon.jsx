@@ -15,14 +15,14 @@ import { useDispatch, useSelector } from "react-redux";
 const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
   const dispatch = useDispatch();
 
-  const { isLiked, likeCount } = useSelector((state) => state.likes.posts[postId]) || {
-    isLiked: currentUserLiked,
-    likeCount: initialLikesCount,
-  };
-
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
   const { data: session } = useSession();
+
+  const userId = session?.user?.id;
+  const postLikes = useSelector((state) => state.likes.posts[postId]);
+  const isLiked = postLikes?.userLikes[userId] ?? currentUserLiked;
+  const likeCount = postLikes?.likeCount ?? initialLikesCount;
 
   const handleToggleLike = async () => {
     setIsLoading(true);
@@ -31,7 +31,7 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
       const response = await axios.post('/api/like-post', { postId });
       const { likeCount, userLikedPost } = response.data;
 
-      dispatch(togglePostLike({ postId, isLiked: userLikedPost, likeCount }));
+      dispatch(togglePostLike({ postId, userId, isLiked: userLikedPost, likeCount }));
 
       animateHeartIcon();
       notifyLike();
