@@ -23,7 +23,7 @@ export default function Users() {
   const [ref, inView] = useInView({
     threshold: 0,
   });
-
+ 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
