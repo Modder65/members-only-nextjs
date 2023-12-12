@@ -22,7 +22,6 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
-  const { data: session } = useSession();
 
   const handleToggleLike = async () => {
     setIsLoading(true);
@@ -53,12 +52,11 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
   useEffect(() => {
     const handleLikeUpdate = (data) => {
       if (data.postId === postId) {
-        setLikeCount(data.likeCount);
-
-        // Update isLiked only if the action is performed by the current user
-        if (data.actionUserId === session.user.id) {
-          setIsLiked(data.userLikedPost);
-        }
+        dispatch(togglePostLike({
+          postId: data.postId,
+          isLiked: data.userLikedPost,
+          likeCount: data.likeCount
+        }));
       }
     };
 
@@ -69,7 +67,7 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
       pusherClient.unsubscribe("likes-channel");
       pusherClient.unbind("post:liked", handleLikeUpdate); 
     };
-  }, [postId, session?.user?.id]);
+  }, [postId, dispatch]);
 
   /*
   const [isLiked, setIsLiked] = useState(currentUserLiked);
