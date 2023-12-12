@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useRef, useEffect } from 'react';
 import { FiHeart } from 'react-icons/fi';
 import { toast } from 'react-hot-toast';
@@ -7,7 +9,7 @@ import { useSession } from 'next-auth/react';
 import clsx from 'clsx';
 import gsap from 'gsap';
 import axios from 'axios';
-import { useLikes } from 'path/to/LikesContext'; // Import useLikes
+import { useLikes } from '@/app/context/LikesContext';
 
 const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => {
   const { state, dispatch } = useLikes(); // Use the global likes state
