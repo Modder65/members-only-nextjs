@@ -22,6 +22,7 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
+  const { data: session } = useSession();
 
   const handleToggleLike = async () => {
     setIsLoading(true);
@@ -54,6 +55,7 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
       if (data.postId === postId) {
         dispatch(togglePostLike({
           postId: data.postId,
+          userId: data.actionUserId,
           isLiked: data.userLikedPost,
           likeCount: data.likeCount
         }));
@@ -68,63 +70,6 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
       pusherClient.unbind("post:liked", handleLikeUpdate); 
     };
   }, [postId, dispatch]);
-
-  /*
-  const [isLiked, setIsLiked] = useState(currentUserLiked);
-  const [likeCount, setLikeCount] = useState(initialLikesCount);
-  const [isLoading, setIsLoading] = useState(false);
-  const heartIconRef = useRef(null);
-  const { data: session } = useSession();
-
-  
-  const toggleLike = async () => {
-    setIsLoading(true);
-
-    try {
-      const response = await axios.post('/api/like-post', { postId });
-      const { likeCount, userLikedPost } = response.data;
-
-      // Update UI based on server response
-      setIsLiked(userLikedPost);
-      setLikeCount(likeCount);
-      animateHeartIcon();
-
-      notifyLike();
-    } catch (error) {
-      toast.error("Error updating like.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const animateHeartIcon = () => {
-    gsap.fromTo(heartIconRef.current, 
-      { scale: 1 }, 
-      { scale: 1.5, duration: 0.2, ease: "power1.out", yoyo: true, repeat: 1 });
-  };
-
-  useEffect(() => {
-    const handleLikeUpdate = (data) => {
-      if (data.postId === postId) {
-        setLikeCount(data.likeCount);
-
-        // Update isLiked only if the action is performed by the current user
-        if (data.actionUserId === session.user.id) {
-          setIsLiked(data.userLikedPost);
-        }
-      }
-    };
-
-    pusherClient.subscribe("likes-channel");
-    pusherClient.bind("post:liked", handleLikeUpdate);
-
-    return () => {
-      pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("post:liked", handleLikeUpdate); 
-    };
-  }, [postId, session?.user?.id]);
-  */
-
 
   return ( 
     <div className="flex items-center mt-2">
