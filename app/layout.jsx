@@ -3,6 +3,7 @@ import ToasterContext from './context/ToasterContext'
 import AuthContext from './context/AuthContext';
 import { Nunito } from 'next/font/google'
 import { ReduxProvider } from '@/redux/provider';
+import { RealTimeProvider } from './context/PusherContext';
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -15,8 +16,10 @@ export default function RootLayout({ children }) {
       <body className={`bg-neutral-100 ${nunito.className}`}>
         <ReduxProvider>
           <AuthContext>
-            <ToasterContext />
-            {children}
+            <RealTimeProvider>
+              <ToasterContext />
+              {children}
+            </RealTimeProvider>
           </AuthContext>
         </ReduxProvider>
       </body>
