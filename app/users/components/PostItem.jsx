@@ -105,7 +105,12 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
         <h2 className="mb-5 text-xl font-bold">{post.title}</h2>
         <p>{post.message}</p>
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
-          Posted by {post.user.name} on {DateTime.fromISO(post.createdAt).toLocaleString(DateTime.DATE_FULL)}
+          Posted by {post.user.name} on {
+            DateTime.fromISO(post.createdAt).toLocaleString({
+              ...DateTime.DATE_FULL,
+              ...DateTime.TIME_SIMPLE
+            })
+          }
         </p>
         <div className="flex flex-col gap-2 mt-3">
           <button onClick={toggleCommentsDisplay}

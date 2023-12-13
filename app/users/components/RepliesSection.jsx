@@ -128,7 +128,12 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
               <div>
                 <p className="text-gray-800">{reply.message}</p>
                 <p className="text-sm text-gray-500">
-                Posted by {reply.user.name} on {DateTime.fromISO(reply.createdAt).toLocaleString(DateTime.DATE_FULL)}
+                  Posted by {reply.user.name} on {
+                    DateTime.fromISO(reply.createdAt).toLocaleString({
+                      ...DateTime.DATE_FULL,
+                      ...DateTime.TIME_SIMPLE
+                    })
+                  }
                 </p>
               </div>
               <div>
