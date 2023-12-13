@@ -1,4 +1,5 @@
 import prisma from "@/app/libs/prismadb";
+import getSession from "@/app/actions/getSession";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic"; // makes sure the route is dynamic and fetch request always has the latest updated data
@@ -6,6 +7,9 @@ export const dynamic = "force-dynamic"; // makes sure the route is dynamic and f
 
 export async function GET(request) {
   try {
+    const session = await getSession(request);
+    const userId = session.user.id;
+
     const { searchParams } = new URL(request.url);
     const commentId = searchParams.get("commentId");
 
@@ -17,11 +21,32 @@ export async function GET(request) {
       include: {
         user: {
           select: { name: true } // Include the name of the user who made the comment
-        }
-      }
-    })
+        },
+        _count: {
+          select: { likes: true } 
+        },
+      },
+    });
 
-    return NextResponse.json(replies, { status: 200 });
+    // Extract reply IDs
+    const replyIds = replies.map(reply => reply.id);
+
+    // Find all likes that the current user has made on these replies
+    const likedReplies = await prisma.like.findMany({
+      where: {
+        replyId: { in: replyIds },
+        userId: userId
+      },
+      select: { replyId: true }
+    });
+
+    // Map these likes back to the corresponding replies
+    const repliesWithLikeStatus = replies.map(reply => ({
+      ...reply,
+      currentUserLiked: likedReplies.some(like => like.replyId === reply.id)
+    }));
+
+    return NextResponse.json(repliesWithLikeStatus, { status: 200 });
   } catch (error) {
     console.error("Error fetching posts:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
