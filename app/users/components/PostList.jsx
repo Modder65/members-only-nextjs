@@ -1,6 +1,33 @@
 import PostItem from "./PostItem";
+import { pusherClient } from "@/app/libs/pusher";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleCommentLike } from "@/redux/features/likesSlice"; 
 
 const PostList = ({ posts }) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handleLikeUpdate = (data) => {
+      if (data.commentId === commentId) {
+        // Dispatch action for real-time updates
+        dispatch(toggleCommentLike({
+          commentId: data.commentId,
+          userId: data.actionUserId,
+          isLiked: data.userLikedComment,
+          likeCount: data.likeCount
+        }));
+      }
+    };
+
+    pusherClient.subscribe("likes-channel");
+    pusherClient.bind("comment:liked", handleLikeUpdate);
+
+    return () => {
+      pusherClient.unsubscribe("likes-channel");
+      pusherClient.unbind("comment:liked", handleLikeUpdate);
+    };
+  }, [dispatch]);
+
   return (
     <>
       {posts.map(post => (
