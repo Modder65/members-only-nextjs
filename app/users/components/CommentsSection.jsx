@@ -9,19 +9,21 @@ const CommentsSection = ({ comments }) => {
     <div className="mt-4">
       {comments.length > 0 ? (
         comments.map((comment) => (
-          <div key={comment.id} className="p-3 border-t border-gray-300 flex justify-between items-center">
-            <div>
-              <p className="text-gray-800">{comment.message}</p>
-              <p className="text-sm text-gray-500">
-                Posted by {comment.user.name} on {DateTime.fromISO(comment.createdAt).toLocaleString(DateTime.DATE_FULL)}
-              </p>
-              <RepliesSection commentId={comment.id} initialRepliesCount={comment._count.replies} />
+          <div key={comment.id} className="p-3 border-t border-gray-300">
+            <div className="flex justify-between items-center"> {/* Center items vertically */}
+              <div className="flex-1"> {/* Ensure this div takes up the remaining space */}
+                <p className="text-gray-800">{comment.message}</p>
+                <p className="text-sm text-gray-500">
+                  Posted by {comment.user.name} on {DateTime.fromISO(comment.createdAt).toLocaleString(DateTime.DATE_FULL)}
+                </p>
+              </div>
+              <CommentLikeIcon 
+                commentId={comment.id} 
+                initialLikesCount={comment._count.likes}
+                currentUserLiked={comment.currentUserLiked} 
+              />
             </div>
-            <CommentLikeIcon 
-              commentId={comment.id} 
-              initialLikesCount={comment._count.likes}
-              currentUserLiked={comment.currentUserLiked} 
-            />
+            <RepliesSection commentId={comment.id} initialRepliesCount={comment._count.replies} />
           </div>
         ))
       ) : (
