@@ -22,6 +22,7 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
   const heartIconRef = useRef(null);
   
   const postLikes = useSelector((state) => state.likes.posts[postId]);
+  // falls back to props for initial state values
   const isLiked = postLikes?.userLikes[userId] ?? currentUserLiked;
   const likeCount = postLikes?.likeCount ?? initialLikesCount;
 
