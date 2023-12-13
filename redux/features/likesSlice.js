@@ -34,7 +34,7 @@ export const likesSlice = createSlice({
       const { commentId, userId, isLiked, likeCount } = action.payload;
 
       if (!state.comments[commentId]) {
-        state.comments[commentId] = { userLikes: {}, Count: 0 };
+        state.comments[commentId] = { userLikes: {}, likeCount: 0 };
       }
 
       state.comments[commentId].userLikes[userId] = isLiked;
@@ -45,7 +45,7 @@ export const likesSlice = createSlice({
       const { replyId, userId, isLiked, likeCount } = action.payload;
 
       if (!state.replies[replyId]) {
-        state.replies[replyId] = { userLikes: {}, Count: 0 };
+        state.replies[replyId] = { userLikes: {}, likeCount: 0 };
       }
 
       state.replies[replyId].userLikes[userId] = isLiked;
