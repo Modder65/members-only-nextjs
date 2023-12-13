@@ -36,6 +36,12 @@ This is important for maintaining the predictability and traceability of state c
 Redux Toolkit, with its createSlice function, uses Immer library under the hood, which allows you to write "mutating" logic in reducers but it actually produces the immutable state copies. 
 */
 
+/* useDispatch: 
+This hook is used to dispatch actions to the Redux store. 
+Actions are payloads of information that send data from your application to your store. 
+They are the only source of information for the
+/*
+
 /* REDUX FLOW: 
 The flow of data in Redux is unidirectional:
 1.) Dispatch Action: An action is dispatched when you want to change the state. This action is sent to the store.

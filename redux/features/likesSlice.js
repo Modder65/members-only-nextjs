@@ -5,6 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   posts: {},
   comments: {},
+  replies: {},
 }
 
 export const likesSlice = createSlice({
@@ -39,11 +40,22 @@ export const likesSlice = createSlice({
       state.comments[commentId].userLikes[userId] = isLiked;
       state.comments[commentId].likeCount = likeCount;
     },
+
+    toggleReplyLike: (state, action) => {
+      const { replyId, userId, isLiked, likeCount } = action.payload;
+
+      if (!state.replies[replyId]) {
+        state.replies[replyId] = { userLikes: {}, Count: 0 };
+      }
+
+      state.replies[replyId].userLikes[userId] = isLiked;
+      state.replies[replyId].likeCount = likeCount;
+    },
   },
 });
 
 // Export the action creators for the slice.
-export const { togglePostLike, toggleCommentLike } = likesSlice.actions;
+export const { togglePostLike, toggleCommentLike, toggleReplyLike } = likesSlice.actions;
 
 // Export the reducer function for the slice.
 export default likesSlice.reducer;
