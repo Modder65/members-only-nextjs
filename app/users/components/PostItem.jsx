@@ -112,44 +112,46 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
             })
           }
         </p>
-        <div className="flex flex-col gap-2 mt-3">
+        <div className="flex justify-between items-center mt-3">
           <button onClick={toggleCommentsDisplay}
            className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
            >
             <FiMessageSquare className="mr-2" />
             {showComments ? `Hide Comments (${commentCount})` : `Show Comments (${commentCount})`}
           </button>
-          {showComments && (
-            <>
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
-                <Input 
-                  id="message" 
-                  label="Your Comment" 
-                  register={register}
-                  validation={{
-                    required: "Message is required",
-                    minLength: { value: 4, message: "Message must be at least 4 characters long" },
-                    maxLength: { value: 280, message: "Message has 280 character limit"}
-                  }}
-                  errors={errors}
-                  disabled={isLoading}
-                />
-                <Button
-                  disabled={isLoading}
-                  fullWidth
-                  type="submit"
-                >
-                  Submit Comment
-                </Button>
-              </form>
-              <CommentsSection comments={comments} />
-            </>
-          )}
           <PostLikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
         </div>
+        {showComments && (
+          <>
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
+              <Input 
+                id="message" 
+                label="Your Comment" 
+                register={register}
+                validation={{
+                  required: "Message is required",
+                  minLength: { value: 4, message: "Message must be at least 4 characters long" },
+                  maxLength: { value: 280, message: "Message has 280 character limit"}
+                }}
+                errors={errors}
+                disabled={isLoading}
+              />
+              <Button
+                disabled={isLoading}
+                fullWidth
+                type="submit"
+              >
+                Submit Comment
+              </Button>
+            </form>
+            <CommentsSection comments={comments} />
+          </>
+        )}
       </div>
     </div>
   );
 }
  
 export default PostItem;
+
+
