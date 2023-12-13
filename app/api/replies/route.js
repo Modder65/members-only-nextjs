@@ -15,17 +15,13 @@ export async function GET(request) {
 
     // Fetch replies for a specified comment
     const replies = await prisma.reply.findMany({
-      where: {
-        commentId: commentId // Filter replies by comment ID
-      },
+      where: { commentId: commentId },
       include: {
-        user: {
-          select: { name: true } // Include the name of the user who made the comment
-        },
+        user: { select: { name: true } },
         _count: {
           select: { likes: true } 
-        },
-      },
+        }
+      }
     });
 
     // Extract reply IDs
