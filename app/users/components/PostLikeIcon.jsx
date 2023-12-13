@@ -26,27 +26,6 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
   const isLiked = postLikes?.userLikes[userId] ?? currentUserLiked;
   const likeCount = postLikes?.likeCount ?? initialLikesCount;
 
-  useEffect(() => {
-    const handleLikeUpdate = (data) => {
-      if (data.postId === postId) {
-        dispatch(togglePostLike({
-          postId: data.postId,
-          userId: data.actionUserId,
-          isLiked: data.userLikedPost,
-          likeCount: data.likeCount
-        }));
-      }
-    };
-
-    pusherClient.subscribe("likes-channel");
-    pusherClient.bind("post:liked", handleLikeUpdate);
-
-    return () => {
-      pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("post:liked", handleLikeUpdate); 
-    };
-  }, [postId, dispatch]);
-
   const handleToggleLike = async () => {
     setIsLoading(true);
 

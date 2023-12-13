@@ -51,28 +51,6 @@ const ReplyLikeIcon = ({ replyId, initialLikesCount, currentUserLiked }) => {
     );
   };
 
-  useEffect(() => {
-    const handleLikeUpdate = (data) => {
-      if (data.replyId === replyId) {
-        // Dispatch action for real-time updates
-        dispatch(toggleReplyLike({
-          replyId: data.replyId,
-          userId: data.actionUserId,
-          isLiked: data.userLikedReply,
-          likeCount: data.likeCount
-        }));
-      }
-    };
-
-    pusherClient.subscribe("likes-channel");
-    pusherClient.bind("reply:liked", handleLikeUpdate);
-
-    return () => {
-      pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("reply:liked", handleLikeUpdate);
-    };
-  }, [replyId, dispatch]);
-
   return ( 
     <div className="flex justify-end items-center">
       <button
