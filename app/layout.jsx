@@ -1,3 +1,5 @@
+"use client"
+
 import './globals.css'
 import ToasterContext from './context/ToasterContext'
 import AuthContext from './context/AuthContext';
