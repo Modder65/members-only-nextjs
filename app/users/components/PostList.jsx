@@ -1,4 +1,7 @@
+"use client"
+
 import PostItem from "./PostItem";
+import { useEffect } from "react";
 import { pusherClient } from "@/app/libs/pusher";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleCommentLike } from "@/redux/features/likesSlice"; 
