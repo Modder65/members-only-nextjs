@@ -9,6 +9,7 @@ import Button from "@/app/components/Button";
 import axios from "axios";
 import { pusherClient } from "@/app/libs/pusher";
 import { notifyNewReply } from "@/Custom-Toast-Messages/Notify";
+import ReplyLikeIcon from "./ReplyLikeIcon";
 
 
 export const RepliesSection = ({ commentId, initialRepliesCount }) => {
@@ -123,11 +124,20 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
             </Button>
           </form>
           {replies.map((reply) => (
-            <div key={reply.id} className="p-2 border-t border-gray-200">
-              <p className="text-gray-800">{reply.message}</p>
-              <p className="text-sm text-gray-500">
-              Posted by {reply.user.name} on {DateTime.fromISO(reply.createdAt).toLocaleString(DateTime.DATE_FULL)}
-              </p>
+            <div key={reply.id} className="flex  justify-between items-center p-2 border-t border-gray-200 space-x-4">
+              <div>
+                <p className="text-gray-800">{reply.message}</p>
+                <p className="text-sm text-gray-500">
+                Posted by {reply.user.name} on {DateTime.fromISO(reply.createdAt).toLocaleString(DateTime.DATE_FULL)}
+                </p>
+              </div>
+              <div>
+                <ReplyLikeIcon 
+                  replyId={reply.id} 
+                  initialLikesCount={reply._count.likes}
+                  currentUserLiked={reply.currentUserLiked} 
+                />
+              </div>
             </div>
           ))}
         </div>
