@@ -71,7 +71,7 @@ const ReplyLikeIcon = ({ replyId, initialLikesCount, currentUserLiked }) => {
       pusherClient.unsubscribe("likes-channel");
       pusherClient.unbind("reply:liked", handleLikeUpdate);
     };
-  }, [dispatch]);
+  }, [replyId, dispatch]);
 
   return ( 
     <div className="flex justify-end items-center">
