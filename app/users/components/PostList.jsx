@@ -3,15 +3,25 @@
 import PostItem from "./PostItem";
 import { useEffect } from "react";
 import { pusherClient } from "@/app/libs/pusher";
-import { useDispatch, useSelector } from "react-redux";
-import { toggleCommentLike } from "@/redux/features/likesSlice"; 
+import { useDispatch } from "react-redux";
+import { togglePostLike, toggleCommentLike, toggleReplyLike } from "@/redux/features/likesSlice";
 
 const PostList = ({ posts }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const handleLikeUpdate = (data) => {
-      // Dispatch action for real-time updates
+    // Handler for post likes
+    const handlePostLikeUpdate = (data) => {
+      dispatch(togglePostLike({
+        postId: data.postId,
+        userId: data.actionUserId,
+        isLiked: data.userLikedPost,
+        likeCount: data.likeCount
+      }));
+    };
+
+    // Handler for comment likes
+    const handleCommentLikeUpdate = (data) => {
       dispatch(toggleCommentLike({
         commentId: data.commentId,
         userId: data.actionUserId,
@@ -20,14 +30,29 @@ const PostList = ({ posts }) => {
       }));
     };
 
+    // Handler for reply likes
+    const handleReplyLikeUpdate = (data) => {
+      dispatch(toggleReplyLike({
+        replyId: data.replyId,
+        userId: data.actionUserId,
+        isLiked: data.userLikedReply,
+        likeCount: data.likeCount
+      }));
+    };
+
     pusherClient.subscribe("likes-channel");
-    pusherClient.bind("comment:liked", handleLikeUpdate);
+    pusherClient.bind("post:liked", handlePostLikeUpdate);
+    pusherClient.bind("comment:liked", handleCommentLikeUpdate);
+    pusherClient.bind("reply:liked", handleReplyLikeUpdate);
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("comment:liked", handleLikeUpdate);
+      pusherClient.unbind("post:liked", handlePostLikeUpdate);
+      pusherClient.unbind("comment:liked", handleCommentLikeUpdate);
+      pusherClient.unbind("reply:liked", handleReplyLikeUpdate);
     };
   }, [dispatch]);
+
 
   return (
     <>
