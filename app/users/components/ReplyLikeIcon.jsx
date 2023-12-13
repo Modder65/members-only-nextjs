@@ -29,10 +29,10 @@ const ReplyLikeIcon = ({ replyId, initialLikesCount, currentUserLiked }) => {
 
     try {
       const response = await axios.post('/api/like-reply', { replyId });
-      const { likeCount, userLikedComment } = response.data;
+      const { likeCount, userLikedReply } = response.data;
 
       // Dispatch action to update global state
-      dispatch(toggleReplyLike({ replyId, userId, isLiked: userLikedComment, likeCount }));
+      dispatch(toggleReplyLike({ replyId, userId, isLiked: userLikedReply, likeCount }));
 
       animateHeartIcon();
       notifyLike();
