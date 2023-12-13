@@ -14,7 +14,12 @@ const CommentsSection = ({ comments }) => {
               <div className="flex-1"> {/* Ensure this div takes up the remaining space */}
                 <p className="text-gray-800">{comment.message}</p>
                 <p className="text-sm text-gray-500">
-                  Posted by {comment.user.name} on {DateTime.fromISO(comment.createdAt).toLocaleString(DateTime.DATE_FULL)}
+                  Posted by {comment.user.name} on {
+                    DateTime.fromISO(comment.createdAt).toLocaleString({
+                      ...DateTime.DATE_FULL,
+                      ...DateTime.TIME_SIMPLE
+                    })
+                  }
                 </p>
               </div>
               <CommentLikeIcon 
