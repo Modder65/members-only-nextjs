@@ -11,15 +11,13 @@ const PostList = ({ posts }) => {
 
   useEffect(() => {
     const handleLikeUpdate = (data) => {
-      if (data.commentId === commentId) {
-        // Dispatch action for real-time updates
-        dispatch(toggleCommentLike({
-          commentId: data.commentId,
-          userId: data.actionUserId,
-          isLiked: data.userLikedComment,
-          likeCount: data.likeCount
-        }));
-      }
+      // Dispatch action for real-time updates
+      dispatch(toggleCommentLike({
+        commentId: data.commentId,
+        userId: data.actionUserId,
+        isLiked: data.userLikedComment,
+        likeCount: data.likeCount
+      }));
     };
 
     pusherClient.subscribe("likes-channel");
