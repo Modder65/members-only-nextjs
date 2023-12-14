@@ -13,9 +13,11 @@ export async function GET(request) {
     
     const { searchParams } = new URL(request.url);
     const postId = searchParams.get("postId");
+  
 
     // Fetch comments or a specified post
     const comments = await prisma.comment.findMany({
+      orderBy: { createdAt: 'desc' },
       where: { postId: postId },
       include: {
         user: { select: { name: true } },
