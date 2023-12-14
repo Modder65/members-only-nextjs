@@ -91,7 +91,6 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
           </button>
           <PostLikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
         </div>
-        {showModal && (
           <PostModal 
           post={post} 
           postId={post.id} 
@@ -100,7 +99,6 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
           comments={comments}
           setComments={setComments}
           />
-        )}
       </div>
     </div>
   );

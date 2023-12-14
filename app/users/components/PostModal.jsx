@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect, useCallback } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { Dialog, Transition } from '@headlessui/react'
@@ -47,19 +47,42 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
     }
   }
 
+  useEffect(() => {
+    console.log(containerRef.current)
+    if (isOpen && containerRef.current && comments.length > 0) {
+      gsap.from(containerRef.current.querySelectorAll('.comment-item'), {
+        opacity: 0,
+        y: -20,
+        stagger: 0.1,
+        ease: 'power1.out',
+        duration: 0.5
+      });
+    }
+  }, [isOpen, comments]);
+
   return (
     <Transition
+      appear={true}
       show={isOpen}
-      enter="transition duration-100 ease-out"
-      enterFrom="transform scale-95 opacity-0"
-      enterTo="transform scale-100 opacity-100"
-      leave="transition duration-75 ease-out"
-      leaveFrom="transform scale-100 opacity-100"
-      leaveTo="transform scale-95 opacity-0"
-      as={React.Fragment}
+      enter="transition-opacity duration-75"
+      enterFrom="opacity-0"
+      enterTo="opacity-100"
+      leave="transition-opacity duration-150"
+      leaveFrom="opacity-100"
+      leaveTo="opacity-0"
     >
-      <Dialog open={isOpen} onClose={() => onClose()} className="relative z-50 px-5">
-        <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
+      <Dialog onClose={() => onClose()} className="relative z-50 px-5">
+        <Transition.Child
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
+          </Transition.Child>
+        
 
         <div ref={modalRef} className="fixed inset-0 flex w-screen items-center justify-center p-4">
           <Dialog.Panel className="w-full max-w-lg rounded px-5 py-5 bg-white" ref={containerRef}>
