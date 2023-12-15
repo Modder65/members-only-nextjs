@@ -47,9 +47,33 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
     }
   }
 
-  useEffect(() => {
-    console.log(containerRef.current)
-    if (isOpen && containerRef.current && comments.length > 0) {
+  
+  useGSAP(() => {
+    if (modalRef.current) {
+      if (isOpen) {
+        // Open animation
+        gsap.fromTo(
+          modalRef.current,
+          { autoAlpha: 0, scale: 0.95 },
+          { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'power2.out' }
+        );
+        console.log(isOpen);
+      } else {
+        console.log(isOpen);
+        // Close animation
+        gsap.to(modalRef.current, {
+          autoAlpha: 0,
+          scale: 0.95,
+          duration: 0.3,
+          ease: 'power1.in',
+        });
+      }
+    }
+  }, [isOpen]);
+  
+
+  useGSAP(() => {
+    if (containerRef.current && comments.length > 0) {
       gsap.from(containerRef.current.querySelectorAll('.comment-item'), {
         opacity: 0,
         y: -20,
@@ -61,60 +85,41 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
   }, [isOpen, comments]);
 
   return (
-    <Transition
-      appear={true}
-      show={isOpen}
-      enter="transition-opacity duration-75"
-      enterFrom="opacity-0"
-      enterTo="opacity-100"
-      leave="transition-opacity duration-150"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
-    >
-      <Dialog onClose={() => onClose()} className="relative z-50 px-5">
-        <Transition.Child
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
-          </Transition.Child>
-        
+    
+    <Dialog onClose={() => onClose()} open={isOpen} className="relative z-50 px-5">
+      <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
+      <div className="fixed inset-0 flex w-screen items-center justify-center p-4" ref={modalRef}>
+        <Dialog.Panel className="w-full max-w-lg rounded px-5 py-5 bg-white" ref={containerRef}>
+          <Dialog.Title className="text-xl font-bold">{post.title}</Dialog.Title>
+          <p className='text-sm text-gray-500 pt-2.5 mb-10'>
+            Posted by {post.user.name} on {
+              DateTime.fromISO(post.createdAt).toLocaleString({
+                ...DateTime.DATE_FULL,
+                ...DateTime.TIME_SIMPLE
+              })
+            }
+          </p>
 
-        <div ref={modalRef} className="fixed inset-0 flex w-screen items-center justify-center p-4">
-          <Dialog.Panel className="w-full max-w-lg rounded px-5 py-5 bg-white" ref={containerRef}>
-            <Dialog.Title className="text-xl font-bold">{post.title}</Dialog.Title>
-            <p className='text-sm text-gray-500 pt-2.5 mb-10'>
-              Posted by {post.user.name} on {
-                DateTime.fromISO(post.createdAt).toLocaleString({
-                  ...DateTime.DATE_FULL,
-                  ...DateTime.TIME_SIMPLE
-                })
-              }
-            </p>
-
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
-              <Input 
-                id="message" 
-                label="Your Comment" 
-                register={register}
-                validation={{
-                  required: "Message is required",
-                  minLength: { value: 4, message: "Message must be at least 4 characters long" },
-                  maxLength: { value: 280, message: "Message has 280 character limit"}
-                }}
-                errors={errors}
-                disabled={isLoading}
-              />
-              <Button disabled={isLoading} fullWidth type="submit">
-                Submit Comment
-              </Button>
-            </form>
-
-            <div className="mt-4 max-h-[400px] overflow-y-auto">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
+            <Input 
+              id="message" 
+              label="Your Comment" 
+              register={register}
+              validation={{
+                required: "Message is required",
+                minLength: { value: 4, message: "Message must be at least 4 characters long" },
+                maxLength: { value: 280, message: "Message has 280 character limit"}
+              }}
+              errors={errors}
+              disabled={isLoading}
+            />
+            <Button disabled={isLoading} fullWidth type="submit">
+              Submit Comment
+            </Button>
+          </form>
+          
+          <div className="fade-container">
+            <div className="mt-4 max-h-[400px] overflow-y-auto scrollbar-custom pb-24">
               {comments.map(comment => (
                 <div key={comment.id} className="comment-item p-3 border-t border-gray-300">
                   <p className="text-gray-800">{comment.message}</p>
@@ -135,10 +140,10 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
                 </div>
               ))}
             </div>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
-    </Transition>
+          </div>
+        </Dialog.Panel>
+      </div>
+    </Dialog>
   );
   
 }
