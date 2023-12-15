@@ -15,6 +15,7 @@ export async function GET(request) {
 
     // Fetch replies for a specified comment
     const replies = await prisma.reply.findMany({
+      orderBy: { createdAt: 'desc' },
       where: { commentId: commentId },
       include: {
         user: { select: { name: true } },
