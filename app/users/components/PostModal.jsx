@@ -50,6 +50,8 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
   
   useGSAP(() => {
     if (modalRef.current) {
+      console.log('isOpen:', isOpen); // Debug: Check the value of isOpen
+  
       if (isOpen) {
         // Open animation
         gsap.fromTo(
@@ -57,9 +59,9 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
           { autoAlpha: 0, scale: 0.95 },
           { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'power2.out' }
         );
-        console.log(isOpen);
       } else {
-        console.log(isOpen);
+        console.log('Triggering close animation'); // Debug: Check if the close animation is triggered
+  
         // Close animation
         gsap.to(modalRef.current, {
           autoAlpha: 0,
