@@ -10,6 +10,7 @@ import { CustomLoader } from '@/components/CustomLoader';
 import { useGSAP } from '@gsap/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from "@/redux/features/modalSlice";
+import { IoCloseSharp } from "react-icons/io5";
 import CommentLikeIcon from './CommentLikeIcon';
 import gsap from "gsap";
 import Button from '@/app/components/Button';
@@ -27,8 +28,6 @@ function PostModal() {
     state.comments.commentsByPostId[selectedPost?.id] || []
   );
   const dispatch = useDispatch();
-
-  console.log("heres the selected post", selectedPost);
 
   const handleClose = () => {
     dispatch(closeModal());
@@ -109,7 +108,10 @@ function PostModal() {
       <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4" ref={modalRef}>
         <Dialog.Panel className="w-full max-w-lg rounded px-5 py-5 bg-white" ref={containerRef}>
-          <Dialog.Title className="text-xl font-bold">{selectedPost?.title}</Dialog.Title>
+          <div className="flex justify-between">
+            <Dialog.Title className="text-xl font-bold">{selectedPost?.title}</Dialog.Title>
+            <IoCloseSharp onClick={handleClose} size={25} className="cursor-pointer text-rose-600"/>
+          </div>
           <p className='text-sm text-gray-500 pt-2.5 mb-10'>
             Posted by {selectedPost?.user.name} on {
               DateTime.fromISO(selectedPost?.createdAt).toLocaleString({
