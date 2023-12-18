@@ -67,8 +67,12 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
           Posted by {post.user.name} on {
             DateTime.fromISO(post.createdAt).toLocaleString({
-              ...DateTime.DATE_FULL,
-              ...DateTime.TIME_SIMPLE
+              month: 'numeric',
+              day: 'numeric',
+              year: '2-digit',
+              hour: 'numeric',
+              minute: '2-digit',
+              hour12: true,
             })
           }
         </p>

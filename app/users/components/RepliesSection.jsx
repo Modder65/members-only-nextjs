@@ -130,8 +130,12 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
                 <p className="text-sm text-gray-500">
                   Posted by {reply.user.name} on {
                     DateTime.fromISO(reply.createdAt).toLocaleString({
-                      ...DateTime.DATE_FULL,
-                      ...DateTime.TIME_SIMPLE
+                      month: 'numeric',
+                      day: 'numeric',
+                      year: '2-digit',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                      hour12: true,
                     })
                   }
                 </p>

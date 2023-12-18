@@ -115,12 +115,15 @@ function PostModal() {
           <p className='text-sm text-gray-500 pt-2.5 mb-10'>
             Posted by {selectedPost?.user.name} on {
               DateTime.fromISO(selectedPost?.createdAt).toLocaleString({
-                ...DateTime.DATE_FULL,
-                ...DateTime.TIME_SIMPLE
+                month: 'numeric',
+                day: 'numeric',
+                year: '2-digit',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true,
               })
             }
           </p>
-
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
             <Input 
               id="message" 
@@ -147,8 +150,12 @@ function PostModal() {
                   <p className="text-sm text-gray-500">
                     Posted by {comment.user.name} on {
                       DateTime.fromISO(comment.createdAt).toLocaleString({
-                        ...DateTime.DATE_FULL,
-                        ...DateTime.TIME_SIMPLE
+                        month: 'numeric',
+                        day: 'numeric',
+                        year: '2-digit',
+                        hour: 'numeric',
+                        minute: '2-digit',
+                        hour12: true,
                       })
                     }
                   </p>
