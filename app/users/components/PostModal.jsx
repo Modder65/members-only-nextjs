@@ -38,9 +38,11 @@ function PostModal() {
     defaultValues: { message: '' }
   });
 
+  
+
   const onSubmit = async (data) => {
     setIsLoading(true);
-
+    let postId = selectedPost?.id;
     try {
       await axios.post('/api/submit-comment', { ...data, postId });
       toast.success("Comment submitted successfully!");
