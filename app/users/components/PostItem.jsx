@@ -6,29 +6,28 @@ import { toast } from "react-hot-toast";
 import { FiMessageSquare } from "react-icons/fi";
 import { pusherClient } from "@/app/libs/pusher";
 import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
+import { useDispatch } from "react-redux";
+import { openModal } from "@/redux/features/modalSlice";
+import { setCommentsForPost, updateCommentForPost } from "@/redux/features/commentsSlice";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
-import PostModal from "./PostModal";
 
 
 const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, currentUserLiked }) => {
   const [comments, setComments] = useState([]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
-  const [showModal, setShowModal] = useState(false);
-  const [initialFetchDone, setInitialFetchDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const dispatch = useDispatch();
   
-  
-
   const fetchComments = async () => {
     // Check if comments have already been loaded or if there are no comments to load
     if (!commentsLoaded && initialCommentsCount > 0) {
       setIsLoading(true);
       try {
         const response = await axios.get(`/api/comments?postId=${postId}`);
-        setComments(response.data);
+        dispatch(setCommentsForPost({ postId, comments: response.data }));
         setCommentsLoaded(true);
       } catch (error) {
         toast.error("Failed to fetch comments");
@@ -38,26 +37,18 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
     }
   };
 
-  const openModal = async () => {
+  const openModalHandler = async () => {
     await fetchComments();
-    setShowModal(true);
+    dispatch(openModal({ post }));
   }
-
-  const closeModal = () => setShowModal(false);
 
   const commentHandler = useCallback((comment) => {
     if (comment.postId === postId) {
-      setComments(current => {
-        // If a comment with this ID already exists in the current state, don't add it
-        if (!find(current, { id: comment.id })) {
-          return [comment, ...current];
-        }
-        return current;
-      });
+      dispatch(updateCommentForPost({ postId, comment }));
       setCommentCount(currentCount => currentCount + 1);
       notifyNewComment(post.title);
     }
-  }, [postId, post.title]);
+  }, [postId, post.title, dispatch]);
 
   useEffect(() => {
     pusherClient.subscribe("comments-channel");
@@ -83,7 +74,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
           }
         </p>
         <div className="flex justify-between items-center mt-3">
-          <button onClick={openModal}
+          <button onClick={openModalHandler}
            className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
            >
             <FiMessageSquare className="mr-2" />
@@ -91,14 +82,6 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
           </button>
           <PostLikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
         </div>
-          <PostModal 
-          post={post} 
-          postId={post.id} 
-          isOpen={showModal}
-          onClose={closeModal} 
-          comments={comments}
-          setComments={setComments}
-          />
       </div>
     </div>
   );

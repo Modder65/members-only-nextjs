@@ -7,19 +7,33 @@ import { Dialog, Transition } from '@headlessui/react'
 import { DateTime } from "luxon";
 import { RepliesSection } from './RepliesSection';
 import { CustomLoader } from '@/components/CustomLoader';
-import CommentLikeIcon from './CommentLikeIcon';
 import { useGSAP } from '@gsap/react';
+import { useDispatch, useSelector } from 'react-redux';
+import { closeModal } from "@/redux/features/modalSlice";
+import CommentLikeIcon from './CommentLikeIcon';
 import gsap from "gsap";
 import Button from '@/app/components/Button';
 import Input from '@/app/components/inputs/Input';
 import axios from "axios";
 
 
-function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
+function PostModal() {
   let [isLoading, setIsLoading] = useState(false);
   const modalRef = useRef(null);
   const containerRef = useRef(null);
- 
+
+  const { selectedPost, isModalOpen } = useSelector(state => state.modal);
+  const comments = useSelector(state => 
+    state.comments.commentsByPostId[selectedPost?.id] || []
+  );
+  const dispatch = useDispatch();
+
+  console.log("heres the selected post", selectedPost);
+
+  const handleClose = () => {
+    dispatch(closeModal());
+  };
+
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { message: '' }
   });
@@ -29,7 +43,7 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
 
     try {
       await axios.post('/api/submit-comment', { ...data, postId });
-      toast.success("Comment submitted successfully!")
+      toast.success("Comment submitted successfully!");
     } catch (error) {
       let errorMessage = "An unexpected error occurred. Please try again.";
 
@@ -50,9 +64,9 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
   
   useGSAP(() => {
     if (modalRef.current) {
-      console.log('isOpen:', isOpen); // Debug: Check the value of isOpen
+      console.log('isOpen:', isModalOpen); // Debug: Check the value of isOpen
   
-      if (isOpen) {
+      if (isModalOpen) {
         // Open animation
         gsap.fromTo(
           modalRef.current,
@@ -71,7 +85,7 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
         });
       }
     }
-  }, [isOpen]);
+  }, [isModalOpen]);
   
 
   useGSAP(() => {
@@ -84,18 +98,19 @@ function PostModal({ post, postId, onClose, comments, setComments, isOpen }) {
         duration: 0.5
       });
     }
-  }, [isOpen, comments]);
+  }, [isModalOpen, comments]);
+
 
   return (
     
-    <Dialog onClose={() => onClose()} open={isOpen} className="relative z-50 px-5">
+    <Dialog onClose={handleClose} open={isModalOpen} className="relative z-50 px-5">
       <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4" ref={modalRef}>
         <Dialog.Panel className="w-full max-w-lg rounded px-5 py-5 bg-white" ref={containerRef}>
-          <Dialog.Title className="text-xl font-bold">{post.title}</Dialog.Title>
+          <Dialog.Title className="text-xl font-bold">{selectedPost?.title}</Dialog.Title>
           <p className='text-sm text-gray-500 pt-2.5 mb-10'>
-            Posted by {post.user.name} on {
-              DateTime.fromISO(post.createdAt).toLocaleString({
+            Posted by {selectedPost?.user.name} on {
+              DateTime.fromISO(selectedPost?.createdAt).toLocaleString({
                 ...DateTime.DATE_FULL,
                 ...DateTime.TIME_SIMPLE
               })
