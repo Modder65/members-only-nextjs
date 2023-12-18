@@ -32,7 +32,7 @@ const Button = ({
       fullWidth && "w-full",
       secondary ? "text-gray-900" : "text-white",
       danger && "bg-rose-500 hover:bg-rose-600 focus-visible:outline-rose-600",
-      !secondary && !danger && "bg-green-600 hover:opacity-80 focus-visible:outline-green-600"
+      !secondary && !danger && "bg-blue-600 hover:opacity-80 focus-visible:outline-blue-600"
       )}
     >
       {children}

@@ -32,7 +32,7 @@ export default function Home() {
             text-gray-900
           "
         >
-          <span className="text-green-600">Members</span>
+          <span className="text-blue-600">Members</span>
           <span className="text-black">Only</span>
         </h2>
       </div>

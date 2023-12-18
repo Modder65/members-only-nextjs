@@ -15,7 +15,7 @@ export const CustomLoader = () => {
 
   return (
     <div ref={spinnerRef} className="w-12 h-12 flex justify-center items-center">
-      <div className="w-full h-full border-4 border-transparent border-t-green-600 border-r-green-600 rounded-full"></div>
+      <div className="w-full h-full border-4 border-transparent border-t-blue-600 border-r-blue-600 rounded-full"></div>
     </div>
   );
 }

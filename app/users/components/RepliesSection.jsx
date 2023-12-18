@@ -96,7 +96,7 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   return (
     <div className="mt-3">
       <button onClick={toggleRepliesDisplay}
-       className="text-green-600 hover:text-green-800 text-sm"
+       className="text-blue-600 hover:opacity-80 text-sm"
        >
         {showReplies ? `Hide Replies (${replyCount})` : `Show Replies (${replyCount})`}
       </button>
