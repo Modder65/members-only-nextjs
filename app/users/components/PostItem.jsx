@@ -14,7 +14,6 @@ import PostLikeIcon from "./PostLikeIcon";
 
 
 const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, currentUserLiked }) => {
-  const [comments, setComments] = useState([]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [isLoading, setIsLoading] = useState(false);
