@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { pusherClient } from "../libs/pusher";
@@ -11,7 +11,6 @@ import { CustomLoader } from "@/components/CustomLoader";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
-
 
 export default function Users() {
   const [posts, setPosts] = useState([]);
