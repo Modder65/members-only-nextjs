@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { DateTime } from "luxon";
 import { toast } from "react-hot-toast";
 import { FiMessageSquare } from "react-icons/fi";

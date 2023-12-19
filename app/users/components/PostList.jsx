@@ -2,6 +2,7 @@ import PostItem from "./PostItem";
 import PostModal from "./PostModal";
 
 const PostList = ({ posts }) => {
+
   return (
     <>
       {posts.map(post => (
