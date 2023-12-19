@@ -11,7 +11,7 @@ body,
 /* Custom Scrollbar Styles */
 .scrollbar-custom {
   scrollbar-width: thin;
-  scrollbar-color: #48bb78 #f8fafc; /* green thumb and light track */
+  scrollbar-color: #2563EB #f8fafc; /* blue thumb and light track */
 }
 
 .scrollbar-custom::-webkit-scrollbar {
@@ -23,7 +23,7 @@ body,
 }
 
 .scrollbar-custom::-webkit-scrollbar-thumb {
-  background-color: #48bb78; /* green, similar to bg-green-600 */
+  background-color: #2563EB; /* blue, similar to bg-blue-600 */
   border-radius: 20px;
   border: 3px solid #f8fafc; /* same as track color */
 }
