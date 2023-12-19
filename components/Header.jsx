@@ -2,11 +2,14 @@
 
 import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { useRouter } from "next/navigation";
-import Avatar from "@/app/users/components/Avatar";
 import { UserSkeleton } from "./UserSkeleton";
+import { Menu } from "@headlessui/react";
+import Avatar from "@/app/users/components/Avatar";
+import Link from "next/link";
+import HeaderMenu from "./HeaderMenu";
+
 
 export function Header() {
   const { data: session, status } = useSession();
@@ -46,29 +49,20 @@ export function Header() {
             <span className="text-black">Only</span>
           </h1>
         </div>
-        <div className="flex gap-4">
-          <div className="relative flex items-center cursor-pointer" onClick={toggleDropdown} ref={dropdownRef}>
-          {showDropdown ? <FaChevronUp size={15}/> : <FaChevronDown size={15}/>}
-          {status === 'loading'
-              ? <UserSkeleton />
-              : (
-                  <>
-                    <span className="user-name mr-2 text-lg ml-1">{session.user.name}</span>
-                    {session?.user && <Avatar user={session.user}/>}
-                  </>
-              )
-            }
-            <div className={`${showDropdown ? 'block' : 'hidden'} absolute right-20 top-10 bg-gray-50 min-w-max shadow-lg z-10 rounded-md`}>
-              <ul>
-                <li><Link href="/users/create-post" className="block px-4 py-2 text-black hover:bg-gray-100">Post Message</Link></li>
-                <li><a onClick={handleLogout} className="block px-4 py-2 text-black hover:bg-gray-100 cursor-pointer">Log Out</a></li>
-              </ul>
-            </div>
-          </div>
+
+        <div className="flex gap-4 items-center">
+          {status === 'loading' ? (
+            <UserSkeleton />
+          ) : (
+            isLoggedIn && (
+              <div className="flex flex-row-reverse justify-center items-center">
+                {session?.user && <Avatar user={session.user} />}
+                <HeaderMenu user={session.user} onLogout={handleLogout} />
+              </div>
+            )
+          )}
         </div>
       </div>
     </header>
-
-
   );
 }
