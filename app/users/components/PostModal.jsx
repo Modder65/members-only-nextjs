@@ -1,14 +1,14 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { Dialog, Transition } from '@headlessui/react'
+import { Dialog } from '@headlessui/react'
 import { DateTime } from "luxon";
 import { RepliesSection } from './RepliesSection';
 import { CustomLoader } from '@/components/CustomLoader';
 import { useGSAP } from '@gsap/react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { closeModal } from "@/redux/features/modalSlice";
 import { IoCloseSharp } from "react-icons/io5";
 import CommentLikeIcon from './CommentLikeIcon';
@@ -22,16 +22,39 @@ function PostModal() {
   let [isLoading, setIsLoading] = useState(false);
   const modalRef = useRef(null);
   const containerRef = useRef(null);
-
+  
   const { selectedPost, isModalOpen } = useSelector(state => state.modal);
+
   const comments = useSelector(state => 
-    state.comments.commentsByPostId[selectedPost?.id] || []
+    state.comments.commentsByPostId[selectedPost?.id] || [],
+    shallowEqual //ensures that the component only rerenders if the selected slice of state has actually changed in value, not just in reference.
   );
+
+
+
   const dispatch = useDispatch();
 
   const handleClose = () => {
-    dispatch(closeModal());
+    // Ensure the element exists and no ongoing animation
+    if (modalRef.current) {
+      // Kill any ongoing animations
+      gsap.killTweensOf(modalRef.current); // make sure no other animations are running on the same element that could interfere with the closing animation
+
+      const closingTl = gsap.timeline({
+        onComplete: () => dispatch(closeModal()),
+      });
+  
+      closingTl.to(modalRef.current, {
+        autoAlpha: 0,
+        scale: 0.95,
+        duration: 0.2,
+        ease: 'power2.out',
+      });
+    } else {
+      dispatch(closeModal());
+    }
   };
+  
 
   const { register, handleSubmit, formState: { errors } } = useForm({
     defaultValues: { message: '' }
@@ -64,42 +87,29 @@ function PostModal() {
 
   
   useGSAP(() => {
-    if (modalRef.current) {
-      console.log('isOpen:', isModalOpen); // Debug: Check the value of isOpen
-  
-      if (isModalOpen) {
-        // Open animation
-        gsap.fromTo(
-          modalRef.current,
-          { autoAlpha: 0, scale: 0.95 },
-          { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'power2.out' }
-        );
-      } else {
-        console.log('Triggering close animation'); // Debug: Check if the close animation is triggered
-  
-        // Close animation
-        gsap.to(modalRef.current, {
-          autoAlpha: 0,
-          scale: 0.95,
-          duration: 0.3,
-          ease: 'power1.in',
-        });
-      }
+    // Create a timeline with the open animation
+    if (isModalOpen) {
+      const tl = gsap.timeline();
+
+      tl.fromTo(
+        modalRef.current,
+        { autoAlpha: 0, scale: 0.95 },
+        { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'power2.out' }
+      );
     }
   }, [isModalOpen]);
-  
 
   useGSAP(() => {
     if (containerRef.current && comments.length > 0) {
       gsap.from(containerRef.current.querySelectorAll('.comment-item'), {
         opacity: 0,
         y: -20,
-        stagger: 0.1,
+        stagger: 0.15,
         ease: 'power1.out',
         duration: 0.5
       });
     }
-  }, [isModalOpen, comments]);
+  }, { dependencies: [comments]});
 
 
   return (
