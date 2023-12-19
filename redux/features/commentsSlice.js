@@ -16,11 +16,12 @@ export const commentsSlice = createSlice({
     updateCommentForPost: (state, action) => {
       const { postId, comment } = action.payload;
       if (state.commentsByPostId[postId]) {
-        state.commentsByPostId[postId].push(comment);
+        // Create a new array with the new comment
+        state.commentsByPostId[postId] = [...state.commentsByPostId[postId], comment];
       } else {
         state.commentsByPostId[postId] = [comment];
       }
-    }
+    }    
   },
 });
 
