@@ -59,11 +59,11 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
       onClick={handleToggleLike}
       disabled={isLoading}
     >
-      <span ref={heartIconRef} className="text-rose-600">
-        <FiHeart size={20} className={clsx('mr-1', {'fill-current': isLiked})} />
-      </span>
       <span style={{ opacity: likeCount > 0 ? 1 : 0, minWidth: '10px' }}>
         {likeCount}
+      </span>
+      <span ref={heartIconRef} className="text-rose-600">
+        <FiHeart size={20} className={clsx('ml-1', {'fill-current': isLiked})} />
       </span>
     </button>
   </div>

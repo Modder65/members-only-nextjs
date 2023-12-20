@@ -85,7 +85,7 @@ function PostModal() {
     }
   }
 
-  
+  // Modal open animation
   useGSAP(() => {
     // Create a timeline with the open animation
     if (isModalOpen) {
@@ -99,6 +99,7 @@ function PostModal() {
     }
   }, [isModalOpen]);
 
+  // Comments stagger animation
   useGSAP(() => {
     if (containerRef.current && comments.length > 0) {
       gsap.from(containerRef.current.querySelectorAll('.comment-item'), {
@@ -147,9 +148,20 @@ function PostModal() {
               errors={errors}
               disabled={isLoading}
             />
-            <Button disabled={isLoading} fullWidth type="submit">
+            <button type="submit"
+              className="
+              bg-blue-600
+                rounded-md
+                px-2
+                py-1
+                text-white
+                hover:opacity-80
+              "
+            >
               Submit Comment
-            </Button>
+            </button>
+              
+            
           </form>
           
           <div className="fade-container">
