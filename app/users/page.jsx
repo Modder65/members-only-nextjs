@@ -94,7 +94,6 @@ export default function Users() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
-      <Image src="/images/Test.jpg" alt="big" sizes="(max-width: 3000px) 300px, 300px" width={1000} height={1000}/>
     <h2 className="mb-5 text-3xl font-bold">Messages</h2>
     {status === 'authenticated' && session.user ? (
       <p className="mb-5 text-xl">Welcome <strong>{session.user.name}</strong>!</p>
