@@ -7,7 +7,7 @@ import getSession from "@/app/actions/getSession";
 export async function POST(request) {
   const session = await getSession();
   const userId = session.user.id;
-  const { title, message } = await request.json();
+  const { title, message, image } = await request.json();
 
   // Remove HTML/dangerous characters from data
   // Trims all whitespace including multiple spaces between words/characters
@@ -33,6 +33,7 @@ export async function POST(request) {
       data: {
         title: sanitizedTitle,
         message: sanitizedMessage,
+        image: image,
         user: { connect: { id: userId }}
       },
       // Needed to match data structure of fetching posts; for pusher
