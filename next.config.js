@@ -24,7 +24,7 @@ const nextConfig = {
     // Images from these domains can be optimized by Next.js' Image Optimization API.
     remotePatterns: [
       // Allows images from Cloudinary.
-      
+      { hostname: 'res.cloudinary.com' },
       // Allows images from GitHub avatars.
       { hostname: 'avatars.githubusercontent.com' },
       // Allows images from Google Hosted Libraries.
