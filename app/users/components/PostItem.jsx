@@ -11,6 +11,7 @@ import { openModal } from "@/redux/features/modalSlice";
 import { setCommentsForPost, updateCommentForPost } from "@/redux/features/commentsSlice";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
+import Image from "next/image";
 
 
 const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, currentUserLiked }) => {
@@ -64,6 +65,9 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
         <h2 className="mb-5 text-xl font-bold">{post.title}</h2>
         <p>{post.message}</p>
+        {post.image && 
+          <Image alt="hello" src={post.image} width={100} height={100} />
+        }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
           Posted by {post.user.name} on {
             DateTime.fromISO(post.createdAt).toLocaleString({
