@@ -9,7 +9,7 @@ const Input = ({
   validation,
   register,
   errors,
-  disabled
+  disabled,
 }) => {
   return (
     <div>
