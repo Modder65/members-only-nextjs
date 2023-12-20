@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+import { HiPhoto } from "react-icons/hi2";
+import { CldUploadButton } from "next-cloudinary";
 import ClipLoader from "react-spinners/ClipLoader";
 import Input from "@/app/components/inputs/Input";
 import Button from "@/app/components/Button";
@@ -11,6 +13,7 @@ import axios from "axios";
 
 export default function CreatePostPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [imageURL, setImageURL] = useState(null); // State to store the image URL
   const router = useRouter();
 
   const {
@@ -26,9 +29,13 @@ export default function CreatePostPage() {
 
   const onSubmit = async (data) => {
     setIsLoading(true);
+    const postData = {
+      ...data, 
+      image: imageURL, // Include the image URL in the post data
+    }
     
     try {
-      await axios.post('/api/submit-post', data);
+      await axios.post('/api/submit-post', postData);
       toast.success("Post submitted successfully!");
       router.push("/");
     } catch (error) {
@@ -45,6 +52,14 @@ export default function CreatePostPage() {
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // Needs to be edited to work
+  const handleUpload = (result) => {
+    const url = result?.info?.secure_url;
+    if (url) {
+      setImageURL(url); // Store the image URL instead of directly uploading
     }
   };
 
@@ -81,6 +96,17 @@ export default function CreatePostPage() {
           errors={errors}
           disabled={isLoading}
         />
+        <div className="flex items-center gap-2">
+          <p>Upload an Image:</p>
+          <CldUploadButton
+            options={{ maxFiles: 1 }}
+            onUpload={handleUpload}
+            uploadPreset="jfaab9re"
+          >
+            <HiPhoto size={30} className="text-blue-600" />
+          </CldUploadButton>
+        </div>
+        
         <Button
           disabled={isLoading}
           fullWidth
