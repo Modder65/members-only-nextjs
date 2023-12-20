@@ -27,7 +27,7 @@ const nextConfig = {
       { hostname: 'res.cloudinary.com' },
       // Allows images from GitHub avatars.
       { hostname: 'avatars.githubusercontent.com' },
-      // Allows images from Google Hosted Libraries.
+      // Allows images from Google Hosted Libraries.git
       { hostname: 'lh3.googleusercontent.com' },
     ],
   },
