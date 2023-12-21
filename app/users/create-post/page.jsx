@@ -96,24 +96,31 @@ export default function CreatePostPage() {
           errors={errors}
           disabled={isLoading}
         />
-        <div className="flex items-center gap-2">
-          <p>Upload an Image:</p>
-          <CldUploadButton
-            options={{ maxFiles: 1 }}
-            onUpload={handleUpload}
-            uploadPreset="jfaab9re"
+        <div className="flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <p>Upload an Image:</p>
+            <CldUploadButton
+              options={{ maxFiles: 1 }}
+              onUpload={handleUpload}
+              uploadPreset="jfaab9re"
+            >
+              <HiPhoto size={30} className="text-blue-600" />
+            </CldUploadButton>
+          </div>
+          
+          <button type="submit"
+            className="
+            bg-blue-600
+              rounded-md
+              px-2
+              py-1
+              text-white
+              hover:opacity-80
+            "
           >
-            <HiPhoto size={30} className="text-blue-600" />
-          </CldUploadButton>
+          Submit Post
+          </button>
         </div>
-        
-        <Button
-          disabled={isLoading}
-          fullWidth
-          type="submit"
-        >
-          Submit
-        </Button>
       </form>
     </div>
   );
