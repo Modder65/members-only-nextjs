@@ -1,6 +1,7 @@
 import { Menu } from '@headlessui/react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { BiMessageAltDetail } from "react-icons/bi";
+import { AiOutlineHome } from "react-icons/ai";
 import { TbLogout2 } from "react-icons/tb";
 import Link from "next/link";
 
@@ -15,9 +16,17 @@ const HeaderMenu = ({ user, onLogout }) => {
         <div className="px-1 py-1 ">
           <Menu.Item>
             {({ active }) => (
+              <Link href="/users" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
+                  <AiOutlineHome size={25} className='mr-2'/>
+                  Home
+              </Link>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({ active }) => (
               <Link href="/users/create-post" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
                   <BiMessageAltDetail size={25} className='mr-2'/>
-                  Post Message
+                  Create Post
               </Link>
             )}
           </Menu.Item>
