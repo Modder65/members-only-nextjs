@@ -65,12 +65,12 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
     <div className="max-auto max-w-6xl px-5 mb-5">
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
-          <Avatar width={10} height={10}/>
+          <Avatar user={post.user}/>
           <h2 className=" text-xl font-bold">{post.title}</h2>
         </div>
         <p className="mb-3">{post.message}</p>
         {post.image && 
-          <Image alt="hello" src={post.image} width={100} height={100} />
+          <Image alt="hello" src={post.image} width={100} height={100} priority={true} /> // check priorty parameter documentation; caused warning in console without it related to LCP
         }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
           Posted by {post.user.name} on {
