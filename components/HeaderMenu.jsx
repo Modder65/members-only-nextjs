@@ -3,6 +3,8 @@ import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { BiMessageAltDetail } from "react-icons/bi";
 import { AiOutlineHome } from "react-icons/ai";
 import { TbLogout2 } from "react-icons/tb";
+import { BsPerson } from "react-icons/bs";
+import { SlPeople } from "react-icons/sl";
 import Link from "next/link";
 
 const HeaderMenu = ({ user, onLogout }) => {
@@ -19,6 +21,22 @@ const HeaderMenu = ({ user, onLogout }) => {
               <Link href="/users" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
                   <AiOutlineHome size={25} className='mr-2'/>
                   Home
+              </Link>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({ active }) => (
+              <Link href="/users/account" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}> {/* Change href url */}
+                  <BsPerson size={25} className='mr-2'/>
+                  Account
+              </Link>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({ active }) => (
+              <Link href="/users" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}> {/* Change href url */}
+                  <SlPeople size={25} className='mr-2'/>
+                  Friends
               </Link>
             )}
           </Menu.Item>
