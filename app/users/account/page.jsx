@@ -19,7 +19,7 @@ const Account = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [userPostsLoaded, setUserPostsLoaded] = useState(false);
   const [loading, setIsLoading] = useState(false);
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const [ref, inView] = useInView({
     threshold: 0,
@@ -69,7 +69,7 @@ const Account = () => {
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
       <div className='flex gap-2 items-center mb-5'>
-        <Avatar user={session?.user?.name}/>
+        <Avatar user={session.user}/>
         <p className="text-lg font-semibold">{session?.user?.name}</p>
       </div>
       <div>
