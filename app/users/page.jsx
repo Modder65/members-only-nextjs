@@ -94,20 +94,20 @@ export default function Users() {
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
-    <h2 className="mb-5 text-3xl font-bold">Posts</h2>
-    {status === 'authenticated' && session.user ? (
-      <p className="mb-5 text-xl">Welcome <strong>{session.user.name}</strong>!</p>
-    ) : (
-      <p>Welcome to the members only page!</p>
-    )}
-    <PostList posts={posts} />
-    {hasMore ? (
-      <div ref={ref} className="flex justify-center">
-        <CustomLoader />
-      </div>
-    ) : (
-      <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
-    )}
+      <h2 className="mb-5 text-3xl font-bold">Posts</h2>
+      {status === 'authenticated' && session.user ? (
+        <p className="mb-5 text-xl">Welcome <strong>{session.user.name}</strong>!</p>
+      ) : (
+        <p>Welcome to the members only page!</p>
+      )}
+      <PostList posts={posts} />
+      {hasMore ? (
+        <div ref={ref} className="flex justify-center">
+          <CustomLoader />
+        </div>
+      ) : (
+        <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
+      )}
   </div>
   );
 }
