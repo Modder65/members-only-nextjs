@@ -69,7 +69,7 @@ const Account = () => {
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
       <div className='flex gap-2 items-center mb-5'>
-        <Avatar />
+        <Avatar user={session?.user?.name}/>
         <p className="text-lg font-semibold">{session?.user?.name}</p>
       </div>
       <div>
