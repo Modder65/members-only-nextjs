@@ -12,6 +12,7 @@ import { setCommentsForPost, updateCommentForPost } from "@/redux/features/comme
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
 import Image from "next/image";
+import Avatar from "./Avatar";
 
 
 const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, currentUserLiked }) => {
@@ -63,8 +64,11 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
   return (
     <div className="max-auto max-w-6xl px-5 mb-5">
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
-        <h2 className="mb-5 text-xl font-bold">{post.title}</h2>
-        <p>{post.message}</p>
+        <div className="flex items-center gap-2 mb-3">
+          <Avatar width={10} height={10}/>
+          <h2 className=" text-xl font-bold">{post.title}</h2>
+        </div>
+        <p className="mb-3">{post.message}</p>
         {post.image && 
           <Image alt="hello" src={post.image} width={100} height={100} />
         }
