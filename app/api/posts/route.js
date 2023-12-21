@@ -24,7 +24,7 @@ export async function GET(request) {
       skip: skip,
       orderBy: { createdAt: 'desc' },
       include: {
-        user: { select: { name: true } },
+        user: { select: { name: true, image: true } },
         _count: { select: { comments: true, likes: true } },
       }
     });
