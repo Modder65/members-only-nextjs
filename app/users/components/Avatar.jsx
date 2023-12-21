@@ -22,6 +22,7 @@ const Avatar = ({ user }) => {
           fill
         />
       </div>
+      {/* 
       <span 
         className="
           absolute
@@ -38,6 +39,7 @@ const Avatar = ({ user }) => {
           md:w-3
         "
       />
+  */}
     </div>
   );
 }
