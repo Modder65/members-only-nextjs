@@ -15,6 +15,7 @@ import CommentLikeIcon from './CommentLikeIcon';
 import gsap from "gsap";
 import Button from '@/app/components/Button';
 import Input from '@/app/components/inputs/Input';
+import Link from "next/link";
 import axios from "axios";
 
 
@@ -124,7 +125,10 @@ function PostModal() {
             <IoCloseSharp onClick={handleClose} size={25} className="cursor-pointer text-rose-600"/>
           </div>
           <p className='text-sm text-gray-500 pt-2.5 mb-10'>
-            Posted by {selectedPost?.user.name} on {
+          Posted by 
+          <Link href={`/users/${selectedPost?.user.id}`} className="text-blue-600 hover:underline">
+            <span className="text-blue-600 hover:underline cursor-pointer"> {selectedPost?.user.name}</span>
+          </Link> on {
               DateTime.fromISO(selectedPost?.createdAt).toLocaleString({
                 month: 'numeric',
                 day: 'numeric',
