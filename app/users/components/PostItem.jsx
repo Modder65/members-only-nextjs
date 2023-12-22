@@ -98,7 +98,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
           <PostLikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
         </div>
       </div>
-    </div>
+    </div>   
   );
 }
  
