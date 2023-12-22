@@ -9,6 +9,7 @@ import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/features/modalSlice";
 import { setCommentsForPost, updateCommentForPost } from "@/redux/features/commentsSlice";
+import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
 import Image from "next/image";
@@ -73,7 +74,10 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
           <Image alt="hello" src={post.image} width={100} height={100} priority={true} /> // check priorty parameter documentation; caused warning in console without it related to LCP
         }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
-          Posted by {post.user.name} on {
+        Posted by 
+        <Link href={`/users/${post.user.id}`} className="text-blue-600 hover:underline">
+          <span className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</span>
+        </Link> on {
             DateTime.fromISO(post.createdAt).toLocaleString({
               month: 'numeric',
               day: 'numeric',
