@@ -105,6 +105,17 @@ const Account = () => {
                     selected ? 'border-b-2 border-blue-600 bg-white' : 'hover:bg-gray-100'
                   }`}
                 >
+                  Pending Requests
+                </button>
+              )}
+            </Tab>
+            <Tab as={Fragment}>
+              {({ selected }) => (
+                <button
+                  className={`py-2 px-4 text-sm font-medium leading-5 text-gray-700 rounded-t-lg focus:outline-none focus:ring-2 ring-white ring-opacity-60 ${
+                    selected ? 'border-b-2 border-blue-600 bg-white' : 'hover:bg-gray-100'
+                  }`}
+                >
                   Your Posts
                 </button>
               )}
@@ -115,7 +126,10 @@ const Account = () => {
             <Tab.Panel>Content 1</Tab.Panel>
             <Tab.Panel>Content 2</Tab.Panel>
             <Tab.Panel>
-              <PostList posts={userPosts}/>
+              Content 3
+            </Tab.Panel>
+            <Tab.Panel>
+            <PostList posts={userPosts}/>
               {hasMore ? (
                 <div ref={ref} className="flex justify-center">
                   <CustomLoader />
