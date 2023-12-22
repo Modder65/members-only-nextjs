@@ -28,6 +28,8 @@ model User {
   accounts Account[] 
   likes Like[]
 
+  userFriendships Friendship[] @relation("userFriendships")
+  friendUserFriendships Friendship[] @relation("friendUserFriendships")
 }
 
 model Account {
@@ -109,3 +111,25 @@ model Like {
   @@unique([userId, replyId])
 }
 
+model Friendship {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @db.ObjectId
+  friendId String @db.ObjectId
+
+  user User @relation(name: "userFriendships", fields: [userId], references: [id], onDelete: Cascade)
+  friend User @relation(name: "friendUserFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+
+  status FriendshipStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, friendId])
+  @@index([friendId])
+}
+
+enum FriendshipStatus {
+  PENDING 
+  ACCEPTED
+  DECLINED
+  BLOCKED
+}
