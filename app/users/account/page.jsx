@@ -144,8 +144,10 @@ const Account = () => {
               {pendingRequests.length > 0 ? (
                 <div className="space-y-2">
                   {pendingRequests.map(request => (
-                    <div key={request.id}>
+                    <div key={request.id} className="flex items-center gap-2 border-b-2 border-gray-800 py-5">
+                      <Avatar user={request?.user}/>
                       <p>{request?.user?.name}</p>
+                      <button>Accept</button>
                     </div>
                     ))}
                 </div>
