@@ -144,10 +144,38 @@ const Account = () => {
               {pendingRequests.length > 0 ? (
                 <div className="space-y-2">
                   {pendingRequests.map(request => (
-                    <div key={request.id} className="flex items-center gap-2 border-b-2 border-gray-800 py-5">
-                      <Avatar user={request?.user}/>
-                      <p>{request?.user?.name}</p>
-                      <button>Accept</button>
+                    <div key={request.id} className="flex items-center justify-between border-b-1 border-gray-500 py-5">
+                      <div className="flex items-center gap-2">
+                        <Avatar user={request?.user}/>
+                        <p>{request?.user?.name}</p>
+                      </div>
+                      
+                      <div className="">
+                        <button type="button"
+                          className="
+                          bg-green-600
+                            rounded-md
+                            px-2
+                            py-1
+                            text-white
+                            hover:opacity-80
+                          "
+                        >
+                          Accept
+                        </button>
+                        <button type="button"
+                          className="
+                          bg-rose-600
+                            rounded-md
+                            px-2
+                            py-1
+                            text-white
+                            hover:opacity-80
+                          "
+                        >
+                          Decline
+                        </button>
+                      </div>
                     </div>
                     ))}
                 </div>
