@@ -18,6 +18,7 @@ const Account = () => {
   const [hasMore, setHasMore] = useState(true);
   const [userPosts, setUserPosts] = useState([]);
   const [userPostsLoaded, setUserPostsLoaded] = useState(false);
+  const [pendingRequests, setPendingRequests] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const { data: session } = useSession();
 
@@ -65,6 +66,20 @@ const Account = () => {
 
     setPage(prevPage => prevPage + 1);
   }, [inView, hasMore, selectedTabIndex]);
+
+  useEffect(() => {
+    if (selectedTabIndex === 2) { // Assuming index 2 is for Pending Requests
+      const fetchPendingRequests = async () => {
+        try {
+          const response = await axios.get('/api/pending-requests', { params: { userId: session.user.id } });
+          setPendingRequests(response.data.requests);
+        } catch (error) {
+          toast.error("Failed to fetch pending requests");
+        }
+      };
+      fetchPendingRequests();
+    }
+  }, [selectedTabIndex, session?.user?.id]);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
