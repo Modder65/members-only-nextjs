@@ -141,7 +141,17 @@ const Account = () => {
             <Tab.Panel>Content 1</Tab.Panel>
             <Tab.Panel>Content 2</Tab.Panel>
             <Tab.Panel>
-              Content 3
+              {pendingRequests.length > 0 ? (
+                <div className="space-y-2">
+                  {pendingRequests.map(request => (
+                    <div key={request.id}>
+                      <p>{request?.user?.name}</p>
+                    </div>
+                    ))}
+                </div>
+              ) : (
+                <p>No pending friend requests.</p>
+              )}
             </Tab.Panel>
             <Tab.Panel>
             <PostList posts={userPosts}/>
