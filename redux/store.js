@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import likesReducer from "./features/likesSlice";
 import modalReducer from "./features/modalSlice";
 import commentsReducer from "./features/commentsSlice";
+import accountReducer from "./features/accountSlice";
 
 export const store = configureStore({
   reducer: {
     likes: likesReducer,
     modal: modalReducer,
     comments: commentsReducer,
+    account: accountReducer,
   },
 });
 
