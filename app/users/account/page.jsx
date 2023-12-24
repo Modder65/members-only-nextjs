@@ -19,6 +19,7 @@ const Account = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [userPostsLoaded, setUserPostsLoaded] = useState(false);
   const [pendingRequests, setPendingRequests] = useState([]);
+  const [friends, setFriends] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const { data: session } = useSession();
 
@@ -81,6 +82,38 @@ const Account = () => {
     }
   }, [selectedTabIndex, session?.user?.id]);
 
+  const handleAcceptRequest = async (friendRequsetId) => {
+    try {
+      await axios.post('/api/accept-friend-request', { friendRequsetId });
+      toast.success("Friend request accepted");
+    } catch (error) {
+      toast.error("Failed to accept friend request");
+    }
+  };
+
+  const handleDeclineRequest = async (friendRequsetId) => {
+    try {
+      await axios.post('/api/decline-friend-request', { friendRequsetId });
+      toast.success("Friend request declined");
+    } catch (error) {
+      toast.error("Failed to decline friend request");
+    }
+  };
+
+  useEffect(() => {
+    if (selectedTabIndex === 1) { 
+      const fetchFriends = async () => {
+        try {
+          const response = await axios.get('/api/friends');
+          setFriends(response.data);
+        } catch (error) {
+          toast.error("Failed to fetch pending requests");
+        }
+      };
+      fetchFriends();
+    }
+  }, [selectedTabIndex]);
+
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
       <div className='flex gap-2 items-center mb-5'>
@@ -139,7 +172,38 @@ const Account = () => {
           </Tab.List>
           <Tab.Panels>
             <Tab.Panel>Content 1</Tab.Panel>
-            <Tab.Panel>Content 2</Tab.Panel>
+            <Tab.Panel>
+              {friends.length > 0 ? (
+                  <div className="space-y-2">
+                    {friends.map(friend => (
+                      <div key={friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                        <div className="flex items-center gap-2">
+                          <Avatar user={friend?.user}/>
+                          <p>{friend?.user?.name}</p>
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                          <button type="button"
+                            className="
+                            bg-rose-600
+                              rounded-md
+                              px-2
+                              py-1
+                              text-white
+                              hover:opacity-80
+                            "
+                            onClick={() => handleDeclineRequest(request.id)}
+                          >
+                            Unfriend
+                          </button>
+                        </div>
+                      </div>
+                      ))}
+                  </div>
+                ) : (
+                  <p>{`You have no friends :(`}</p>
+                )}
+            </Tab.Panel>
             <Tab.Panel>
               {pendingRequests.length > 0 ? (
                 <div className="space-y-2">
@@ -160,6 +224,7 @@ const Account = () => {
                             text-white
                             hover:opacity-80
                           "
+                          onClick={() => handleAcceptRequest(request.id)}
                         >
                           Accept
                         </button>
@@ -172,6 +237,7 @@ const Account = () => {
                             text-white
                             hover:opacity-80
                           "
+                          onClick={() => handleDeclineRequest(request.id)}
                         >
                           Decline
                         </button>
