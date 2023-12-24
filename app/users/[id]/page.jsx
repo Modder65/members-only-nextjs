@@ -2,6 +2,8 @@
 
 import { useParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserData, setFriendshipStatus } from "@/redux/features/accountSlice";
 import { useSession } from "next-auth/react";
 import { Tab } from '@headlessui/react'
 import { toast } from "react-hot-toast";
@@ -19,11 +21,12 @@ const UserProfile = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [friendButtonText, setFriendButtonText] = useState('Friend');
-  const [friendshipStatus, setFriendshipStatus] = useState(null);
   const [loading, setIsLoading] = useState(false);
-  const [userData, setUserData] = useState(null);
   const { data: session } = useSession();
   
+  const dispatch = useDispatch();
+  const { userData, friendshipStatus } = useSelector((state) => state.account);
+
   const [ref, inView] = useInView({
     threshold: 0,
   });
@@ -33,17 +36,16 @@ const UserProfile = () => {
       setIsLoading(true);
       try {
         const response = await axios.get(`/api/user-data?userId=${userId}`);
-        setUserData(response.data);
-        console.log(response.data); // remove
+        dispatch(setUserData(response.data)); // Dispatch to Redux store
       } catch (error) {
         toast.error("Failed to fetch user data");
       } finally {
         setIsLoading(false);
       }
-    }
+    };
 
     fetchUserData();
-  }, [userId]);
+  }, [userId, dispatch]);
 
   const sendFriendRequest = async () => {
     try {
@@ -51,9 +53,8 @@ const UserProfile = () => {
         userId: session?.user?.id,
         friendId: userId,
       });
-      setFriendButtonText('Pending');
-      setFriendshipStatus(response.data);
-      toast.success("Friend request sent!")
+      dispatch(setFriendshipStatus(response.data)); // Update Redux state
+      toast.success("Friend request sent!");
     } catch (error) {
       toast.error("Failed to send friend request");
     }

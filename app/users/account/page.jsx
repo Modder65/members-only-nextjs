@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserPosts, setFriends, setPendingRequests } from "@/redux/features/accountSlice";
 import { Tab } from '@headlessui/react'
 import { Fragment } from "react";
 import { toast } from "react-hot-toast";
@@ -16,22 +18,16 @@ const Account = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [userPosts, setUserPosts] = useState([]);
   const [userPostsLoaded, setUserPostsLoaded] = useState(false);
-  const [pendingRequests, setPendingRequests] = useState([]);
-  const [friends, setFriends] = useState([]);
   const [loading, setIsLoading] = useState(false);
   const { data: session } = useSession();
 
-  const [ref, inView] = useInView({
-    threshold: 0,
-  });
+  const dispatch = useDispatch();
+  const { userPosts, friends, pendingRequests } = useSelector((state) => state.account);
+
+  const [ref, inView] = useInView({ threshold: 0 });
 
   useEffect(() => {
-    if (selectedTabIndex !== 2) {
-      return;
-    }
-
     const fetchPosts = async () => {
       if (!userPostsLoaded) {
         setIsLoading(true);
@@ -39,15 +35,8 @@ const Account = () => {
           const limit = 10;
           const response = await axios.get(`/api/user-posts?page=${page}&limit=${limit}`);
           
-          // If page is 0, replace the posts; otherwise, append them
-          if (page === 0) {
-            setUserPosts(response.data);
-            setUserPostsLoaded(true);
-          } else {
-            setUserPosts(prevPosts => [...prevPosts, ...response.data]);
-            setUserPostsLoaded(true);
-          }
-    
+          dispatch(setUserPosts(response.data)); // Dispatch to Redux store
+          setUserPostsLoaded(true); // Set to true to avoid refetching
           setHasMore(response.data.length === limit);
         } catch (error) {
           toast.error("Failed to fetch posts");
@@ -57,30 +46,40 @@ const Account = () => {
       }
     };
 
-    fetchPosts();
-  }, [page, selectedTabIndex, userPostsLoaded]);
-
-  useEffect(() => {
-    if (selectedTabIndex !== 2 || !inView || !hasMore) {
-      return;
+    // Fetch posts only when the "Your Posts" tab is selected
+    if (selectedTabIndex === 3 && !userPostsLoaded) {
+      fetchPosts();
     }
+  }, [page, selectedTabIndex, userPostsLoaded, dispatch]);
 
-    setPage(prevPage => prevPage + 1);
-  }, [inView, hasMore, selectedTabIndex]);
-
+  
   useEffect(() => {
-    if (selectedTabIndex === 2) { // Assuming index 2 is for Pending Requests
+    if (selectedTabIndex === 2) { // Fetch pending requests
       const fetchPendingRequests = async () => {
         try {
           const response = await axios.get('/api/pending-requests', { params: { userId: session.user.id } });
-          setPendingRequests(response.data.requests);
+          dispatch(setPendingRequests(response.data.requests));  // Dispatching to Redux store
         } catch (error) {
           toast.error("Failed to fetch pending requests");
         }
       };
       fetchPendingRequests();
     }
-  }, [selectedTabIndex, session?.user?.id]);
+  }, [selectedTabIndex, session?.user?.id, dispatch]);
+
+  useEffect(() => {
+    if (selectedTabIndex === 1) { // Fetch friends
+      const fetchFriends = async () => {
+        try {
+          const response = await axios.get('/api/friends');
+          dispatch(setFriends(response.data));  // Dispatching to Redux store
+        } catch (error) {
+          toast.error("Failed to fetch friends");
+        }
+      };
+      fetchFriends();
+    }
+  }, [selectedTabIndex, dispatch]);
 
   const handleAcceptRequest = async (friendRequsetId) => {
     try {
@@ -99,20 +98,6 @@ const Account = () => {
       toast.error("Failed to decline friend request");
     }
   };
-
-  useEffect(() => {
-    if (selectedTabIndex === 1) { 
-      const fetchFriends = async () => {
-        try {
-          const response = await axios.get('/api/friends');
-          setFriends(response.data);
-        } catch (error) {
-          toast.error("Failed to fetch pending requests");
-        }
-      };
-      fetchFriends();
-    }
-  }, [selectedTabIndex]);
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
