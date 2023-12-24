@@ -144,13 +144,13 @@ const Account = () => {
               {pendingRequests.length > 0 ? (
                 <div className="space-y-2">
                   {pendingRequests.map(request => (
-                    <div key={request.id} className="flex items-center justify-between border-b-1 border-gray-500 py-5">
+                    <div key={request.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                       <div className="flex items-center gap-2">
                         <Avatar user={request?.user}/>
                         <p>{request?.user?.name}</p>
                       </div>
                       
-                      <div className="">
+                      <div className="flex items-center gap-2">
                         <button type="button"
                           className="
                           bg-green-600
