@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserPosts, setFriends, setPendingRequests } from "@/redux/features/accountSlice";
+import { setUserPosts, setFriends, setPendingRequests, setUserPostsLoaded, setUserRequestsLoaded } from "@/redux/features/accountSlice";
 import { Tab } from '@headlessui/react'
 import { Fragment } from "react";
 import { toast } from "react-hot-toast";
@@ -18,12 +18,11 @@ const Account = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
-  const [userPostsLoaded, setUserPostsLoaded] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const { data: session } = useSession();
 
   const dispatch = useDispatch();
-  const { userPosts, friends, pendingRequests } = useSelector((state) => state.account);
+  const { userPosts, friends, pendingRequests, userPostsLoaded, userRequestsLoaded } = useSelector((state) => state.account);
 
   const [ref, inView] = useInView({ threshold: 0 });
 
@@ -36,7 +35,7 @@ const Account = () => {
           const response = await axios.get(`/api/user-posts?page=${page}&limit=${limit}`);
           
           dispatch(setUserPosts(response.data)); // Dispatch to Redux store
-          setUserPostsLoaded(true); // Set to true to avoid refetching
+          dispatch(setUserPostsLoaded(true)); // Set to true to avoid refetching
           setHasMore(response.data.length === limit);
         } catch (error) {
           toast.error("Failed to fetch posts");
@@ -54,18 +53,26 @@ const Account = () => {
 
   
   useEffect(() => {
-    if (selectedTabIndex === 2) { // Fetch pending requests
-      const fetchPendingRequests = async () => {
+    const fetchPendingRequests = async () => {
+      if (!userRequestsLoaded) {
+        setIsLoading(true);
         try {
-          const response = await axios.get('/api/pending-requests', { params: { userId: session.user.id } });
-          dispatch(setPendingRequests(response.data.requests));  // Dispatching to Redux store
+            const response = await axios.get('/api/pending-requests', { params: { userId: session.user.id } });
+            dispatch(setPendingRequests(response.data.requests));  // Dispatching to Redux store
+            dispatch(setUserRequestsLoaded(true));
         } catch (error) {
-          toast.error("Failed to fetch pending requests");
+            toast.error("Failed to fetch pending requests");
+        } finally {
+          setIsLoading(false);
         }
-      };
+      }
+    };
+
+    // Fetch posts only when the "Your Posts" tab is selected
+    if (selectedTabIndex === 2 && !userRequestsLoaded) {
       fetchPendingRequests();
     }
-  }, [selectedTabIndex, session?.user?.id, dispatch]);
+  }, [selectedTabIndex, userRequestsLoaded, session?.user?.id, dispatch]);
 
   useEffect(() => {
     if (selectedTabIndex === 1) { // Fetch friends
