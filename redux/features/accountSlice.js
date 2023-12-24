@@ -6,6 +6,8 @@ const initialState = {
   pendingRequests: [],
   userData: null,
   friendshipStatus: null,
+  userPostsLoaded: false,
+  userRequestsLoaded: false,
 };
 
 export const accountSlice = createSlice({
@@ -27,9 +29,23 @@ export const accountSlice = createSlice({
     setFriendshipStatus: (state, action) => {
       state.friendshipStatus = action.payload;
     },
+    setUserPostsLoaded: (state, action) => {
+      state.userPostsLoaded = action.payload;
+    },
+    setUserRequestsLoaded: (state, action) => {
+      state.userRequestsLoaded = action.payload;
+    },
   },
 });
 
-export const { setUserPosts, setFriends, setPendingRequests, setUserData, setFriendshipStatus } = accountSlice.actions;
+export const { 
+  setUserPosts, 
+  setFriends, 
+  setPendingRequests, 
+  setUserData, 
+  setFriendshipStatus,
+  setUserPostsLoaded,
+  setUserRequestsLoaded
+ } = accountSlice.actions;
 
 export default accountSlice.reducer;
