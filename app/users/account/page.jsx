@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserPosts, setFriends, setPendingRequests, setUserPostsLoaded, setUserRequestsLoaded } from "@/redux/features/accountSlice";
-import { Tab } from '@headlessui/react'
+import { setUserPosts, setFriends, setPendingRequests, setUserPostsLoaded, setFriendshipStatus } from "@/redux/features/accountSlice";
+import { Tab } from '@headlessui/react';
 import { Fragment } from "react";
 import { toast } from "react-hot-toast";
 import { CustomLoader } from "@/components/CustomLoader";
@@ -13,8 +13,8 @@ import Avatar from '../components/Avatar';
 import PostList from "../components/PostList";
 import axios from "axios";
 
-
 const Account = () => {
+  // ... existing state and useEffect hooks
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -22,9 +22,29 @@ const Account = () => {
   const { data: session } = useSession();
 
   const dispatch = useDispatch();
-  const { userPosts, friends, pendingRequests, userPostsLoaded, userRequestsLoaded } = useSelector((state) => state.account);
+  const { userPosts, friends, pendingRequests, userPostsLoaded, friendshipStatus } = useSelector((state) => state.account);
 
   const [ref, inView] = useInView({ threshold: 0 });
+
+  useEffect(() => {
+    if (selectedTabIndex === 1) { // Fetch friends and pending requests
+      const fetchData = async () => {
+        setIsLoading(true);
+        try {
+          const friendsResponse = await axios.get('/api/friends');
+          dispatch(setFriends(friendsResponse.data));
+
+          const pendingRequestsResponse = await axios.get('/api/pending-requests', { params: { userId: session.user.id } });
+          dispatch(setPendingRequests(pendingRequestsResponse.data.requests));
+        } catch (error) {
+          toast.error("Failed to fetch data");
+        } finally {
+          setIsLoading(false);
+        }
+      };
+      fetchData();
+    }
+  }, [selectedTabIndex, session?.user?.id, dispatch]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -45,77 +65,40 @@ const Account = () => {
       }
     };
 
-    // Fetch posts only when the "Your Posts" tab is selected
-    if (selectedTabIndex === 3 && !userPostsLoaded) {
+     // Fetch posts only when the "Your Posts" tab is selected
+     if (selectedTabIndex === 2 && !userPostsLoaded) {
       fetchPosts();
     }
   }, [page, selectedTabIndex, userPostsLoaded, dispatch]);
 
-  
-  useEffect(() => {
-    const fetchPendingRequests = async () => {
-      if (!userRequestsLoaded) {
-        setIsLoading(true);
-        try {
-            const response = await axios.get('/api/pending-requests', { params: { userId: session.user.id } });
-            dispatch(setPendingRequests(response.data.requests));  // Dispatching to Redux store
-            dispatch(setUserRequestsLoaded(true));
-        } catch (error) {
-            toast.error("Failed to fetch pending requests");
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
 
-    // Fetch posts only when the "Your Posts" tab is selected
-    if (selectedTabIndex === 2 && !userRequestsLoaded) {
-      fetchPendingRequests();
-    }
-  }, [selectedTabIndex, userRequestsLoaded, session?.user?.id, dispatch]);
+const handleAcceptRequest = async (friendRequestId) => {
+  try {
+    await axios.post('/api/accept-friend-request', { friendRequestId });
+    dispatch(setFriendshipStatus('ACCEPTED'));
+    toast.success("Friend request accepted");
+  } catch (error) {
+    toast.error("Failed to accept friend request");
+  }
+};
 
-  useEffect(() => {
-    if (selectedTabIndex === 1) { // Fetch friends
-      const fetchFriends = async () => {
-        try {
-          const response = await axios.get('/api/friends');
-          dispatch(setFriends(response.data));  // Dispatching to Redux store
-        } catch (error) {
-          toast.error("Failed to fetch friends");
-        }
-      };
-      fetchFriends();
-    }
-  }, [selectedTabIndex, dispatch]);
+const handleDeclineRequest = async (friendRequestId) => {
+  try {
+    await axios.post('/api/decline-friend-request', { friendRequestId });
+    toast.success("Friend request declined");
+  } catch (error) {
+    toast.error("Failed to decline friend request");
+  }
+};
 
-  const handleAcceptRequest = async (friendRequsetId) => {
-    try {
-      await axios.post('/api/accept-friend-request', { friendRequsetId });
-      toast.success("Friend request accepted");
-    } catch (error) {
-      toast.error("Failed to accept friend request");
-    }
-  };
-
-  const handleDeclineRequest = async (friendRequsetId) => {
-    try {
-      await axios.post('/api/decline-friend-request', { friendRequsetId });
-      toast.success("Friend request declined");
-    } catch (error) {
-      toast.error("Failed to decline friend request");
-    }
-  };
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
-      <div className='flex gap-2 items-center mb-5'>
-        <Avatar user={session?.user}/>
-        <p className="text-lg font-semibold">{session?.user?.name}</p>
-      </div>
+      {/* ... Avatar and user name section */}
+
       <div>
         <Tab.Group selectedIndex={selectedTabIndex} onChange={setSelectedTabIndex}>
           <Tab.List className="flex gap-5 mb-5 border-b-2">
-            {/* Use the `tab` function to apply styles dynamically */}
             <Tab as={Fragment}>
               {({ selected }) => (
                 <button
@@ -145,100 +128,76 @@ const Account = () => {
                     selected ? 'border-b-2 border-blue-600 bg-white' : 'hover:bg-gray-100'
                   }`}
                 >
-                  Pending Requests
-                </button>
-              )}
-            </Tab>
-            <Tab as={Fragment}>
-              {({ selected }) => (
-                <button
-                  className={`py-2 px-4 text-sm font-medium leading-5 text-gray-700 rounded-t-lg focus:outline-none focus:ring-2 ring-white ring-opacity-60 ${
-                    selected ? 'border-b-2 border-blue-600 bg-white' : 'hover:bg-gray-100'
-                  }`}
-                >
                   Your Posts
                 </button>
               )}
             </Tab>
-            {/* Repeat for other tabs */}
           </Tab.List>
+          
           <Tab.Panels>
-            <Tab.Panel>Content 1</Tab.Panel>
+            {/* ... Other panels (About, Your Posts, etc.) */}
+            <Tab.Panel>Content 0</Tab.Panel>
             <Tab.Panel>
-              {friends.length > 0 ? (
-                  <div className="space-y-2">
-                    {friends.map(friend => (
-                      <div key={friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
-                        <div className="flex items-center gap-2">
-                          <Avatar user={friend?.user}/>
-                          <p>{friend?.user?.name}</p>
-                        </div>
-                        
-                        <div className="flex items-center gap-2">
-                          <button type="button"
-                            className="
-                            bg-rose-600
-                              rounded-md
-                              px-2
-                              py-1
-                              text-white
-                              hover:opacity-80
-                            "
-                            onClick={() => handleDeclineRequest(request.id)}
-                          >
-                            Unfriend
-                          </button>
-                        </div>
-                      </div>
-                      ))}
-                  </div>
-                ) : (
-                  <p>{`You have no friends :(`}</p>
-                )}
-            </Tab.Panel>
-            <Tab.Panel>
-              {pendingRequests.length > 0 ? (
-                <div className="space-y-2">
-                  {pendingRequests.map(request => (
-                    <div key={request.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
-                      <div className="flex items-center gap-2">
-                        <Avatar user={request?.user}/>
-                        <p>{request?.user?.name}</p>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <button type="button"
-                          className="
-                          bg-green-600
-                            rounded-md
-                            px-2
-                            py-1
-                            text-white
-                            hover:opacity-80
-                          "
-                          onClick={() => handleAcceptRequest(request.id)}
-                        >
-                          Accept
-                        </button>
-                        <button type="button"
-                          className="
-                          bg-rose-600
-                            rounded-md
-                            px-2
-                            py-1
-                            text-white
-                            hover:opacity-80
-                          "
-                          onClick={() => handleDeclineRequest(request.id)}
-                        >
-                          Decline
-                        </button>
-                      </div>
-                    </div>
-                    ))}
+              {loading ? (
+                <div className="flex justify-center">
+                  <CustomLoader />
                 </div>
               ) : (
-                <p>No pending friend requests.</p>
+                <>
+                  <h2 className="text-xl font-bold mb-4">Pending Requests</h2>
+                  {pendingRequests.length > 0 ? (
+                    <div className="space-y-2">
+                      {pendingRequests.map(request => (
+                        // ... Render each pending request
+                        <div key={request.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                          <div className="flex items-center gap-2">
+                            <Avatar user={request?.user}/>
+                            <p>{request?.user?.name}</p>
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <button type="button"
+                              className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                              onClick={() => handleAcceptRequest(request.id)}
+                            >
+                              Accept
+                            </button>
+                            <button type="button"
+                              className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                              onClick={() => handleDeclineRequest(request.id)}
+                            >
+                              Decline
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : <p>No pending friend requests.</p>}
+
+                  <h2 className="text-xl font-bold mt-6 mb-4">Friends</h2>
+                  {friends.length > 0 ? (
+                    <div className="space-y-2">
+                      {friends.map(friend => (
+                        // ... Render each friend
+                        <div key={friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                            <div className="flex items-center gap-2">
+                              <Avatar user={friend?.user}/>
+                              <p>{friend?.user?.name}</p>
+                            </div>
+                            
+                            <div className="flex items-center gap-2">
+                              <button type="button"
+                                className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                                onClick={() => handleDeclineRequest(request.id)}
+                              >
+                                Unfriend
+                              </button>
+                            </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : <p>{`You have no friends :(`}</p>}
+                </>
               )}
             </Tab.Panel>
             <Tab.Panel>
@@ -256,6 +215,6 @@ const Account = () => {
       </div>
     </div>
   );
-}
- 
+};
+
 export default Account;
