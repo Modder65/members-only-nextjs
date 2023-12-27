@@ -50,7 +50,7 @@ export const {
   setFriendshipStatus,
   setFriendButtonText,
   setUserPostsLoaded,
-  setUserRequestsLoaded
+  setUserRequestsLoaded,
  } = accountSlice.actions;
 
 export default accountSlice.reducer;
