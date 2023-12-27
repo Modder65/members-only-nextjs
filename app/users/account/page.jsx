@@ -72,15 +72,20 @@ const Account = () => {
   }, [page, selectedTabIndex, userPostsLoaded, dispatch]);
 
 
-const handleAcceptRequest = async (friendRequestId) => {
-  try {
-    await axios.post('/api/accept-friend-request', { friendRequestId });
-    dispatch(setFriendshipStatus('ACCEPTED'));
-    toast.success("Friend request accepted");
-  } catch (error) {
-    toast.error("Failed to accept friend request");
-  }
-};
+  const handleAcceptRequest = async (friendRequestId) => {
+    try {
+      const response = await axios.post('/api/accept-friend-request', { friendRequestId });
+      const newFriend = response.data.newFriend;
+  
+      // Update the Redux state
+      dispatch(setFriendshipStatus('ACCEPTED'));
+  
+      toast.success("Friend request accepted");
+    } catch (error) {
+      toast.error("Failed to accept friend request");
+    }
+  };
+  
 
 const handleDeclineRequest = async (friendRequestId) => {
   try {
@@ -188,7 +193,7 @@ const handleDeclineRequest = async (friendRequestId) => {
                             <div className="flex items-center gap-2">
                               <button type="button"
                                 className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                                onClick={() => handleDeclineRequest(request.id)}
+                                onClick={() => handleDeclineRequest(friend.id)}
                               >
                                 Unfriend
                               </button>
