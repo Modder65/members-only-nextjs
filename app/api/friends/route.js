@@ -10,18 +10,33 @@ export async function GET(request) {
     const friendships = await prisma.friendship.findMany({
       where: {
         OR: [
-          { friendId: userId, status: 'ACCEPTED' }, // Current user is the receiver
-          { userId: userId, status: 'ACCEPTED' }   // Current user is the sender
+          { friendId: userId, status: 'ACCEPTED' },
+          { userId: userId, status: 'ACCEPTED' }
         ]
       },
-      include: {
-        user: true,  // Includes details of the user who sent the request
-        friend: true // Includes details of the friend (receiver)
+      select: {
+        friend: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            // other fields you need
+          }
+        },
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            // other fields you need
+          }
+        }
       }
     });
 
-    // Map over the friendships to return only the friend's data
     const friends = friendships.map(friendship => {
+      // If the current user is the sender, return the receiver
+      // Otherwise, return the sender
       return userId === friendship.userId ? friendship.friend : friendship.user;
     });
 
