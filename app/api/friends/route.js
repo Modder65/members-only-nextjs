@@ -3,23 +3,26 @@ import prisma from "@/app/libs/prismadb";
 import getSession from "@/app/actions/getSession";
 
 export async function GET(request) {
-  const session = await getSession(); // Get the user session
-  const userId = session.user.id; // The ID of the user whose pending requests we want to fetch
+  const session = await getSession();
+  const userId = session.user.id;
 
   try {
     const friends = await prisma.friendship.findMany({
       where: {
-        friendId: userId, // Assuming 'friendId' is the user who received the request
-        status: 'ACCEPTED'
+        OR: [
+          { friendId: userId, status: 'ACCEPTED' }, // Current user is the receiver
+          { userId: userId, status: 'ACCEPTED' }   // Current user is the sender
+        ]
       },
       include: {
-        user: true // Include user details of the one who sent the request
+        user: true,  // Includes details of the user who sent the request
+        friend: true // Includes details of the friend (receiver)
       }
     });
 
     return NextResponse.json(friends, { status: 200 });
   } catch (error) {
-    console.error("Error fetching pending friend requests", error);
+    console.error("Error fetching friends", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
