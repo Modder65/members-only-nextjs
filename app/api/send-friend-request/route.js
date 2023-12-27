@@ -18,9 +18,9 @@ export async function POST(request) {
     // Check if a friendship already exists
     const existingFriendship = await prisma.friendship.findUnique({
       where: {
-        userId_friendId: {
-          userId: userId,
-          friendId: friendId,
+        senderId_receiverId: {
+          senderId: userId,
+          receiverId: friendId,
         },
       },
     });
@@ -28,9 +28,9 @@ export async function POST(request) {
     // Check the reverse relationship as well
     const existingFriendshipReverse = await prisma.friendship.findUnique({
       where: {
-        userId_friendId: {
-          userId: friendId,
-          friendId: userId,
+        senderId_receiverId: {
+          senderId: friendId,
+          receiverId: userId,
         },
       },
     });
@@ -42,8 +42,8 @@ export async function POST(request) {
     // Create a new friend request
     const newFriendship = await prisma.friendship.create({
       data: {
-        userId,
-        friendId,
+        senderId,
+        receiverId,
         status: 'PENDING',
       },
     });
