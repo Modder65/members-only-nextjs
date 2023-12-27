@@ -9,7 +9,7 @@ export async function GET(request) {
   try {
     const pendingRequests = await prisma.friendship.findMany({
       where: {
-        friendId: userId, // Assuming 'friendId' is the user who received the request
+        receiverId: userId, // Assuming 'friendId' is the user who received the request
         status: 'PENDING'
       },
       include: {
