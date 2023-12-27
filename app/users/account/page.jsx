@@ -184,6 +184,7 @@ const handleDeclineRequest = async (friendRequestId) => {
                     <div className="space-y-2">
                       {friends.map(friend => (
                         // ... Render each friend
+                        console.log("Friend Id:", friend.id),
                         <div key={friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                             <div className="flex items-center gap-2">
                               <Avatar user={friend?.user}/>
