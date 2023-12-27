@@ -41,8 +41,8 @@ export async function GET(request) {
     const friendship = await prisma.friendship.findFirst({
       where: {
         OR: [
-          { userId: loggedInUserId, friendId: userId },
-          { userId: userId, friendId: loggedInUserId }
+          { senderId: loggedInUserId, receiverId: userId },
+          { senderId: userId, receiverId: loggedInUserId }
         ]
       }
     });
