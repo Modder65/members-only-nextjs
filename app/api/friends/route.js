@@ -10,37 +10,17 @@ export async function GET(request) {
     const friendships = await prisma.friendship.findMany({
       where: {
         OR: [
-          { friendId: userId, status: 'ACCEPTED' },
-          { userId: userId, status: 'ACCEPTED' }
+          { receiverId: userId, status: 'ACCEPTED' }, // Current user is the receiver
+          { senderId: userId, status: 'ACCEPTED' }   // Current user is the sender
         ]
       },
-      select: {
-        friend: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            // other fields you need
-          }
-        },
-        user: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            // other fields you need
-          }
-        }
+      include: {
+        user: true,  // Includes details of the user who sent the request
+        friend: true // Includes details of the friend (receiver)
       }
     });
 
-    const friends = friendships.map(friendship => {
-      // If the current user is the sender, return the receiver
-      // Otherwise, return the sender
-      return userId === friendship.userId ? friendship.friend : friendship.user;
-    });
-
-    return NextResponse.json(friends, { status: 200 });
+    return NextResponse.json(friendships, { status: 200 });
   } catch (error) {
     console.error("Error fetching friends", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
