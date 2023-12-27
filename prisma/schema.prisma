@@ -113,18 +113,18 @@ model Like {
 
 model Friendship {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  friendId String @db.ObjectId
+  senderId String @db.ObjectId
+  receiverId String @db.ObjectId
 
-  user User @relation(name: "userFriendships", fields: [userId], references: [id], onDelete: Cascade)
-  friend User @relation(name: "friendUserFriendships", fields: [friendId], references: [id], onDelete: Cascade)
+  user User @relation(name: "userFriendships", fields: [senderId], references: [id], onDelete: Cascade)
+  friend User @relation(name: "friendUserFriendships", fields: [receiverId], references: [id], onDelete: Cascade)
 
   status FriendshipStatus @default(PENDING)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([userId, friendId])
-  @@index([friendId])
+  @@unique([senderId, receiverId])
+  @@index([receiverId])
 }
 
 enum FriendshipStatus {
