@@ -201,7 +201,7 @@ const handleDeclineRequest = async (friendRequestId) => {
                         </div>
                       ))}
                     </div>
-                  ) : <p>{`You have no friends :(`}</p>}
+                  ) : <p>{`You have no friends :(`}</p>} 
                 </>
               )}
             </Tab.Panel>
