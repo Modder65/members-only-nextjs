@@ -182,19 +182,19 @@ const handleDeclineRequest = async (friendRequestId) => {
                   <h2 className="text-xl font-bold mt-6 mb-4">Friends</h2>
                   {friends.length > 0 ? (
                     <div className="space-y-2">
-                      {friends.map(friend => (
+                      {friends.map(friendship => (
                         // ... Render each friend
-                        console.log("Friend Id:", friend.id),
-                        <div key={friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                        console.log("Friend Id:", friendship.id),
+                        <div key={friendship.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                             <div className="flex items-center gap-2">
-                              <Avatar user={friend?.user}/>
-                              <p>{friend?.user?.name}</p>
+                              <Avatar user={session.user.id === friendship.senderId ? friendship.friend : friendship.user}/>
+                              <p>{session.user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</p>
                             </div>
                             
                             <div className="flex items-center gap-2">
                               <button type="button"
                                 className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                                onClick={() => handleDeclineRequest(friend.id)}
+                                onClick={() => handleDeclineRequest(friendship.id)}
                               >
                                 Unfriend
                               </button>
