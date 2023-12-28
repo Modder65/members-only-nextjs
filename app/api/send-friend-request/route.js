@@ -42,8 +42,8 @@ export async function POST(request) {
     // Create a new friend request
     const newFriendship = await prisma.friendship.create({
       data: {
-        senderId,
-        receiverId,
+        senderId: userId,
+        receiverId: friendId,
         status: 'PENDING',
       },
     });
