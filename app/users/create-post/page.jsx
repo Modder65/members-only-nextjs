@@ -100,7 +100,11 @@ export default function CreatePostPage() {
           <div className="flex items-center gap-2">
             <p>Upload an Image:</p>
             <CldUploadButton
-              options={{ maxFiles: 1 }}
+              options={{ 
+                sources: ['local'],
+                maxFiles: 1,
+                singleUploadAutoClose: false
+              }}
               onUpload={handleUpload}
               uploadPreset="jfaab9re"
             >
