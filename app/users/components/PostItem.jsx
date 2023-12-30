@@ -7,7 +7,7 @@ import { FiMessageSquare } from "react-icons/fi";
 import { pusherClient } from "@/app/libs/pusher";
 import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 import { useDispatch } from "react-redux";
-import { openModal } from "@/redux/features/modalSlice";
+import { openModal } from "@/redux/features/postModalSlice";
 import { setCommentsForPost, updateCommentForPost } from "@/redux/features/commentsSlice";
 import { CldImage } from "next-cloudinary";
 import Link from "next/link";
