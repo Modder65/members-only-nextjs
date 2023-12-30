@@ -12,6 +12,7 @@ import { CustomLoader } from "@/components/CustomLoader";
 import Avatar from '../components/Avatar';
 import PostList from "../components/PostList";
 import axios from "axios";
+import Link from "next/link";
 
 const Account = () => {
   // ... existing state and useEffect hooks
@@ -188,7 +189,9 @@ const handleDeclineRequest = async (friendRequestId) => {
                         <div key={friendship.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                             <div className="flex items-center gap-2">
                               <Avatar user={session.user.id === friendship.senderId ? friendship.friend : friendship.user}/>
-                              <p>{session.user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</p>
+                              <Link href={`/users/${session.user.id === friendship.senderId ? friendship.friend.id : friendship.user.id}`} className="text-blue-600 hover:underline">
+                                <span className="text-blue-600 hover:underline cursor-pointer">{session.user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</span>
+                              </Link>
                             </div>
                             
                             <div className="flex items-center gap-2">
