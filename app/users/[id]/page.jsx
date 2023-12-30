@@ -13,6 +13,7 @@ import { CustomLoader } from '@/components/CustomLoader';
 import axios from 'axios';
 import Avatar from '../components/Avatar';
 import PostList from '../components/PostList';
+import Link from "next/link";
 
 
 const UserProfile = () => {
@@ -158,7 +159,9 @@ const UserProfile = () => {
                     <div key={friendship.user.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                       <div className="flex items-center gap-2">
                         <Avatar user={friendship.user}/>
-                        <p>{friendship.user.name}</p>
+                        <Link href={`/users/${friendship.user.id}`} className="text-blue-600 hover:underline">
+                          <span className="text-blue-600 hover:underline cursor-pointer">{friendship.user.name}</span>
+                        </Link>
                       </div>
                     </div>
                   ))}
