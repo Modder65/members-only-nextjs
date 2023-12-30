@@ -5,9 +5,17 @@ import { AiOutlineHome } from "react-icons/ai";
 import { TbLogout2 } from "react-icons/tb";
 import { BsPerson } from "react-icons/bs";
 import { SlPeople } from "react-icons/sl";
+import { useDispatch } from "react-redux";
+import { openModal } from "@/redux/features/friendsModalSlice";
 import Link from "next/link";
 
 const HeaderMenu = ({ user, onLogout }) => {
+  const dispatch = useDispatch();
+
+  const openModalHandler = async () => {
+    dispatch(openModal());
+  }
+
   return (
     <Menu as="div" className="relative inline-block text-left">
       <Menu.Button className="inline-flex flex-row-reverse justify-center items-center gap-1 w-full px-4 py-2 text-lg font-medium text-black bg-white rounded-md bg-opacity-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
@@ -34,10 +42,10 @@ const HeaderMenu = ({ user, onLogout }) => {
           </Menu.Item>
           <Menu.Item>
             {({ active }) => (
-              <Link href="/users" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}> {/* Change href url */}
+              <button onClick={openModalHandler} className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}> {/* Change href url */}
                   <SlPeople size={25} className='mr-2'/>
                   Friends
-              </Link>
+              </button>
             )}
           </Menu.Item>
           <Menu.Item>
