@@ -9,7 +9,7 @@ import { RepliesSection } from './RepliesSection';
 import { CustomLoader } from '@/components/CustomLoader';
 import { useGSAP } from '@gsap/react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
-import { closeModal } from "@/redux/features/modalSlice";
+import { closeModal } from "@/redux/features/postModalSlice";
 import { IoCloseSharp } from "react-icons/io5";
 import CommentLikeIcon from './CommentLikeIcon';
 import gsap from "gsap";
@@ -24,7 +24,7 @@ function PostModal() {
   const modalRef = useRef(null);
   const containerRef = useRef(null);
   
-  const { selectedPost, isModalOpen } = useSelector(state => state.modal);
+  const { selectedPost, isModalOpen } = useSelector(state => state.postModal);
 
   const comments = useSelector(state => 
     state.comments.commentsByPostId[selectedPost?.id] || [],
