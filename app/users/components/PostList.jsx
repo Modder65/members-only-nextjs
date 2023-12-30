@@ -1,3 +1,4 @@
+import FriendsModal from "./FriendModal";
 import PostItem from "./PostItem";
 import PostModal from "./PostModal";
 
@@ -16,6 +17,7 @@ const PostList = ({ posts }) => {
         />
       ))}
       <PostModal />
+      <FriendsModal />
     </>
   );
 }
