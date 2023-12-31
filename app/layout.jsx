@@ -6,7 +6,10 @@ import AuthContext from './context/AuthContext';
 import { Nunito } from 'next/font/google'
 import { ReduxProvider } from '@/redux/provider';
 import { RealTimeProvider } from './context/PusherContext';
-import FriendsModal from './users/components/FriendModal';
+import dynamic from 'next/dynamic'; // Import dynamic from Next.js
+
+const FriendsModal = dynamic(() => import('./users/components/FriendModal'), { ssr: false });
+
 
 const nunito = Nunito({ subsets: ['latin'] })
 
