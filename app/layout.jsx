@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
             </RealTimeProvider>
           </AuthContext>
         </ReduxProvider>
+        <FriendsModal />
       </body>
     </html>
   )
