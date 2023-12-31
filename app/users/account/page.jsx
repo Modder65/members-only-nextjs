@@ -210,14 +210,14 @@ const handleDeclineRequest = async (friendRequestId) => {
               )}
             </Tab.Panel>
             <Tab.Panel>
-            <PostList posts={userPosts}/>
-              {hasMore ? (
-                <div ref={ref} className="flex justify-center">
-                  <CustomLoader />
-                </div>
-              ) : (
-                <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
-              )}
+              <PostList posts={userPosts}/>
+                {hasMore ? (
+                  <div ref={ref} className="flex justify-center">
+                    <CustomLoader />
+                  </div>
+                ) : (
+                  <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
+                )}
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>
