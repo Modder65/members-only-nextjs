@@ -69,6 +69,15 @@ function FriendsModal() {
     }
   };
 
+  const handleDeclineRequest = async (friendRequestId) => {
+    try {
+      await axios.post('/api/decline-friend-request', { friendRequestId });
+      toast.success("Friend request declined");
+    } catch (error) {
+      toast.error("Failed to decline friend request");
+    }
+  };
+
   // Modal open animation
   useGSAP(() => {
     // Create a timeline with the open animation
