@@ -25,10 +25,10 @@ export default function RootLayout({ children }) {
             <RealTimeProvider>
               <ToasterContext />
               {children}
+              <FriendsModal /> 
             </RealTimeProvider>
           </AuthContext>
         </ReduxProvider>
-        <FriendsModal /> 
       </body>
     </html>
   )
