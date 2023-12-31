@@ -25,7 +25,7 @@ export async function GET(request) {
       where: { userId: userId },
       orderBy: { createdAt: 'desc' },
       include: {
-        user: { select: { name: true, image: true } },
+        user: { select: { name: true, image: true, id: true } },
         _count: { select: { comments: true, likes: true } },
       }
     });
