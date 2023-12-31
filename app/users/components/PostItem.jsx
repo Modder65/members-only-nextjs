@@ -84,11 +84,13 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
         }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
           Posted by 
+          {console.log("Session id:", typeof(session.user.id))}
+          {console.log("Post id:", typeof(post.user.id))}
           {session.user.id === post.user.id ? (
             <span> {post.user.name}</span>
           ) : (
             <Link href={`/users/${post.user.id}`}>
-              <a className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</a>
+              <span className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</span>
             </Link>
           )} on {
             DateTime.fromISO(post.createdAt).toLocaleString({
