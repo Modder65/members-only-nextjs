@@ -31,22 +31,24 @@ function FriendsModal() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-    setIsLoading(true);
-    setInitialFriendsLoad(true);
-    try {
-        const friendsResponse = await axios.get('/api/friends');
-        dispatch(setFriends(friendsResponse.data));
-    } catch (error) {
-        toast.error("Failed to fetch data");
-    } finally {
-        setIsLoading(false);
+    if (session?.user) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        setInitialFriendsLoad(true);
+        try {
+            const friendsResponse = await axios.get('/api/friends');
+            dispatch(setFriends(friendsResponse.data));
+        } catch (error) {
+            toast.error("Failed to fetch data");
+        } finally {
+            setIsLoading(false);
+        }
+        };
+        if (!initialFriendsLoad) {
+            fetchData();
+        }
     }
-    };
-    if (!initialFriendsLoad) {
-        fetchData();
-    }
-  }, []);
+  }, [session?.user]);
 
   const handleClose = () => {
     // Ensure the element exists and no ongoing animation
