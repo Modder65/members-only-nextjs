@@ -84,7 +84,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
         }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
           Posted by 
-          {session?.user?.id === post.user.id ? (
+          {session.user.id === post.user.id ? (
             <span> {post.user.name}</span>
           ) : (
             <Link href={`/users/${post.user.id}`}>
