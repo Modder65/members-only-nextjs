@@ -6,6 +6,7 @@ import AuthContext from './context/AuthContext';
 import { Nunito } from 'next/font/google'
 import { ReduxProvider } from '@/redux/provider';
 import { RealTimeProvider } from './context/PusherContext';
+import FriendsModal from './users/components/FriendModal';
 
 const nunito = Nunito({ subsets: ['latin'] })
 
@@ -24,7 +25,7 @@ export default function RootLayout({ children }) {
             </RealTimeProvider>
           </AuthContext>
         </ReduxProvider>
-        <FriendsModal />
+        <FriendsModal /> 
       </body>
     </html>
   )
