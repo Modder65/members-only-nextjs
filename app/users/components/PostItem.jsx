@@ -81,10 +81,14 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
           priority={true} /> // check priorty parameter documentation; caused warning in console without it related to LCP
         }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
-        Posted by 
-        <Link href={`/users/${post.user.id}`} className="text-blue-600 hover:underline">
-          <span className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</span>
-        </Link> on {
+          Posted by 
+          {sessionUserId === post.user.id ? (
+            <span> {post.user.name}</span>
+          ) : (
+            <Link href={`/users/${post.user.id}`}>
+              <a className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</a>
+            </Link>
+          )} on {
             DateTime.fromISO(post.createdAt).toLocaleString({
               month: 'numeric',
               day: 'numeric',
