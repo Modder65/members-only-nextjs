@@ -3,17 +3,16 @@
 import { useSession, signOut } from "next-auth/react";
 import { useState, useEffect, useRef } from "react";
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
-import { useRouter } from "next/navigation";
 import { UserSkeleton } from "./UserSkeleton";
 import { Menu } from "@headlessui/react";
 import Avatar from "@/app/users/components/Avatar";
 import Link from "next/link";
 import HeaderMenu from "./HeaderMenu";
+import { logout } from "@/actions/logout";
 
 
 export function Header() {
   const { data: session, status } = useSession();
-  const router = useRouter();
   const isLoggedIn = session !== null;
   console.log("Is logged in:", isLoggedIn, "Session data:", session);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -22,8 +21,7 @@ export function Header() {
   const toggleDropdown = () => setShowDropdown(!showDropdown);
 
   const handleLogout = () => {
-    signOut();
-    router.push('/');
+    logout();
     console.log("Is logged in:", isLoggedIn, "Session data:", session);
   };
 

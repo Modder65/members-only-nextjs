@@ -1,35 +1,77 @@
-// 'content' specifies the paths to all of your template files.
-// Tailwind will use these paths to purge unused styles in production builds.
-const content = [
-  // Include all JavaScript, TypeScript, JSX, TSX, and MDX files in the 'pages' directory.
-  './pages/**/*.{js,ts,jsx,tsx,mdx}',
-  // Include the same file types in the 'components' directory.
-  './components/**/*.{js,ts,jsx,tsx,mdx}',
-  // Include these file types in the 'app' directory as well.
-  './app/**/*.{js,ts,jsx,tsx,mdx}',
-];
-
-// The 'theme' section is where you define your custom Tailwind styles.
-const theme = {
-  // 'extend' allows you to add new utilities without overriding existing ones.
-  extend: {},
-};
-
-// 'plugins' are used to add additional functionality or custom components to Tailwind.
-const plugins = [
-  // '@tailwindcss/forms' is a plugin for styling form elements.
-  // The 'strategy' option set to 'class' means it will use class-based styles instead of element-based.
-  require("@tailwindcss/forms")({
-    strategy: 'class'
-  })
-];
-
-// Define the Tailwind CSS configuration object.
-const config = {
-  content,
-  theme,
-  plugins
-};
-
-// Export the configuration object to be used by Tailwind CSS.
-export default config;
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  darkMode: ["class"],
+  content: [
+    './pages/**/*.{js,jsx}',
+    './components/**/*.{js,jsx}',
+    './app/**/*.{js,jsx}',
+    './src/**/*.{js,jsx}',
+  ],
+  prefix: "",
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+    },
+  },
+  plugins: [require("tailwindcss-animate")],
+}

@@ -1,36 +1,48 @@
-// Import 'withAuth' from 'next-auth/middleware' for authentication middleware functionality.
-import { withAuth } from "next-auth/middleware";
+import NextAuth from "next-auth";
 
-/**
- * This middleware integrates with NextAuth to secure your Next.js application.
- * It automatically handles the authentication state of users navigating your app.
- * When a user attempts to access a protected route (defined in the 'matcher' config),
- * the middleware checks if the user is authenticated.
- * 
- * - If the user is not authenticated, they are redirected to the sign-in page.
- * - If the user is authenticated, they can access the protected route as normal.
- *
- * This setup simplifies the process of protecting certain pages or APIs 
- * based on the user's authentication state.
- */
+import authConfig from "@/auth.config";
+import {
+  DEFAULT_LOGIN_REDIRECT,
+  apiAuthPrefix,
+  authRoutes,
+  publicRoutes
+} from "@/routes";
 
-// Configure and export the middleware using 'withAuth'.
-export default withAuth({
-  // 'pages' specifies custom page routing related to authentication.
-  pages: {
-    // Defines the signIn page URL.
-    // Here, it's set to the root ("/"), meaning the home page is used as the sign-in page.
-    signIn: "/"
+const { auth } = NextAuth(authConfig);
+
+export default auth((req) => {
+  const { nextUrl } = req;
+  const isLoggedIn = !!req.auth;
+
+  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+
+  // if statements must be in this order,
+  // because we didnt include isApiAuthRoutes in the publicRoutes array,
+  // in the routes.js file. So we have to check isAPiAuthRoute
+  // first before we check the public routes manually. 
+  // Otherwise you'll be left in an infinite redirect loop.
+  if (isApiAuthRoute) {
+    return null;
   }
-});
 
-// Export a separate configuration object for the middleware.
+  if (isAuthRoute) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    }
+    return null;
+  }
+
+  if (!isLoggedIn && !isPublicRoute) {
+    return Response.redirect(new URL("/auth/login", nextUrl));
+  }
+
+  // be default allow any other route
+  return null;
+})
+
+// Optionally, don't invoke Middleware on some paths
 export const config = {
-  // 'matcher' specifies which paths the middleware should apply to.
-  // Paths not included here will bypass this middleware.
-  matcher: [
-    // Apply the middleware to all routes under '/users'.
-    // ':path*' is a wildcard that matches any route after '/users/'.
-    "/users/:path*"
-  ]
-};
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+}

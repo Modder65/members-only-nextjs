@@ -1,5 +1,5 @@
-import prisma from "@/app/libs/prismadb";
-import getSession from "@/app/actions/getSession";
+import prisma from "@/lib/prismadb";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 
@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic"; // makes sure the route is dynamic and f
 
 export async function GET(request) {
   try {
-    const session = await getSession(request);
+    const session = await auth();
     const userId = session.user.id;
     
     const { searchParams } = new URL(request.url);

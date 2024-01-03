@@ -1,11 +1,11 @@
-import { NextResponse } from "next/server";
-import { pusherServer } from "@/app/libs/pusher";
 import sanitizeHtml from "sanitize-html";
-import prisma from "@/app/libs/prismadb";
-import getSession from "@/app/actions/getSession";
+import prisma from "@/lib/prismadb";
+import { NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { pusherServer } from "@/lib/pusher";
 
 export async function POST(request) {
-  const session = await getSession();
+  const session = await auth();
   const userId = session.user.id;
   const { message, postId } = await request.json();
 

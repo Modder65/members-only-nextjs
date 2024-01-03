@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { FiHeart } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import { notifyLike } from "@/Custom-Toast-Messages/Notify";
-import { pusherClient } from "@/app/libs/pusher";
+import { pusherClient } from "@/lib/pusher";
 import { useSession } from "next-auth/react";
 import { togglePostLike } from "@/redux/features/likesSlice";
 import { useDispatch, useSelector } from "react-redux";

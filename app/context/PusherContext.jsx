@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { pusherClient } from "../libs/pusher";
+import { pusherClient } from "../../lib/pusher";
 import { useDispatch } from "react-redux";
 import { togglePostLike, toggleCommentLike, toggleReplyLike } from "@/redux/features/likesSlice";
 

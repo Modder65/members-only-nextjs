@@ -1,6 +1,6 @@
-import prisma from "@/app/libs/prismadb";
-import getSession from "@/app/actions/getSession";
+import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 
 
 
@@ -8,7 +8,7 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
-    const session = await getSession();
+    const session = await auth();
     const loggedInUserId = session.user.id;
 
     const userData = await prisma.user.findUnique({

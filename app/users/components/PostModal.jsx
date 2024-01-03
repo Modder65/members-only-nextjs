@@ -13,8 +13,8 @@ import { closeModal } from "@/redux/features/postModalSlice";
 import { IoCloseSharp } from "react-icons/io5";
 import CommentLikeIcon from './CommentLikeIcon';
 import gsap from "gsap";
-import Button from '@/app/components/Button';
-import Input from '@/app/components/inputs/Input';
+import Button from '@/app/components-old/Button';
+import Input from '@/app/components-old/inputs/Input';
 import Link from "next/link";
 import axios from "axios";
 

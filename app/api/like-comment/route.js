@@ -1,10 +1,10 @@
-import prisma from "@/app/libs/prismadb";
-import { pusherServer } from "@/app/libs/pusher";
-import getSession from "@/app/actions/getSession";
+import prisma from "@/lib/prismadb";
+import { pusherServer } from "@/lib/pusher";
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
-  const session = await getSession(request);
+  const session = await auth();
   const userId = session.user.id;
   const { commentId } = await request.json();
 

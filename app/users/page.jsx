@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { pusherClient } from "../libs/pusher";
+import { pusherClient } from "../../lib/pusher";
 import { find } from "lodash";
 import { notifyNewPost } from "@/Custom-Toast-Messages/Notify";
 import { useInView } from "react-intersection-observer";

@@ -1,42 +1,36 @@
-import Image from "next/image"
-import AuthForm from "./components/AuthForm"
+import { Nunito } from "next/font/google"
+
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { LoginButton } from "@/components/auth/login-button"
+
+const font = Nunito({
+  subsets: ["latin"],
+  weight: ["600"]
+})
 
 export default function Home() {
   return (
-    <div 
-      className="
-        flex
-        min-h-full
-        flex-col
-        justify-center
-        py-12
-        sm:px-6
-        lg:px-8
-        bg-gray-100
-      "
-    >
-      <div className="sm:mx-auto sm:w-full sm:max-w-md flex flex-row-reverse items-center">
-        <Image 
-          alt="Logo"
-          height="100"
-          width="100"
-          className=""
-          src="/images/logo.png"
-        />
-        <h2
-          className="
-            text-center
-            text-5xl
-            font-bold
-            tracking-tight
-            text-gray-900
-          "
-        >
-          <span className="text-blue-600">Members</span>
-          <span className="text-black">Only</span>
-        </h2>
+    <main className="flex h-full flex-col items-center justify-center 
+    bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+    from-green-400 to-green-800">
+      <div className="space-y-6 text-center">
+        <h1 className={cn("text-6xl font-semibold text-white drop-shadow-md",
+          font.className,
+        )}>
+          🔐MembersOnly
+        </h1>
+        <p className="text-white text-lg">
+          A private social media platform
+        </p>
+        <div>
+          <LoginButton>
+            <Button variant="secondary" size="lg">
+              Sign In
+            </Button>
+          </LoginButton>
+        </div>
       </div>
-      <AuthForm />
-    </div>
+    </main>
   )
 }

@@ -7,8 +7,8 @@ import { toast } from "react-hot-toast";
 import { HiPhoto } from "react-icons/hi2";
 import { CldUploadButton } from "next-cloudinary";
 import ClipLoader from "react-spinners/ClipLoader";
-import Input from "@/app/components/inputs/Input";
-import Button from "@/app/components/Button";
+import Input from "@/app/components-old/inputs/Input";
+import Button from "@/app/components-old/Button";
 import axios from "axios";
 
 export default function CreatePostPage() {

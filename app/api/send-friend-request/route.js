@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { pusherServer } from "@/app/libs/pusher";
-import prisma from "@/app/libs/prismadb";
-import getSession from "@/app/actions/getSession";
+import { pusherServer } from "@/lib/pusher";
+import prisma from "@/lib/prismadb";
+import { auth } from "@/auth";
 
 export async function POST(request) {
-  const session = await getSession();
+  const session = await auth();
   const userId = session.user.id;
   const { friendId } = await request.json();
 

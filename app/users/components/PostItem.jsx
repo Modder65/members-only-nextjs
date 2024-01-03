@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { DateTime } from "luxon";
 import { toast } from "react-hot-toast";
 import { FiMessageSquare } from "react-icons/fi";
-import { pusherClient } from "@/app/libs/pusher";
+import { pusherClient } from "@/lib/pusher";
 import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/features/postModalSlice";

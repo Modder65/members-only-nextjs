@@ -1,9 +1,9 @@
+import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-import prisma from "@/app/libs/prismadb";
-import getSession from "@/app/actions/getSession";
+import { auth } from "@/auth";
 
 export async function GET(request) {
-  const session = await getSession(); // Get the user session
+  const session = await auth(); // Get the user session
   const userId = session.user.id; // The ID of the user whose pending requests we want to fetch
 
   try {

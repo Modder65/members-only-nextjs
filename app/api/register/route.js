@@ -1,5 +1,7 @@
+// DELETE: NOW USING REGISTER SERVER ACTION INSIDE ACTIONS FOLDER
+
 import bcrypt from "bcrypt";
-import prisma from "@/app/libs/prismadb";
+import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
