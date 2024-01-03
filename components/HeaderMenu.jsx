@@ -1,4 +1,5 @@
 import { Menu } from '@headlessui/react';
+import { IoIosSettings } from "react-icons/io";
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { BiMessageAltDetail } from "react-icons/bi";
 import { AiOutlineHome } from "react-icons/ai";
@@ -53,6 +54,14 @@ const HeaderMenu = ({ user, onLogout }) => {
               <Link href="/users/create-post" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
                   <BiMessageAltDetail size={25} className='mr-2'/>
                   Create Post
+              </Link>
+            )}
+          </Menu.Item>
+          <Menu.Item>
+            {({ active }) => (
+              <Link href="/settings" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
+                  <IoIosSettings size={25} className='mr-2'/>
+                  Settings
               </Link>
             )}
           </Menu.Item>
