@@ -8,10 +8,11 @@ import {
   publicRoutes,
   registerRoutes
 } from "@/routes";
+import { getInvitationTokenByToken } from "./data/invite-token";
 
 const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
+export default auth(async (req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
@@ -30,11 +31,18 @@ export default auth((req) => {
     return null;
   }
 
-  // Handle register route with token
-  if (isRegisterRoute && hasToken) {
-    // Allow access to the register page
+  if (isRegisterRoute) {
+    const token = nextUrl.searchParams.get("token");
+    const validToken = await getInvitationTokenByToken(token);
+
+    if (!validToken) {
+      // Redirect to login or an error page
+      return Response.redirect(new URL("/auth/login", nextUrl));
+    }
+
+    // If the token is valid, allow access
     return null;
-  } 
+  }
 
   if (isAuthRoute) {
     if (isLoggedIn) {
