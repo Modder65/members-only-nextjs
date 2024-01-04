@@ -30,9 +30,11 @@ export default auth((req) => {
     return null;
   }
 
-  if (isRegisterRoute && !hasToken) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
-  }
+  // Handle register route with token
+  if (isRegisterRoute && hasToken) {
+    // Allow access to the register page
+    return null;
+  } 
 
   if (isAuthRoute) {
     if (isLoggedIn) {
