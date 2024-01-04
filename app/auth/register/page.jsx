@@ -14,7 +14,7 @@ const RegisterPage = () => {
     if (!token) {
       router.push("/auth/login");
     }
-  })
+  }, [token, router]);
 
   return (
     <RegisterForm />

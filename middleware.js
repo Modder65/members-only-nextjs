@@ -5,7 +5,8 @@ import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
   authRoutes,
-  publicRoutes
+  publicRoutes,
+  registerRoutes
 } from "@/routes";
 
 const { auth } = NextAuth(authConfig);
@@ -17,6 +18,8 @@ export default auth((req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isRegisterRoute = registerRoutes.includes(nextUrl.pathname);
+  const hasToken = nextUrl.searchParams.has("token");
 
   // if statements must be in this order,
   // because we didnt include isApiAuthRoutes in the publicRoutes array,
@@ -25,6 +28,10 @@ export default auth((req) => {
   // Otherwise you'll be left in an infinite redirect loop.
   if (isApiAuthRoute) {
     return null;
+  }
+
+  if (isRegisterRoute && !hasToken) {
+    return Response.redirect(new URL("/auth/login", nextUrl));
   }
 
   if (isAuthRoute) {
