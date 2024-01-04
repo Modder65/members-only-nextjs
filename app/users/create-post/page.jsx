@@ -37,7 +37,7 @@ export default function CreatePostPage() {
     try {
       await axios.post('/api/submit-post', postData);
       toast.success("Post submitted successfully!");
-      router.push("/");
+      router.push("/users");
     } catch (error) {
       let errorMessage = "An unexpected error occurred. Please try again.";
 
