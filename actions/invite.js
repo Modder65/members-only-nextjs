@@ -13,5 +13,5 @@ export const invite = async (values) => {
 
   await sendInvitationEmail(inviteToken.email, inviteToken.token);
 
-  return { success: "Confirmation email sent!" };
+  return { success: "Invitation link sent!" };
 }
