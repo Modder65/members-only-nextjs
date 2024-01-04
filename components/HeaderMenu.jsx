@@ -1,81 +1,87 @@
-import { Menu } from '@headlessui/react';
 import { IoIosSettings } from "react-icons/io";
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { BiMessageAltDetail } from "react-icons/bi";
 import { AiOutlineHome } from "react-icons/ai";
-import { TbLogout2 } from "react-icons/tb";
 import { BsPerson } from "react-icons/bs";
 import { SlPeople } from "react-icons/sl";
+import { FaUser } from "react-icons/fa";
+import { ExitIcon } from "@radix-ui/react-icons";
 import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/features/friendsModalSlice";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-const HeaderMenu = ({ user, onLogout }) => {
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback
+} from "@/components/ui/avatar";
+
+import { LogoutButton } from './auth/logout-button';
+
+const HeaderMenu = ({ user }) => {
+  const router = useRouter();
+
   const dispatch = useDispatch();
 
   const openModalHandler = async () => {
     dispatch(openModal());
   }
 
-  return (
-    <Menu as="div" className="relative inline-block text-left">
-      <Menu.Button className="inline-flex flex-row-reverse justify-center items-center gap-1 w-full px-4 py-2 text-lg font-medium text-black bg-white rounded-md bg-opacity-20 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
-        {user.name} <FaChevronDown size={15} aria-hidden="true" />
-      </Menu.Button>
+  const handleNavigation = (url) => {
+    router.push(url);
+  };
 
-      <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-        <div className="px-1 py-1 ">
-          <Menu.Item>
-            {({ active }) => (
-              <Link href="/users" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
-                  <AiOutlineHome size={25} className='mr-2'/>
-                  Home
-              </Link>
-            )}
-          </Menu.Item>
-          <Menu.Item>
-            {({ active }) => (
-              <Link href="/users/account" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}> {/* Change href url */}
-                  <BsPerson size={25} className='mr-2'/>
-                  Account
-              </Link>
-            )}
-          </Menu.Item>
-          <Menu.Item>
-            {({ active }) => (
-              <button onClick={openModalHandler} className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}> {/* Change href url */}
-                  <SlPeople size={25} className='mr-2'/>
-                  Friends
-              </button>
-            )}
-          </Menu.Item>
-          <Menu.Item>
-            {({ active }) => (
-              <Link href="/users/create-post" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
-                  <BiMessageAltDetail size={25} className='mr-2'/>
-                  Create Post
-              </Link>
-            )}
-          </Menu.Item>
-          <Menu.Item>
-            {({ active }) => (
-              <Link href="/settings" className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base`}>
-                  <IoIosSettings size={25} className='mr-2'/>
-                  Settings
-              </Link>
-            )}
-          </Menu.Item>
-          <Menu.Item>
-            {({ active }) => (
-              <a onClick={onLogout} className={`${active ? 'bg-gray-100' : ''} group flex rounded-md items-center w-full px-2 py-2 text-base cursor-pointer`}>
-                <TbLogout2 size={25} className="mr-2"/>
-                Log Out
-              </a>
-            )}
-          </Menu.Item>
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <div className="flex items-center gap-x-2">
+          <Avatar>
+            <AvatarImage src={user?.image || ""}/>
+            <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+            from-green-400 to-green-800">
+              <FaUser className="text-white"/>
+            </AvatarFallback>
+          </Avatar>
+          {user.name}
         </div>
-      </Menu.Items>
-    </Menu>
+        
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-40" align="end">
+        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users')}>
+          <AiOutlineHome className="h-6 w-6 mr-2"/>
+          Home
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users/account')}>
+          <BsPerson className="h-6 w-6 mr-2"/>
+          Account
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={openModalHandler}>
+          <SlPeople className="h-6 w-6 mr-2"/>
+          Friends
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users/create-post')}>
+          <BiMessageAltDetail className="h-6 w-6 mr-2"/>
+          Create Post
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/settings')}>
+          <IoIosSettings className="h-6 w-6 mr-2"/>
+          Settings
+        </DropdownMenuItem>
+        <LogoutButton>
+          <DropdownMenuItem className="text-base cursor-pointer">
+            <ExitIcon className="h-6 w-6 mr-2"/>
+            Logout
+          </DropdownMenuItem>
+        </LogoutButton>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
