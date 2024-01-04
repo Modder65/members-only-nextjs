@@ -52,7 +52,13 @@ export default auth((req) => {
   // even if theyve used the trick above to access an admin only route.
   if (!isLoggedIn && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname;
-    if (nextUrl.search) {
+    
+    // Check if the route is /auth/register and if it does not have a valid token
+    if (isRegisterRoute && !hasToken) {
+      // If it's an attempt to access /auth/register without a token, 
+      // set callbackUrl to a default page like / or /settings
+      callbackUrl = DEFAULT_LOGIN_REDIRECT;
+    } else if (nextUrl.search) {
       callbackUrl += nextUrl.search;
     }
 
