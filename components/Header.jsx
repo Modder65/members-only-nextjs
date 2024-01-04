@@ -1,16 +1,8 @@
 'use client'
 
-import { useSession, signOut } from "next-auth/react";
-import { useState, useEffect, useRef } from "react";
-import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { UserSkeleton } from "./UserSkeleton";
-import { Menu } from "@headlessui/react";
-import Avatar from "@/app/users/components/Avatar";
-import Link from "next/link";
 import HeaderMenu from "./HeaderMenu";
-import { logout } from "@/actions/logout";
 import { useCurrentUser } from "@/hooks/use-current-user";
-
 
 export function Header() {
   const user = useCurrentUser();
