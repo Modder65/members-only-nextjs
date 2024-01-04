@@ -1,59 +1,72 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { HiPhoto } from "react-icons/hi2";
 import { CldUploadButton } from "next-cloudinary";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreatePostSchema } from "@/schemas";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+} from "@/components/ui/card";
+import {
+  Form, 
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+
+import { Button } from "@/components/ui/button";
+import { FormError } from "@/components/form-error";
+import { FormSuccess } from "@/components/form-success";
+import { createPost } from "@/actions/create-post";
 import ClipLoader from "react-spinners/ClipLoader";
-import Input from "@/app/components-old/inputs/Input";
-import Button from "@/app/components-old/Button";
-import axios from "axios";
+
 
 export default function CreatePostPage() {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [imageURL, setImageURL] = useState(null); // State to store the image URL
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors }
-  } = useForm({
+  const form = useForm({
+    resolver: zodResolver(CreatePostSchema),
     defaultValues: {
-      title: '',
-      message: '',
-    }
+      title: "",
+      message: "",
+    },
   });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true);
-    const postData = {
-      ...data, 
-      image: imageURL, // Include the image URL in the post data
-    }
-    
-    try {
-      await axios.post('/api/submit-post', postData);
-      toast.success("Post submitted successfully!");
-      router.push("/users");
-    } catch (error) {
-      let errorMessage = "An unexpected error occurred. Please try again.";
+    const onSubmit = (values) => {
+      setError("");
+      setSuccess("");
 
-      if (error.response) {
-        errorMessage = `Server Error: ${error.response.status}. ${error.response.data.message || ''}`;
-      } else if (error.request) {
-        errorMessage = "Network Error: Unable to reach the server. Please check your connection.";
-      } else {
-        errorMessage = `Error: ${error.message}`;
-      }
-
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
+      startTransition(() => {
+        createPost(values, imageURL)
+          .then((data) => {
+            if (data?.error) {
+              form.reset();
+              setError(data.error);
+            }
+  
+            if (data?.success) {
+              form.reset();
+              setSuccess(data.success);
+              toast.success("Post submitted successfully!");
+              router.push("/users");
+            }
+          })
+          .catch(() => setError("Something went wrong!"))
+      });
     }
-  };
 
   // Needs to be edited to work
   const handleUpload = (result) => {
@@ -64,68 +77,84 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-5 flex flex-col">
-      <h1 className="text-2xl font-bold mb-5">Post a Message</h1>
-      {isLoading && (
-        <div className="flex justify-center items-center absolute inset-0 bg-white bg-opacity-80 z-10">
-          <ClipLoader loading={isLoading} size={50} />
-        </div>
-      )}
-      <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-        <Input 
-          id="title" 
-          label="Title" 
-          register={register}
-          validation={{
-            required: "Title is required",
-            minLength: { value: 4, message: "Title must be at least 4 characters long" },
-            maxLength: { value: 50, message: "Title has 50 character limit"}
-          }}
-          errors={errors}
-          disabled={isLoading}
-        />
-        <Input 
-          id="message" 
-          label="Message" 
-          register={register}
-          validation={{
-            required: "Message is required",
-            minLength: { value: 4, message: "Message must be at least 4 characters long" },
-            maxLength: { value: 280, message: "Message has 280 character limit"}
-          }}
-          errors={errors}
-          disabled={isLoading}
-        />
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <p>Upload an Image:</p>
-            <CldUploadButton
-              options={{ 
-                sources: ['local'],
-                maxFiles: 1,
-                singleUploadAutoClose: false
-              }}
-              onUpload={handleUpload}
-              uploadPreset="jfaab9re"
+    <div className="flex justify-center mt-10">
+      <Card className="w-[600px]">
+        <CardHeader>
+          <p className="text-2xl font-semibold text-center">
+            ✉️ Create a Post
+          </p>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-6"
             >
-              <HiPhoto size={30} className="text-blue-600" />
-            </CldUploadButton>
-          </div>
-          
-          <button type="submit"
-            className="
-            bg-blue-600
-              rounded-md
-              px-2
-              py-1
-              text-white
-              hover:opacity-80
-            "
-          >
-          Submit Post
-          </button>
-        </div>
-      </form>
+              <div className="space-y-4">
+                <FormField 
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Title</FormLabel>
+                      <FormControl>
+                        <Input 
+                          {...field}
+                          disabled={isPending}
+                          placeholder="New Post"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField 
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
+                      <FormControl>
+                        <Input 
+                          {...field}
+                          disabled={isPending}
+                          placeholder="Message"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-2">
+                  <p>Upload an Image:</p>
+                  <CldUploadButton
+                    options={{ 
+                      sources: ['local'],
+                      maxFiles: 1,
+                      singleUploadAutoClose: false
+                    }}
+                    onUpload={handleUpload}
+                    uploadPreset="jfaab9re"
+                  >
+                    <HiPhoto size={30} className="text-blue-600" />
+                  </CldUploadButton>
+                </div>
+                <FormError message={error}/>
+                <FormSuccess message={success}/>
+                <Button
+                  disabled={isPending}
+                  type="submit"
+                  className="w-[100px]"
+                >
+                  Submit Post
+              </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
     </div>
   );
 }
