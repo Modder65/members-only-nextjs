@@ -9,34 +9,11 @@ import Avatar from "@/app/users/components/Avatar";
 import Link from "next/link";
 import HeaderMenu from "./HeaderMenu";
 import { logout } from "@/actions/logout";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 
 export function Header() {
-  const { data: session, status } = useSession();
-  const isLoggedIn = session !== null;
-  console.log("Is logged in:", isLoggedIn, "Session data:", session);
-  const [showDropdown, setShowDropdown] = useState(false);
-  const dropdownRef = useRef(null);
-
-  const toggleDropdown = () => setShowDropdown(!showDropdown);
-
-  const handleLogout = () => {
-    logout();
-    console.log("Is logged in:", isLoggedIn, "Session data:", session);
-  };
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setShowDropdown(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const user = useCurrentUser();
 
   return (
     <header className="bg-white py-4 flex justify-center shadow">
@@ -49,14 +26,12 @@ export function Header() {
         </div>
 
         <div className="flex gap-4 items-center">
-          {status === 'loading' ? (
-            <UserSkeleton />
+          {user ? (
+            <div className="flex flex-row-reverse justify-center items-center">
+              <HeaderMenu user={user} />
+            </div>
           ) : (
-            isLoggedIn && (
-              <div className="flex flex-row-reverse justify-center items-center">
-                <HeaderMenu user={session.user} />
-              </div>
-            )
+            <UserSkeleton />
           )}
         </div>
       </div>
