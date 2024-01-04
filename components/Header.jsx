@@ -54,8 +54,7 @@ export function Header() {
           ) : (
             isLoggedIn && (
               <div className="flex flex-row-reverse justify-center items-center">
-                
-                <HeaderMenu user={session.user} onLogout={handleLogout} />
+                <HeaderMenu user={session.user} />
               </div>
             )
           )}
