@@ -10,12 +10,14 @@ const RegisterPage = () => {
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
 
+  /*
   useEffect(() => {
     if (!token) {
       router.push("/auth/login");
     }
   }, [token, router]);
 
+  */
   return (
     <RegisterForm />
   );
