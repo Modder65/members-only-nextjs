@@ -8,6 +8,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from '@/auth';
 import { ReduxProvider } from '@/redux/provider';
 import { RealTimeProvider } from './context/PusherContext';
+import { Toaster } from '@/components/ui/sonner';
 import dynamic from 'next/dynamic'; // Import dynamic from Next.js
 
 const FriendsModal = dynamic(() => import('./users/components/FriendModal'), { ssr: false });
@@ -27,6 +28,7 @@ export default function RootLayout({ children }) {
           <ReduxProvider>
             <RealTimeProvider>
               <ToasterContext />
+              <Toaster />
               {children}
               <FriendsModal /> 
             </RealTimeProvider>

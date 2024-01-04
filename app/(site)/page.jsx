@@ -24,7 +24,7 @@ export default function Home() {
           A private social media platform
         </p>
         <div>
-          <LoginButton>
+          <LoginButton mode="modal" asChild>
             <Button variant="secondary" size="lg">
               Sign In
             </Button>

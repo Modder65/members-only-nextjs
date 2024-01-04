@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export const UserInfo = ({user, label}) => {
   return (
@@ -50,9 +51,9 @@ export const UserInfo = ({user, label}) => {
           <p className="text-sm font-medium">
             Two Factor Authentication
           </p>
-          <p className="truncate text-xs max-w-[180px] font-mono p-1 bg-slate-100 rounded-md">
-            OFF
-          </p>
+          <Badge variant={user?.isTwoFactorEnabled ? "success" : "destructive"}>
+            {user?.isTwoFactorEnabled ? "ON" : "OFF"}
+          </Badge>
         </div>
       </CardContent>
     </Card>

@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { UserButton } from "@/components/auth/user-button";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 export const Navbar = () => {
   const pathname = usePathname();
+  const user = useCurrentUser();
 
   return (
     <nav className="bg-secondary flex justify-between
@@ -36,6 +38,16 @@ export const Navbar = () => {
             Admin
           </Link>
         </Button>
+        {user?.role === "ADMIN" && (
+          <Button
+            asChild
+            variant={pathname === "/manage-users" ? "default" : "outline"}
+          >
+            <Link href="/manage-users">
+              Manage Users
+            </Link>
+          </Button>
+        )}
         <Button
           asChild
           variant={pathname === "/settings" ? "default" : "outline"}
