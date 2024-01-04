@@ -64,11 +64,12 @@ export const RegisterSchema = z.object({
   }),
 });
 
+// Edit later
 export const CreatePostSchema = z.object({
-  title: z.string({
-    message: "Email is required",
+  title: z.string().min(4, {
+    message: "Minimum 4 characters required",
   }),
-  message: z.string({
-    message: "Minimum 6 characters required"
+  message: z.string().min(4, {
+    message: "Minimum 4 characters required"
   }),
 });
