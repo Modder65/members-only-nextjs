@@ -73,3 +73,9 @@ export const CreatePostSchema = z.object({
     message: "Minimum 4 characters required"
   }),
 });
+
+export const InvitationSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+});
