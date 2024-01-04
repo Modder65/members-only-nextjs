@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { HiPhoto } from "react-icons/hi2";
 import { CldUploadButton } from "next-cloudinary";
 import ClipLoader from "react-spinners/ClipLoader";
