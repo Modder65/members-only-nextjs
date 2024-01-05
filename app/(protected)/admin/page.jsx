@@ -102,7 +102,7 @@ const AdminPage = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">
+              <Button type="submit" disabled={isPending}>
                 Send
               </Button>
             </form>
