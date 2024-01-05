@@ -48,7 +48,25 @@ export async function POST(request) {
       },
     });
     
-    await pusherServer.trigger("friend-requests-channel", "friend-request:created", newFriendship);
+    // Retrieve user details of the sender
+    const senderUser = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    // Ensure that you retrieve the necessary user details
+    // For example, senderUser might include id, name, avatarUrl, etc.
+
+    // Create the payload for Pusher including both friendship and user details
+    const pusherPayload = {
+      ...newFriendship,
+      user: {
+        id: senderUser.id,
+        name: senderUser.name,
+        // include other relevant user fields
+      },
+    };
+
+    await pusherServer.trigger("friend-requests-channel", "friend-request:created", pusherPayload);
 
     return NextResponse.json(newFriendship, { message: "Friend request sent successfully" }, { status: 200 });
   } catch (error) {
@@ -56,5 +74,3 @@ export async function POST(request) {
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
-
- 
