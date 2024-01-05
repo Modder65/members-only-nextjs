@@ -4,7 +4,6 @@ import { useParams } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData, setFriendshipStatus, setFriendButtonText } from "@/redux/features/accountSlice";
-import { useSession } from "next-auth/react";
 import { Tab } from '@headlessui/react'
 import { toast } from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
@@ -14,6 +13,7 @@ import axios from 'axios';
 import Avatar from '../components/Avatar';
 import PostList from '../components/PostList';
 import Link from "next/link";
+import { useCurrentUser } from '@/hooks/use-current-user';
 
 
 const UserProfile = () => {
@@ -22,7 +22,7 @@ const UserProfile = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setIsLoading] = useState(false);
-  const { data: session } = useSession();
+  const user = useCurrentUser();
   
   const dispatch = useDispatch();
   const { userData, friendshipStatus, friendButtonText } = useSelector((state) => state.account);
@@ -64,7 +64,7 @@ const UserProfile = () => {
   const sendFriendRequest = async () => {
     try {
       const response = await axios.post('/api/send-friend-request', {
-        userId: session?.user?.id,
+        userId: user?.id,
         friendId: userId,
       });
       dispatch(setFriendshipStatus(response.data)); // Update Redux state
