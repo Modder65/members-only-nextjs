@@ -30,14 +30,16 @@ export const Navbar = () => {
             Client
           </Link>
         </Button>
-        <Button
-          asChild
-          variant={pathname === "/admin" ? "default" : "outline"}
-        >
-          <Link href="/admin">
-            Admin
-          </Link>
-        </Button>
+        {user?.role === "ADMIN" && (
+          <Button
+            asChild
+            variant={pathname === "/admin" ? "default" : "outline"}
+          >
+            <Link href="/admin">
+              Admin
+            </Link>
+          </Button>
+        )}
         {user?.role === "ADMIN" && (
           <Button
             asChild

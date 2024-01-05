@@ -73,52 +73,52 @@ const AdminPage = () => {
       <CardContent className="space-y-4">
         <RoleGate allowedRole={UserRole.ADMIN}>
           <FormSuccess message="You are allowed to see this content!"/>
-        </RoleGate>
-        <div className="flex flex-row items-center justify-between
-        rounded-lg border p-3 shadow-md">
-          <p className="text-sm font-medium">
-            Send Invitation Link
-          </p>
-          <Form {...form}>
-            <form 
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-row items-center gap-x-2"
-            >
-              <FormField 
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input 
-                        {...field}
-                        placeholder="johndoe@example.com"
-                        type="email"
-                        disabled={isPending}
-                        className="w-[300px]"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" disabled={isPending}>
-                Send
-              </Button>
-            </form>
-          </Form>
-          
-        </div>
+          <div className="flex flex-row items-center justify-between
+          rounded-lg border p-3 shadow-md">
+            <p className="text-sm font-medium">
+              Send Invitation Link
+            </p>
+            <Form {...form}>
+              <form 
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-row items-center gap-x-2"
+              >
+                <FormField 
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input 
+                          {...field}
+                          placeholder="johndoe@example.com"
+                          type="email"
+                          disabled={isPending}
+                          className="w-[300px]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" disabled={isPending}>
+                  Send
+                </Button>
+              </form>
+            </Form>
+            
+          </div>
 
-        <div className="flex flex-row items-center justify-between
-        rounded-lg border p-3 shadow-md">
-          <p className="text-sm font-medium">
-            Admin-Only API Route
-          </p>
-          <Button onClick={onAPiRouteClick}>
-            Click to test
-          </Button>
-        </div>
+          <div className="flex flex-row items-center justify-between
+          rounded-lg border p-3 shadow-md">
+            <p className="text-sm font-medium">
+              Admin-Only API Route
+            </p>
+            <Button onClick={onAPiRouteClick}>
+              Click to test
+            </Button>
+          </div>
+        </RoleGate>
       </CardContent>
     </Card>
    );
