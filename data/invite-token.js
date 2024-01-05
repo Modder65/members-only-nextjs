@@ -4,7 +4,7 @@ export const getInvitationTokenByToken = async (
   token
 ) => {
   try {
-    const inviteToken = await prisma.InviteToken.findUnique({
+    const inviteToken = await prisma.inviteToken.findUnique({
       where: { token }
     });
 
