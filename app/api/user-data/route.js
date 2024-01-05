@@ -6,7 +6,7 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get("userId");
-    const loggedInUserId = await currentUser();
+    const loggedInUser = await currentUser();
 
     const userData = await prisma.user.findUnique({
       where: { id: userId },
@@ -38,8 +38,8 @@ export async function GET(request) {
     const friendship = await prisma.friendship.findFirst({
       where: {
         OR: [
-          { senderId: loggedInUserId, receiverId: userId },
-          { senderId: userId, receiverId: loggedInUserId }
+          { senderId: loggedInUser.id, receiverId: userId },
+          { senderId: userId, receiverId: loggedInUser.id }
         ]
       }
     });
