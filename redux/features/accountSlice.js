@@ -39,6 +39,9 @@ export const accountSlice = createSlice({
     setUserRequestsLoaded: (state, action) => {
       state.userRequestsLoaded = action.payload;
     },
+    addPendingRequest: (state, action) => {
+      state.pendingRequests.push(action.payload);
+    }
   },
 });
 
@@ -51,6 +54,7 @@ export const {
   setFriendButtonText,
   setUserPostsLoaded,
   setUserRequestsLoaded,
+  addPendingRequest
  } = accountSlice.actions;
 
 export default accountSlice.reducer;
