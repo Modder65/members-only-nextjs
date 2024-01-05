@@ -8,11 +8,10 @@ import {
   publicRoutes,
   registerRoutes
 } from "@/routes";
-import { getInvitationTokenByToken } from "./data/invite-token";
 
 const { auth } = NextAuth(authConfig);
 
-export default auth(async (req) => {
+export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
@@ -33,17 +32,12 @@ export default auth(async (req) => {
 
   if (isRegisterRoute) {
     const token = nextUrl.searchParams.get("token");
-    console.log("Token:", token);
-    const validToken = await getInvitationTokenByToken(token);
-    console.log("Valid token found:", validToken);
 
-    if (!validToken) {
-      console.log("Redirecting to login due to invalid token");
+    if (!token) {
       // Redirect to login or an error page
       return Response.redirect(new URL("/auth/login", nextUrl));
     }
 
-    // If the token is valid, allow access
     return null;
   }
 

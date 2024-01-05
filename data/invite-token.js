@@ -4,12 +4,13 @@ export const getInvitationTokenByToken = async (
   token
 ) => {
   try {
-    const inviteToken = await prisma.inviteToken.findUnique({
+    const inviteToken = await prisma.InviteToken.findUnique({
       where: { token }
     });
 
     return inviteToken;
-  } catch {
+  } catch (error) {
+    console.error(error);
     return null;
   }
 }
