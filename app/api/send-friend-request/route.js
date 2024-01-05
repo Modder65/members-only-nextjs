@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { pusherServer } from "@/lib/pusher";
-import prisma from "@/lib/prismadb";
 import { auth } from "@/auth";
+import prisma from "@/lib/prismadb";
 
 export async function POST(request) {
   const session = await auth();
@@ -48,7 +48,7 @@ export async function POST(request) {
       },
     });
     
-    //await pusherServer.trigger("comments-channel", "comment:created", newComment);
+    await pusherServer.trigger("friends-channel", "friend:created", newFriendship);
 
     return NextResponse.json(newFriendship, { message: "Friend request sent successfully" }, { status: 200 });
   } catch (error) {

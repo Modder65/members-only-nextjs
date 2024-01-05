@@ -18,6 +18,8 @@ export const friendsModalSlice = createSlice({
       state.isModalOpen = false;
     },
   },
+
+  // Reducer for sending friend requests
 });
 
 // Export the action creators for the slice

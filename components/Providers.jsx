@@ -1,14 +1,20 @@
 "use client"
 
-import { SessionProvider } from "next-auth/react";
-import { PusherProvider } from "@/app/libs/pusherContext";
+import { PusherLikesProvider } from "@/app/context/PusherLikes";
+import { PusherFriendsProvider } from "@/app/context/PusherFriends"; 
+import { ReduxProvider } from '@/redux/provider';
+import AuthContext from "@/app/context/AuthContext";
 
 export function Providers({ children }) {
   return (
-    <SessionProvider>
-      <PusherProvider>
-        {children}
-      </PusherProvider>
-    </SessionProvider>
+    <AuthContext>
+      <ReduxProvider>
+        <PusherLikesProvider>
+          <PusherFriendsProvider>
+            {children}
+          </PusherFriendsProvider>
+        </PusherLikesProvider>
+      </ReduxProvider>
+    </AuthContext>
   );
 }

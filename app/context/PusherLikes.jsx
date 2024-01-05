@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { togglePostLike, toggleCommentLike, toggleReplyLike } from "@/redux/features/likesSlice";
 
 
-export const RealTimeProvider = ({ children }) => {
+export const PusherLikesProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
