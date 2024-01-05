@@ -33,9 +33,12 @@ export default auth(async (req) => {
 
   if (isRegisterRoute) {
     const token = nextUrl.searchParams.get("token");
+    console.log("Token:", token);
     const validToken = await getInvitationTokenByToken(token);
+    console.log("Valid token found:", validToken);
 
     if (!validToken) {
+      console.log("Redirecting to login due to invalid token");
       // Redirect to login or an error page
       return Response.redirect(new URL("/auth/login", nextUrl));
     }
