@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserPosts, setFriends, setPendingRequests, setUserPostsLoaded, setFriendshipStatus } from "@/redux/features/accountSlice";
 import { Tab } from '@headlessui/react';
 import { Fragment } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { CustomLoader } from "@/components/CustomLoader";
 import Avatar from '../components/Avatar';
 import PostList from "../components/PostList";
@@ -81,9 +81,9 @@ const Account = () => {
       // Update the Redux state
       dispatch(setFriendshipStatus('ACCEPTED'));
   
-      toast.success("Friend request accepted");
+      toast.success("Friend request accepted!");
     } catch (error) {
-      toast.error("Failed to accept friend request");
+      toast.error("Failed to accept friend request!");
     }
   };
   
@@ -91,9 +91,9 @@ const Account = () => {
 const handleDeclineRequest = async (friendRequestId) => {
   try {
     await axios.post('/api/decline-friend-request', { friendRequestId });
-    toast.success("Friend request declined");
+    toast.success("Friend request declined!");
   } catch (error) {
-    toast.error("Failed to decline friend request");
+    toast.error("Failed to decline friend request!");
   }
 };
 
