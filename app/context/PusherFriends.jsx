@@ -14,10 +14,12 @@ export const PusherFriendsProvider = ({ children }) => {
 
     const handleAcceptFriendRequest = (data) => {
       // Remove the accepted request from pendingRequests
-      dispatch(removePendingRequest(data.friendship.id)); // Assuming 'data.friendship' contains the friendship ID to be removed from pendingRequests
+      // Use the friendshipId to identify the request to be removed
+      dispatch(removePendingRequest(data.friendshipId)); 
 
       // Add the new friend to the friends state
-      dispatch(addFriend(data.receiver)); // Assuming 'receiver' is the new friend
+      // Use the newFriend data received from the Pusher event
+      dispatch(addFriend(data.newFriend)); 
     };
 
     pusherClient.subscribe("friends-channel");

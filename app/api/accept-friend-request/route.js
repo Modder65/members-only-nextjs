@@ -10,17 +10,20 @@ export async function POST(request) {
     const updatedFriendship = await prisma.friendship.update({
       where: { id: friendRequestId },
       data: { status: 'ACCEPTED' },
+      include: {
+        sender: true,
+        receiver: true
+      }
     });
 
-    // Fetch additional details as needed (e.g., user names, profile pictures)
-    const sender = await prisma.user.findUnique({ where: { id: updatedFriendship.senderId } });
-    const receiver = await prisma.user.findUnique({ where: { id: updatedFriendship.receiverId } });
-
+    
     // Include both users' details in the Pusher event data
     const pusherPayload = {
-      ...updatedFriendship,
-      sender: { id: sender.id, name: sender.name, /* other details */ },
-      receiver: { id: receiver.id, name: receiver.name, /* other details */ }
+      friendshipId: updatedFriendship.id,
+      newFriend: {
+        id: updatedFriendship.receiver.id,
+        name: updatedFriendship.receiver.name,
+      }
     };
 
     await pusherServer.trigger("friends-channel", "friend-request:accepted", pusherPayload);
