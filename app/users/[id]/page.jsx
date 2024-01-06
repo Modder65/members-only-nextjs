@@ -5,7 +5,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserData, setFriendshipStatus, setFriendButtonText } from "@/redux/features/accountSlice";
 import { Tab } from '@headlessui/react'
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { useInView } from "react-intersection-observer";
 import { GoPlus } from "react-icons/go";
 import { CustomLoader } from '@/components/CustomLoader';
