@@ -42,6 +42,9 @@ export const accountSlice = createSlice({
     addPendingRequest: (state, action) => {
       state.pendingRequests.push(action.payload);
     },
+    removePendingRequest: (state, action) => {
+      state.pendingRequests = state.pendingRequests.filter(req => req.id !== action.payload);
+    },
     addFriend: (state, action) => {
       state.friends.push(action.payload);
     }
@@ -58,6 +61,7 @@ export const {
   setUserPostsLoaded,
   setUserRequestsLoaded,
   addPendingRequest,
+  removePendingRequest,
   addFriend
  } = accountSlice.actions;
 
