@@ -21,7 +21,7 @@ export const PusherFriendsProvider = ({ children }) => {
     pusherClient.bind("friend-request:accepted", handleAcceptFriendRequest);
 
     return () => {
-      pusherClient.unsubscribe("friend-requests-channel");
+      pusherClient.unsubscribe("friends-channel");
       pusherClient.unbind("friend-request:created", handleNewFriendRequest);
       pusherClient.unbind("friend-request:accepted", handleAcceptFriendRequest);
     };
