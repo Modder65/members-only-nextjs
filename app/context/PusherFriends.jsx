@@ -16,7 +16,7 @@ export const PusherFriendsProvider = ({ children }) => {
       dispatch(addFriend(data));
     };
 
-    pusherClient.subscribe("friend-channel");
+    pusherClient.subscribe("friends-channel");
     pusherClient.bind("friend-request:created", handleNewFriendRequest);
     pusherClient.bind("friend-request:accepted", handleAcceptFriendRequest);
 
