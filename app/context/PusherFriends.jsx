@@ -12,12 +12,18 @@ export const PusherFriendsProvider = ({ children }) => {
       dispatch(addPendingRequest(data));
     };
 
-    pusherClient.subscribe("friend-requests-channel");
+    const handleAcceptFriendRequest = (data) => {
+      dispatch(addFriend(data));
+    };
+
+    pusherClient.subscribe("friend-channel");
     pusherClient.bind("friend-request:created", handleNewFriendRequest);
+    pusherClient.bind("friend-request:accepted", handleAcceptFriendRequest);
 
     return () => {
       pusherClient.unsubscribe("friend-requests-channel");
       pusherClient.unbind("friend-request:created", handleNewFriendRequest);
+      pusherClient.unbind("friend-request:accepted", handleAcceptFriendRequest);
     };
   }, [dispatch]);
 

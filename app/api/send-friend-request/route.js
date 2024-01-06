@@ -66,7 +66,7 @@ export async function POST(request) {
       },
     };
 
-    await pusherServer.trigger("friend-requests-channel", "friend-request:created", pusherPayload);
+    await pusherServer.trigger("friends-channel", "friend-request:created", pusherPayload);
 
     return NextResponse.json(newFriendship, { message: "Friend request sent successfully" }, { status: 200 });
   } catch (error) {
