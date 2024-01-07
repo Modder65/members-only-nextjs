@@ -25,7 +25,13 @@ export const register = async (values) => {
   console.log("Valid invite token:", validInviteToken);
 
   if (!validInviteToken) {
-    return { error: "Invalid or expired invitation token!" };
+    return { error: "Invalid invitation token!" };
+  }
+
+  const hasExpired = new Date(validInviteToken.expires) < new Date();
+
+  if (hasExpired) {
+    return { error: "Token has expired!" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
