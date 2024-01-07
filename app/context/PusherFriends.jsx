@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { pusherClient } from "../../lib/pusher";
 import { useDispatch } from "react-redux";
-import { addPendingRequest } from "@/redux/features/accountSlice";
+import { addPendingRequest, removePendingRequest, addFriend } from "@/redux/features/accountSlice";
 
 
 export const PusherFriendsProvider = ({ children }) => {
@@ -13,13 +13,15 @@ export const PusherFriendsProvider = ({ children }) => {
     };
 
     const handleAcceptFriendRequest = (data) => {
-      // Remove the accepted request from pendingRequests
-      // Use the friendshipId to identify the request to be removed
-      dispatch(removePendingRequest(data.friendshipId)); 
-
-      // Add the new friend to the friends state
-      // Use the newFriend data received from the Pusher event
-      dispatch(addFriend(data.newFriend)); 
+      dispatch(removePendingRequest(data.friendshipId));
+    
+      dispatch(addFriend({
+        id: data.friendshipId,
+        user: data.user,
+        friend: data.friend,
+        status: 'ACCEPTED',  // Assuming 'ACCEPTED' is the status you want
+        // Include other fields as necessary
+      }));
     };
 
     pusherClient.subscribe("friends-channel");

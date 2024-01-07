@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserPosts, setFriends, setPendingRequests, setUserPostsLoaded, setFriendshipStatus } from "@/redux/features/accountSlice";
@@ -13,6 +12,7 @@ import Avatar from '../components/Avatar';
 import PostList from "../components/PostList";
 import axios from "axios";
 import Link from "next/link";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const Account = () => {
   // ... existing state and useEffect hooks
@@ -20,7 +20,7 @@ const Account = () => {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setIsLoading] = useState(false);
-  const { data: session } = useSession();
+  const user = useCurrentUser();
 
   const dispatch = useDispatch();
   const { userPosts, friends, pendingRequests, userPostsLoaded, friendshipStatus } = useSelector((state) => state.account);
@@ -35,7 +35,7 @@ const Account = () => {
           const friendsResponse = await axios.get('/api/friends');
           dispatch(setFriends(friendsResponse.data));
 
-          const pendingRequestsResponse = await axios.get('/api/pending-requests', { params: { userId: session.user.id } });
+          const pendingRequestsResponse = await axios.get('/api/pending-requests', { params: { userId: user.id } });
           dispatch(setPendingRequests(pendingRequestsResponse.data.requests));
         } catch (error) {
           toast.error("Failed to fetch data");
@@ -45,7 +45,7 @@ const Account = () => {
       };
       fetchData();
     }
-  }, [selectedTabIndex, session?.user?.id, dispatch]);
+  }, [selectedTabIndex, user?.id, dispatch]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -73,9 +73,9 @@ const Account = () => {
   }, [page, selectedTabIndex, userPostsLoaded, dispatch]);
 
 
-  const handleAcceptRequest = async (friendRequestId) => {
+  const handleAcceptRequest = async (friendRequestId, userId) => {
     try {
-      const response = await axios.post('/api/accept-friend-request', { friendRequestId });
+      const response = await axios.post('/api/accept-friend-request', { friendRequestId, userId });
       const newFriend = response.data.newFriend;
   
       // Update the Redux state
@@ -164,7 +164,7 @@ const handleDeclineRequest = async (friendRequestId) => {
                           <div className="flex items-center gap-2">
                             <button type="button"
                               className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                              onClick={() => handleAcceptRequest(request.id)}
+                              onClick={() => handleAcceptRequest(request.id, user.id)}
                             >
                               Accept
                             </button>
@@ -188,9 +188,9 @@ const handleDeclineRequest = async (friendRequestId) => {
                         console.log("Friend Id:", friendship.id),
                         <div key={friendship.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                             <div className="flex items-center gap-2">
-                              <Avatar user={session.user.id === friendship.senderId ? friendship.friend : friendship.user}/>
-                              <Link href={`/users/${session.user.id === friendship.senderId ? friendship.friend.id : friendship.user.id}`} className="text-blue-600 hover:underline">
-                                <span className="text-blue-600 hover:underline cursor-pointer">{session.user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</span>
+                              <Avatar user={user.id === friendship.senderId ? friendship.friend : friendship.user}/>
+                              <Link href={`/users/${user.id === friendship.senderId ? friendship.friend.id : friendship.user.id}`} className="text-blue-600 hover:underline">
+                                <span className="text-blue-600 hover:underline cursor-pointer">{user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</span>
                               </Link>
                             </div>
                             

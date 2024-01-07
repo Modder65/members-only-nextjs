@@ -46,7 +46,22 @@ export const accountSlice = createSlice({
       state.pendingRequests = state.pendingRequests.filter(req => req.id !== action.payload);
     },
     addFriend: (state, action) => {
-      state.friends.push(action.payload);
+      const newFriendship = {
+        id: action.payload.friendshipId,
+        sender: action.payload.sender,
+        receiver: action.payload.receiver,
+        status: 'ACCEPTED', // Assuming 'ACCEPTED' is the status for new friends
+      };
+    
+      const existingFriendshipIndex = state.friends.findIndex(
+        friend => friend.id === newFriendship.id
+      );
+    
+      if (existingFriendshipIndex === -1) {
+        state.friends.push(newFriendship);
+      } else {
+        state.friends[existingFriendshipIndex] = newFriendship;
+      }
     }
   },
 });
