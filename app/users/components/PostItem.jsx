@@ -105,7 +105,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
         </p>
         <div className="flex justify-between items-center mt-3">
           <button onClick={openModalHandler}
-           className="bg-blue-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
+           className="bg-emerald-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
            >
             <FiMessageSquare className="mr-2" />
             {`Show Comments (${commentCount})`}

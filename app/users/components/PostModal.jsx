@@ -154,7 +154,7 @@ function PostModal() {
             />
             <button type="submit"
               className="
-              bg-blue-600
+              bg-emerald-600
                 rounded-md
                 px-2
                 py-1

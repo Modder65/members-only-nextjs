@@ -12,7 +12,7 @@ export function Header() {
       <div className="header-container w-full max-w-6xl flex justify-between items-center px-4">
         <div className="header-title-container">
           <h1 className="text-3xl font-bold">
-            <span className="text-blue-600">Members</span>
+            <span className="text-emerald-600">Members</span>
             <span className="text-black">Only</span>
           </h1>
         </div>
