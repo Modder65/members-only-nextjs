@@ -3,7 +3,7 @@ import { pusherServer } from "@/lib/pusher";
 import prisma from "@/lib/prismadb";
 
 export async function POST(request) {
-  const { friendRequestId, userId } = await request.json();
+  const { friendRequestId } = await request.json();
 
   try {
     // Update the friendship status
@@ -12,26 +12,28 @@ export async function POST(request) {
       data: { status: 'ACCEPTED' },
     });
 
-    // Fetch the detailed user and friend data
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      // Include additional fields as necessary
-    });
-    const friend = await prisma.user.findUnique({
-      where: { id: updatedFriendship.senderId === userId ? updatedFriendship.receiverId : updatedFriendship.senderId },
-      // Include additional fields as necessary
+    // Fetch the complete friendship data with user and friend details
+    const completeFriendship = await prisma.friendship.findUnique({
+      where: { id: friendRequestId },
+      include: {
+        user: true, // User who sent the request
+        friend: true // Friend who received the request
+      }
     });
 
     // Construct the payload for Pusher
     const pusherPayload = {
-      friendshipId: updatedFriendship.id,
-      senderId: updatedFriendship.senderId,
-      receiverId: updatedFriendship.receiverId,
-      status: updatedFriendship.status,
-      createdAt: updatedFriendship.createdAt,
-      updatedAt: updatedFriendship.updatedAt,
-      user: userId === updatedFriendship.senderId ? user : friend,  // User who accepted the request
-      friend: userId === updatedFriendship.senderId ? friend : user,  // New friend
+      ...completeFriendship,
+      user: { 
+        id: completeFriendship.user.id,
+        name: completeFriendship.user.name,
+        // Include other necessary user fields
+      },
+      friend: { 
+        id: completeFriendship.friend.id,
+        name: completeFriendship.friend.name,
+        // Include other necessary friend fields
+      },
     };
 
     await pusherServer.trigger("friends-channel", "friend-request:accepted", pusherPayload);

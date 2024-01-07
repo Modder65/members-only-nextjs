@@ -13,18 +13,9 @@ export const PusherFriendsProvider = ({ children }) => {
     };
 
     const handleAcceptFriendRequest = (data) => {
-      dispatch(removePendingRequest(data.friendshipId));
+      dispatch(removePendingRequest(data.id));
     
-      dispatch(addFriend({
-        id: data.friendshipId,
-        senderId: data.sender.id,
-        receiverId: data.friend.id,
-        status: data.status,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt,
-        user: data.user,
-        friend: data.friend,
-      }));
+      dispatch(addFriend(data));
     };
 
     pusherClient.subscribe("friends-channel");

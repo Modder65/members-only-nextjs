@@ -73,9 +73,9 @@ const Account = () => {
   }, [page, selectedTabIndex, userPostsLoaded, dispatch]);
 
 
-  const handleAcceptRequest = async (friendRequestId, userId) => {
+  const handleAcceptRequest = async (friendRequestId) => {
     try {
-      const response = await axios.post('/api/accept-friend-request', { friendRequestId, userId });
+      const response = await axios.post('/api/accept-friend-request', { friendRequestId });
       const newFriend = response.data.newFriend;
   
       // Update the Redux state
@@ -164,7 +164,7 @@ const handleDeclineRequest = async (friendRequestId) => {
                           <div className="flex items-center gap-2">
                             <button type="button"
                               className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                              onClick={() => handleAcceptRequest(request.id, user.id)}
+                              onClick={() => handleAcceptRequest(request.id)}
                             >
                               Accept
                             </button>
