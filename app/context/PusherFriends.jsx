@@ -19,8 +19,6 @@ export const PusherFriendsProvider = ({ children }) => {
         id: data.friendshipId,
         user: data.user,
         friend: data.friend,
-        status: 'ACCEPTED',  // Assuming 'ACCEPTED' is the status you want
-        // Include other fields as necessary
       }));
     };
 
