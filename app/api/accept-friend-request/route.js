@@ -25,6 +25,11 @@ export async function POST(request) {
     // Construct the payload for Pusher
     const pusherPayload = {
       friendshipId: updatedFriendship.id,
+      senderId: updatedFriendship.senderId,
+      receiverId: updatedFriendship.receiverId,
+      status: updatedFriendship.status,
+      createdAt: updatedFriendship.createdAt,
+      updatedAt: updatedFriendship.updatedAt,
       user: userId === updatedFriendship.senderId ? user : friend,  // User who accepted the request
       friend: userId === updatedFriendship.senderId ? friend : user,  // New friend
     };

@@ -46,17 +46,22 @@ export const accountSlice = createSlice({
       state.pendingRequests = state.pendingRequests.filter(req => req.id !== action.payload);
     },
     addFriend: (state, action) => {
+      // Assuming the payload contains the complete friendship object including user and friend details
       const newFriendship = {
-        id: action.payload.friendshipId,
-        sender: action.payload.sender,
-        receiver: action.payload.receiver,
-        status: 'ACCEPTED', // Assuming 'ACCEPTED' is the status for new friends
+        id: action.payload.id,  // Friendship ID
+        senderId: action.payload.senderId,
+        receiverId: action.payload.receiverId,
+        status: action.payload.status,
+        createdAt: action.payload.createdAt,
+        updatedAt: action.payload.updatedAt,
+        user: action.payload.user,  // User who sent the request
+        friend: action.payload.friend,  // Friend who received the request
       };
     
-      const existingFriendshipIndex = state.friends.findIndex(
-        friend => friend.id === newFriendship.id
-      );
+      // Check if the friendship already exists in the state
+      const existingFriendshipIndex = state.friends.findIndex(friend => friend.id === newFriendship.id);
     
+      // Update the existing friendship or add a new one
       if (existingFriendshipIndex === -1) {
         state.friends.push(newFriendship);
       } else {

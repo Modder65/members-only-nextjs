@@ -17,6 +17,11 @@ export const PusherFriendsProvider = ({ children }) => {
     
       dispatch(addFriend({
         id: data.friendshipId,
+        senderId: data.sender.id,
+        receiverId: data.friend.id,
+        status: data.status,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt,
         user: data.user,
         friend: data.friend,
       }));
