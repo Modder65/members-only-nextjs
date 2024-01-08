@@ -97,6 +97,15 @@ const handleDeclineRequest = async (friendRequestId) => {
   }
 };
 
+const handleRemoveFriend = async (friendRequestId) => {
+  try {
+    await axios.post('/api/remove-friend', { friendRequestId });
+    toast.success("Unfriended!");
+  } catch (error) {
+    toast.error("Failed to unfriend!");
+  }
+};
+
 
   return (
     <div className="mx-auto max-w-6xl px-5 py-5">
@@ -197,7 +206,7 @@ const handleDeclineRequest = async (friendRequestId) => {
                             <div className="flex items-center gap-2">
                               <button type="button"
                                 className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                                onClick={() => handleDeclineRequest(friendship.id)}
+                                onClick={() => handleRemoveFriend(friendship.id)}
                               >
                                 Unfriend
                               </button>

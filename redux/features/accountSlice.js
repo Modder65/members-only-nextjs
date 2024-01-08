@@ -47,6 +47,9 @@ export const accountSlice = createSlice({
     },
     addFriend: (state, action) => {
       state.friends.push(action.payload);
+    },
+    removeFriend: (state, action) => {
+      state.friends = state.friends.filter(friend => friend.id !== action.payload);
     }
   },
 });
@@ -62,7 +65,8 @@ export const {
   setUserRequestsLoaded,
   addPendingRequest,
   removePendingRequest,
-  addFriend
+  addFriend,
+  removeFriend
  } = accountSlice.actions;
 
 export default accountSlice.reducer;

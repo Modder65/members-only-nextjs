@@ -22,16 +22,22 @@ export const PusherFriendsProvider = ({ children }) => {
       dispatch(removePendingRequest(data.friendRequestId));
     };
 
+    const handleUnfriend = (data) => {
+      dispatch(removeFriend(data.id));
+    }
+
     pusherClient.subscribe("friends-channel");
     pusherClient.bind("friend-request:created", handleNewFriendRequest);
     pusherClient.bind("friend-request:accepted", handleAcceptFriendRequest);
     pusherClient.bind("friend-request:declined", handleDeclineFriendRequest);
+    pusherClient.bind("friend:remove", handleUnfriend);
 
     return () => {
       pusherClient.unsubscribe("friends-channel");
       pusherClient.unbind("friend-request:created", handleNewFriendRequest);
       pusherClient.unbind("friend-request:accepted", handleAcceptFriendRequest);
       pusherClient.unbind("friend-request:declined", handleDeclineFriendRequest);
+      pusherClient.unbind("friend:remove", handleUnfriend);
     };
   }, [dispatch]);
 
