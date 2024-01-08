@@ -1,7 +1,8 @@
 "use client";
 
 import { FaUser } from "react-icons/fa";
-import { ExitIcon } from "@radix-ui/react-icons";
+import { IoExitOutline } from "react-icons/io5";
+import { GoPeople } from "react-icons/go";
 
 import {
   DropdownMenu,
@@ -17,9 +18,15 @@ import {
 } from "@/components/ui/avatar";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { LogoutButton } from "@/components/auth/logout-button";
+import { useRouter } from "next/navigation";
 
 export const UserButton = () => {
+  const router = useRouter();
   const user = useCurrentUser();
+
+  const handleNavigation = (url) => {
+    router.push(url);
+  };
 
   return (
     <DropdownMenu>
@@ -33,9 +40,13 @@ export const UserButton = () => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
+        <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/users')}>
+          <GoPeople className="h-5 w-5 mr-2" />
+          Home
+        </DropdownMenuItem>
         <LogoutButton>
-          <DropdownMenuItem>
-            <ExitIcon className="h-4 w-4 mr-2"/>
+          <DropdownMenuItem className="cursor-pointer">
+            <IoExitOutline className="h-5 w-5 mr-2"/>
             Logout
           </DropdownMenuItem>
         </LogoutButton>

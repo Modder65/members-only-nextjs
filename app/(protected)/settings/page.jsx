@@ -4,6 +4,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTransition, useState } from "react";
+import { BeatLoader } from "react-spinners";
 
 import { SettingsSchema } from "@/schemas";
 import { Switch } from "@/components/ui/switch";
@@ -200,7 +201,7 @@ const SettingsPage = () => {
               {user?.isOAuth === false && (
                 <FormField 
                   control={form.control}
-                  name="IsTwoFactorEnabled"
+                  name="isTwoFactorEnabled"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center
                     justify-between rounded-lg border p-3 shadow-sm">
