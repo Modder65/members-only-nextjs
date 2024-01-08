@@ -23,7 +23,7 @@ export const PusherFriendsProvider = ({ children }) => {
     };
 
     const handleUnfriend = (data) => {
-      dispatch(removeFriend(data.id));
+      dispatch(removeFriend(data.friendRequestId));
     }
 
     pusherClient.subscribe("friends-channel");
