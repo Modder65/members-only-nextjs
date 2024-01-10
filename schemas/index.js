@@ -74,6 +74,18 @@ export const CreatePostSchema = z.object({
   }),
 });
 
+export const CreateCommentSchema = z.object({
+  message: z.string().min(1, {
+    message: "Message is required"
+  }),
+});
+
+export const CreateReplySchema = z.object({
+  message: z.string().min(1, {
+    message: "Message is required"
+  }),
+});
+
 export const InvitationSchema = z.object({
   email: z.string().email({
     message: "Email is required",

@@ -1,50 +1,36 @@
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { currentUser } from "@/lib/auth";
 
-export const dynamic = "force-dynamic"; // makes sure the route is dynamic and fetch request always has the latest updated data
-                                        // needed when deploying to vercel as it makes the routes static by default
+export const dynamic = "force-dynamic";
 
 export async function GET(request) {
   try {
-    const session = await auth();
-    const userId = session.user.id;
+    const user = await currentUser();
+    const userId = user.id;
 
     const { searchParams } = new URL(request.url);
-    // Convert page and limit to integers. Default to 0 for page and 10 for limit if not provided
     const page = parseInt(searchParams.get("page") || "0", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
-
-    // Calculate the number of posts to skip
     const skip = page * limit;
- 
-    // Fetch posts with pagination
+
+    // Fetch posts and their initial like counts
     const posts = await prisma.post.findMany({
       take: limit,
       skip: skip,
       orderBy: { createdAt: 'desc' },
       include: {
         user: { select: { id: true, name: true, image: true } },
-        _count: { select: { comments: true, likes: true } },
+        _count: { select: { comments: true } },
+        likes: true,
       }
     });
 
-     // Extract post IDs
-     const postIds = posts.map(post => post.id);
-
-     // Find all likes that the current user has made on these posts
-    const likedPosts = await prisma.like.findMany({
-      where: {
-        postId: { in: postIds },
-        userId: userId
-      },
-      select: { postId: true }
-    });
-
-    // Map these likes back to the corresponding posts
+    // Map posts to include initial like counts and statuses
     const postsWithLikeStatus = posts.map(post => ({
       ...post,
-      currentUserLiked: likedPosts.some(like => like.postId === post.id)
+      currentUserLiked: post.likes.some(like => like.userId === userId), // Check if user liked the post
+      initialLikesCount: post.likes.length, // Initial like count
     }));
 
     return NextResponse.json(postsWithLikeStatus, { status: 200 });

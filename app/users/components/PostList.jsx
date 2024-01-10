@@ -1,4 +1,3 @@
-import FriendsModal from "./FriendModal";
 import PostItem from "./PostItem";
 import PostModal from "./PostModal";
 
@@ -12,8 +11,6 @@ const PostList = ({ posts }) => {
         post={post} 
         postId={post.id} 
         initialCommentsCount={post._count.comments} 
-        initialLikesCount={post._count.likes}
-        currentUserLiked={post.currentUserLiked}
         />
       ))}
       <PostModal />

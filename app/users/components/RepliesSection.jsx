@@ -1,49 +1,66 @@
 'use client'
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useTransition } from "react";
 import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
-import Input from "@/app/components-old/inputs/Input";
-import Button from "@/app/components-old/Button";
-import axios from "axios";
+import { toast } from "sonner";
 import { pusherClient } from "@/lib/pusher";
 import { notifyNewReply } from "@/Custom-Toast-Messages/Notify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateReplySchema } from "@/schemas";
+import {
+  Form, 
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { createReply } from "@/actions/create-reply";
 import ReplyLikeIcon from "./ReplyLikeIcon";
 
 
+
 export const RepliesSection = ({ commentId, initialRepliesCount }) => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isPending, startTransition] = useTransition();
   const [replies, setReplies] = useState([]);
   const [repliesLoaded, setRepliesLoaded] = useState(false);
   const [replyCount, setReplyCount] = useState(initialRepliesCount);
   const [showReplies, setShowReplies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: { message: '' }
+  const form = useForm({
+    resolver: zodResolver(CreateReplySchema),
+    defaultValues: {
+      message: "",
+    },
   });
 
-  const onSubmit = async (data) => {
-    setIsLoading(true);
-    try {
-      await axios.post('/api/submit-reply', { ...data, commentId });
-      toast.success("Reply submitted successfully!");
-    } catch (error) {
-      let errorMessage = "An unexpected error occurred. Please try again.";
+  const onSubmit = (values) => {
+    setError("");
+    setSuccess("");
 
-      if (error.response) {
-        errorMessage = `Server Error: ${error.response.status}. ${error.response.data.message || ''}`;
-      } else if (error.request) {
-        errorMessage = "Network Error: Unable to reach the server. Please check your connection.";
-      } else {
-        errorMessage = `Error: ${error.message}`;
-      }
+    startTransition(() => {
+      createReply(values, commentId)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
 
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+            toast.success("Post submitted successfully!");
+          }
+        })
+        .catch(() => setError("Something went wrong!"))
+    });
+  }
 
   const fetchReplies = async (commentId) => {
     // Check if replies have already been loaded or if there are no replies to load
@@ -102,27 +119,38 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
       </button>
       {showReplies && (
         <div className="mt-2">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
-            <Input
-              id="message" 
-              label="Your Reply" 
-              register={register}
-              validation={{
-                required: "Message is required",
-                minLength: { value: 4, message: "Message must be at least 4 characters long" },
-                maxLength: { value: 280, message: "Message has 280 character limit"}
-              }}
-              errors={errors}
-              disabled={isLoading}
-            />
-            <Button
-              disabled={isLoading}
-              fullWidth
-              type="submit"
-            >
-              Submit Reply
-            </Button>
-          </form>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4">
+              <div className="space-y-4">
+                <FormField 
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Reply</FormLabel>
+                      <FormControl>
+                        <Input 
+                          {...field}
+                          disabled={isPending}
+                          placeholder="New Reply"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex justify-end mb-4">
+                <Button
+                  disabled={isPending}
+                  type="submit"
+                  className="text-center"
+                >
+                  Submit Reply
+                </Button>
+              </div>
+            </form>
+          </Form>
           {replies.map((reply) => (
             <div key={reply.id} className="flex  justify-between items-center p-2 border-t border-gray-200 space-x-4">
               <div>

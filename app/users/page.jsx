@@ -8,9 +8,12 @@ import { notifyNewPost } from "@/Custom-Toast-Messages/Notify";
 import { useInView } from "react-intersection-observer";
 import { BeatLoader } from "react-spinners";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { useDispatch } from "react-redux";
+import { initializeLikes } from "@/redux/features/likesSlice";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
+
 
 
 export default function Users() {
@@ -20,6 +23,7 @@ export default function Users() {
   const [isLoading, setIsLoading] = useState(true);
 
   const user = useCurrentUser();
+  const dispatch = useDispatch();
 
   const [ref, inView] = useInView({
     threshold: 0,
@@ -37,6 +41,16 @@ export default function Users() {
         } else {
           setPosts(prevPosts => [...prevPosts, ...response.data]);
         }
+
+        // Prepare data for initializing likes
+        const likesData = response.data.map(post => ({
+          postId: post.id,
+          currentUserLiked: post.currentUserLiked, 
+          likeCount: post.initialLikesCount,
+        }));
+
+        // Initialize the likes in the redux store
+        dispatch(initializeLikes(likesData));
   
         setHasMore(response.data.length === limit);
       } catch (error) {

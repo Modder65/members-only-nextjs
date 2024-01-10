@@ -18,7 +18,7 @@ import Image from "next/image";
 import Avatar from "./Avatar";
 
 
-const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, currentUserLiked }) => {
+const PostItem = ({ post, postId, initialCommentsCount }) => {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [isLoading, setIsLoading] = useState(false);
@@ -110,7 +110,7 @@ const PostItem = ({ post, postId, initialCommentsCount, initialLikesCount, curre
             <FiMessageSquare className="mr-2" />
             {`Show Comments (${commentCount})`}
           </button>
-          <PostLikeIcon postId={postId} initialLikesCount={initialLikesCount} currentUserLiked={currentUserLiked}/>
+          <PostLikeIcon postId={postId} />
         </div>
       </div>
     </div>   

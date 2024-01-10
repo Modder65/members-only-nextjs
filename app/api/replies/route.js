@@ -1,14 +1,14 @@
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { currentUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic"; // makes sure the route is dynamic and fetch request always has the latest updated data
                                         // needed when deploying to vercel as it makes the routes static by default
 
 export async function GET(request) {
   try {
-    const session = await auth();
-    const userId = session.user.id;
+    const user = await currentUser();
+    const userId = user.id;
 
     const { searchParams } = new URL(request.url);
     const commentId = searchParams.get("commentId");

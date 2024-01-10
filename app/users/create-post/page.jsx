@@ -45,28 +45,28 @@ export default function CreatePostPage() {
     },
   });
 
-    const onSubmit = (values) => {
-      setError("");
-      setSuccess("");
+  const onSubmit = (values) => {
+    setError("");
+    setSuccess("");
 
-      startTransition(() => {
-        createPost(values, imageURL)
-          .then((data) => {
-            if (data?.error) {
-              form.reset();
-              setError(data.error);
-            }
-  
-            if (data?.success) {
-              form.reset();
-              setSuccess(data.success);
-              toast.success("Post submitted successfully!");
-              router.push("/users");
-            }
-          })
-          .catch(() => setError("Something went wrong!"))
-      });
-    }
+    startTransition(() => {
+      createPost(values, imageURL)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+            toast.success("Post submitted successfully!");
+            router.push("/users");
+          }
+        })
+        .catch(() => setError("Something went wrong!"))
+    });
+  }
 
   // Needs to be edited to work
   const handleUpload = (result) => {

@@ -1,25 +1,37 @@
 "use client"
 
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useTransition } from 'react'
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateCommentSchema } from "@/schemas";
+import { toast } from "sonner";
 import { Dialog } from '@headlessui/react'
 import { DateTime } from "luxon";
 import { RepliesSection } from './RepliesSection';
-import { CustomLoader } from '@/components/CustomLoader';
 import { useGSAP } from '@gsap/react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { closeModal } from "@/redux/features/postModalSlice";
 import { IoCloseSharp } from "react-icons/io5";
+import {
+  Form, 
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { createComment } from '@/actions/create-comment';
 import CommentLikeIcon from './CommentLikeIcon';
 import gsap from "gsap";
-import Button from '@/app/components-old/Button';
-import Input from '@/app/components-old/inputs/Input';
 import Link from "next/link";
-import axios from "axios";
 
 
 function PostModal() {
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   let [isLoading, setIsLoading] = useState(false);
   const modalRef = useRef(null);
   const containerRef = useRef(null);
@@ -57,33 +69,35 @@ function PostModal() {
   };
   
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    defaultValues: { message: '' }
+  const form = useForm({
+    resolver: zodResolver(CreateCommentSchema),
+    defaultValues: {
+      message: "",
+    },
   });
 
-  
-
-  const onSubmit = async (data) => {
-    setIsLoading(true);
+  const onSubmit = (values) => {
+    setError("");
+    setSuccess("");
     let postId = selectedPost?.id;
-    try {
-      await axios.post('/api/submit-comment', { ...data, postId });
-      toast.success("Comment submitted successfully!");
-    } catch (error) {
-      let errorMessage = "An unexpected error occurred. Please try again.";
 
-      if (error.response) {
-        errorMessage = `Server Error: ${error.response.status}. ${error.response.data.message || ''}`;
-      } else if (error.request) {
-        errorMessage = "Network Error: Unable to reach the server. Please check your connection.";
-      } else {
-        errorMessage = `Error: ${error.message}`;
-      }
+    startTransition(() => {
+      createComment(values, postId)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+            toast.error("Error submitting Comment")
+          }
 
-      toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+            toast.success("Comment submitted successfully!");
+          }
+        })
+        .catch(() => setError("Something went wrong!"))
+    });
   }
 
   // Modal open animation
@@ -139,35 +153,38 @@ function PostModal() {
               })
             }
           </p>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 mt-4">
-            <Input 
-              id="message" 
-              label="Your Comment" 
-              register={register}
-              validation={{
-                required: "Message is required",
-                minLength: { value: 4, message: "Message must be at least 4 characters long" },
-                maxLength: { value: 280, message: "Message has 280 character limit"}
-              }}
-              errors={errors}
-              disabled={isLoading}
-            />
-            <button type="submit"
-              className="
-              bg-emerald-600
-                rounded-md
-                px-2
-                py-1
-                text-white
-                hover:opacity-80
-              "
-            >
-              Submit Comment
-            </button>
-              
-            
-          </form>
-          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4">
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Your Comment</FormLabel>
+                      <FormControl>
+                        <Input 
+                          {...field}
+                          disabled={isPending}
+                          placeholder="New Comment"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex justify-end mb-4">
+                <Button
+                  disabled={isPending}
+                  type="submit"
+                  className="text-center"
+                >
+                  Submit Comment
+                </Button>
+              </div>
+            </form>
+          </Form>
           <div className="fade-container">
             <div className="mt-4 max-h-[400px] overflow-y-auto scrollbar-custom pb-24">
               {comments.map(comment => (

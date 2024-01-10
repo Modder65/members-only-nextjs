@@ -1,21 +1,20 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { FiHeart } from "react-icons/fi";
 import { toast } from "react-hot-toast";
 import { notifyLike } from "@/Custom-Toast-Messages/Notify";
-import { pusherClient } from "@/lib/pusher";
-import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleReplyLike } from "@/redux/features/likesSlice"; 
+//import { toggleReplyLike } from "@/redux/features/likesSlice"; 
+import { useCurrentUser } from "@/hooks/use-current-user";
 import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
 const ReplyLikeIcon = ({ replyId, initialLikesCount, currentUserLiked }) => {
   const dispatch = useDispatch();
-  const { data: session } = useSession();
-  const userId = session?.user?.id;
+  const user = useCurrentUser();
+  const userId = user.id;
 
   const replyLikes = useSelector((state) => state.likes.replies[replyId]);
   const isLiked = replyLikes?.userLikes[userId] ?? currentUserLiked;

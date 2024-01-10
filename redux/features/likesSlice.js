@@ -1,61 +1,53 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// Define the initial state for the likes slice.
-// The posts object will store the like status and count for each post
 const initialState = {
   posts: {},
   comments: {},
   replies: {},
-}
+};
 
-export const likesSlice = createSlice({
-  name: "likes",
+const likesSlice = createSlice({
+  name: 'likes',
   initialState,
   reducers: {
-    // Reducer for toggling the like status of a post.
-    togglePostLike: (state, action) => {
-      // Extract postId, userId, isLiked, and likeCount from the action payload.
-      const { postId, userId, isLiked, likeCount } = action.payload;
+    toggleLike: (state, action) => {
+      const { postId, commentId, replyId, currentUserLiked, likeCount } = action.payload;
 
-      // If the post does not exist in the state, initialize it with default values.
-      if (!state.posts[postId]) {
-        state.posts[postId] = { userLikes: {}, likeCount: 0 };
+      // Determine the type and ID of the item
+      let type, itemId;
+      if (postId) {
+        type = 'posts';
+        itemId = postId;
+      } else if (commentId) {
+        type = 'comments';
+        itemId = commentId;
+      } else if (replyId) {
+        type = 'replies';
+        itemId = replyId;
       }
 
-      // Update the like status for the specific user on the specified post.
-      state.posts[postId].userLikes[userId] = isLiked;
+      if (!type || !itemId) return; // Exit if type or itemId is not determined
 
-      // Update the total like count for the post.
-      state.posts[postId].likeCount = likeCount;
+      // Initialize the state for the specific item if it doesn't exist
+      if (!state[type][itemId]) {
+        state[type][itemId] = { currentUserLiked: false, likeCount: 0 };
+      }
+
+      // Update the like status and count
+      const item = state[type][itemId];
+      item.likeCount = likeCount;
+      item.currentUserLiked = currentUserLiked;
     },
-
-    // Reducer for toggling the like status of a comment
-    toggleCommentLike: (state, action) => {
-      const { commentId, userId, isLiked, likeCount } = action.payload;
-
-      if (!state.comments[commentId]) {
-        state.comments[commentId] = { userLikes: {}, likeCount: 0 };
-      }
-
-      state.comments[commentId].userLikes[userId] = isLiked;
-      state.comments[commentId].likeCount = likeCount;
-    },
-
-    toggleReplyLike: (state, action) => {
-      const { replyId, userId, isLiked, likeCount } = action.payload;
-
-      if (!state.replies[replyId]) {
-        state.replies[replyId] = { userLikes: {}, likeCount: 0 };
-      }
-
-      state.replies[replyId].userLikes[userId] = isLiked;
-      state.replies[replyId].likeCount = likeCount;
+    initializeLikes: (state, action) => {
+      action.payload.forEach(({ postId, currentUserLiked, likeCount }) => {
+        state.posts[postId] = { currentUserLiked, likeCount };
+      });
     },
   },
 });
 
 // Export the action creators for the slice.
-export const { togglePostLike, toggleCommentLike, toggleReplyLike } = likesSlice.actions;
+export const { toggleLike, initializeLikes } = likesSlice.actions;
 
 // Export the reducer function for the slice.
 export default likesSlice.reducer;

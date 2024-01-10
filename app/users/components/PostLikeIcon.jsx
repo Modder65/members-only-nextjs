@@ -1,49 +1,47 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { FiHeart } from "react-icons/fi";
-import { toast } from "react-hot-toast";
-import { notifyLike } from "@/Custom-Toast-Messages/Notify";
-import { pusherClient } from "@/lib/pusher";
-import { useSession } from "next-auth/react";
-import { togglePostLike } from "@/redux/features/likesSlice";
+import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
+import { toggleLike } from "@/redux/features/likesSlice";
 import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
-
-const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
+const PostLikeIcon = ({ postId }) => {
   const dispatch = useDispatch();
-  const { data: session } = useSession();
-  const userId = session?.user?.id;
-
+  const { currentUserLiked, likeCount } = useSelector((state) => state.likes.posts[postId] || { currentUserLiked: false, likeCount: 0 });
+  
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
   
-  const postLikes = useSelector((state) => state.likes.posts[postId]);
-  // falls back to props for initial state values
-  const isLiked = postLikes?.userLikes[userId] ?? currentUserLiked;
-  const likeCount = postLikes?.likeCount ?? initialLikesCount;
+
 
   const handleToggleLike = async () => {
     setIsLoading(true);
-
     try {
+      // Make sure 'itemType' is correctly set to 'POST'
       const response = await axios.post('/api/like-post', { postId });
-      const { likeCount, userLikedPost } = response.data;
-
-      dispatch(togglePostLike({ postId, userId, isLiked: userLikedPost, likeCount }));
-
+      console.log("Server Response", response.data);
+      const { likeCount, currentUserLiked } = response.data;
+      console.log({ postId, currentUserLiked, likeCount }); // Log the entire payload
+      // Dispatch the appropriate Redux action
+      dispatch(toggleLike({ 
+        postId, 
+        currentUserLiked,
+        likeCount
+      }));
+  
+      toast.success('Updated Like!');
       animateHeartIcon();
-      notifyLike();
     } catch (error) {
-      toast.error('Error updating like.');
+      toast.error('Error updating like');
     } finally {
       setIsLoading(false);
     }
   };
-
+  
   const animateHeartIcon = () => {
     gsap.fromTo(
       heartIconRef.current,
@@ -63,7 +61,7 @@ const PostLikeIcon = ({ postId, initialLikesCount, currentUserLiked }) => {
         {likeCount}
       </span>
       <span ref={heartIconRef} className="text-rose-600">
-        <FiHeart size={20} className={clsx('ml-1', {'fill-current': isLiked})} />
+        <FiHeart size={20} className={clsx('ml-1', {'fill-current': currentUserLiked})} />
       </span>
     </button>
   </div>

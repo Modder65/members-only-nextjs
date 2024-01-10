@@ -1,11 +1,11 @@
 import prisma from "@/lib/prismadb";
 import { pusherServer } from "@/lib/pusher";
-import { auth } from "@/auth";
 import { NextResponse } from "next/server";
+import { currentUser } from "@/lib/auth";
 
 export async function POST(request) {
-  const session = await auth();
-  const userId = session.user.id;
+  const user = await currentUser();
+  const userId = user.id;
   const { commentId } = await request.json();
 
   try {
