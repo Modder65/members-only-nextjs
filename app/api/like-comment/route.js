@@ -45,7 +45,6 @@ export async function POST(request) {
     await pusherServer.trigger("likes-channel", "like:update", {
       itemId: commentId,
       likeCount: updatedLikeCount,
-      actionUserId: userId, // User who performed the action
       currentUserLiked // Indicates if the action was like or unlike
     });
 
