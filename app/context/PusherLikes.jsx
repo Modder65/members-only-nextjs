@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { pusherClient } from "../../lib/pusher";
+import { pusherClient } from "@/lib/pusher";
 import { useDispatch } from "react-redux";
 import { toggleLike } from "@/redux/features/likesSlice";
 
@@ -10,6 +10,7 @@ export const PusherLikesProvider = ({ children }) => {
 
   useEffect(() => {
     const handleLikeUpdate = (data) => {
+      console.log('Received data from Pusher:', data);
       dispatch(toggleLike({
         itemId: data.itemId, 
         likeCount: data.likeCount,
@@ -18,11 +19,15 @@ export const PusherLikesProvider = ({ children }) => {
     }
     
     pusherClient.subscribe("likes-channel");
-    pusherClient.bind("like:update", handleLikeUpdate);
+    pusherClient.bind("like:post", handleLikeUpdate);
+    pusherClient.bind("like:comment", handleLikeUpdate);
+    pusherClient.bind("like:reply", handleLikeUpdate);
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("like:update", handleLikeUpdate);
+      pusherClient.unbind("like:post", handleLikeUpdate);
+      pusherClient.unbind("like:comment", handleLikeUpdate);
+      pusherClient.unbind("like:reply", handleLikeUpdate);
     };
   }, [dispatch]);
 

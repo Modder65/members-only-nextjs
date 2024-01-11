@@ -52,6 +52,7 @@ export default function Users() {
 
         // Initialize the likes in the redux store
         dispatch(initializeLikes(likesData));
+        console.log('Component received like data:', likesData);
   
         setHasMore(response.data.length === limit);
       } catch (error) {

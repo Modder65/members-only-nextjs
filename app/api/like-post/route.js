@@ -44,9 +44,9 @@ export async function POST(request) {
       where: { postId },
     });
 
-    
+    console.log('Triggering Pusher event:', { itemId: postId, likeCount: updatedLikeCount, currentUserLiked });
     // Pusher broadcast
-    await pusherServer.trigger("likes-channel", "like:update", {
+    await pusherServer.trigger("likes-channel", "like:post", {
       itemId: postId,
       likeCount: updatedLikeCount,
       currentUserLiked // Indicates if the action was like or unlike

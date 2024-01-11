@@ -11,6 +11,7 @@ const likesSlice = createSlice({
   initialState,
   reducers: {
     toggleLike: (state, action) => {
+      console.log('Reducer processing action:', action);
       const { postId, commentId, replyId, currentUserLiked, likeCount } = action.payload;
 
       // Determine the type and ID of the item
@@ -37,6 +38,7 @@ const likesSlice = createSlice({
       const item = state[type][itemId];
       item.likeCount = likeCount;
       item.currentUserLiked = currentUserLiked;
+      console.log('Updated state:', state);
     },
     initializeLikes: (state, action) => {
       action.payload.forEach(({ type, itemId, currentUserLiked, likeCount }) => {
