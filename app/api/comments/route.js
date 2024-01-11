@@ -21,28 +21,16 @@ export async function GET(request) {
       where: { postId: postId },
       include: {
         user: { select: { name: true } },
-        _count: {
-          select: { replies: true, likes: true } // This counts the number of replies for each comment
-        }
+        _count: { select: { replies: true } },
+        likes: true,
       }
-    });
-
-    // Extract comment IDs
-    const commentIds = comments.map(comment => comment.id);
-
-    // Find all likes that the current user has made on these comments
-    const likedComments = await prisma.like.findMany({
-      where: {
-        commentId: { in: commentIds },
-        userId: userId
-      },
-      select: { commentId: true }
     });
 
     // Map these likes back to the corresponding comments
     const commentsWithLikeStatus = comments.map(comment => ({
       ...comment,
-      currentUserLiked: likedComments.some(like => like.commentId === comment.id)
+      currentUserLiked: comment.likes.some(like => like.userId === userId), // Check if user liked the post
+      initialLikesCount: comment.likes.length, // Initial like count
     }));
 
     return NextResponse.json(commentsWithLikeStatus, { status: 200 });

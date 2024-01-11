@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import { DateTime } from "luxon";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { FiMessageSquare } from "react-icons/fi";
 import { pusherClient } from "@/lib/pusher";
 import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
@@ -11,11 +11,12 @@ import { useDispatch } from "react-redux";
 import { openModal } from "@/redux/features/postModalSlice";
 import { setCommentsForPost, updateCommentForPost } from "@/redux/features/commentsSlice";
 import { CldImage } from "next-cloudinary";
+import { initializeLikes } from "@/redux/features/likesSlice";
 import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
-import Image from "next/image";
 import Avatar from "./Avatar";
+
 
 
 const PostItem = ({ post, postId, initialCommentsCount }) => {
@@ -34,7 +35,19 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
         const response = await axios.get(`/api/comments?postId=${postId}`);
         dispatch(setCommentsForPost({ postId, comments: response.data }));
         setCommentsLoaded(true);
+
+        // Prepare data for initializing likes
+        const likesData = response.data.map(comment => ({
+          type: 'comments',
+          itemId: comment.id,
+          currentUserLiked: comment.currentUserLiked, 
+          likeCount: comment.initialLikesCount,
+        }));
+
+        // Initialize the likes in the redux store
+        dispatch(initializeLikes(likesData));
       } catch (error) {
+        console.error(error);
         toast.error("Failed to fetch comments");
       } finally {
         setIsLoading(false);

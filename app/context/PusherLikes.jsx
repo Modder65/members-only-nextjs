@@ -8,9 +8,9 @@ export const PusherLikesProvider = ({ children }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const handleLikePost = (data) => {
+    const handleLikeUpdate = (data) => {
       dispatch(toggleLike({
-        postId: data.itemId, 
+        itemId: data.itemId, 
         currentUserLiked: data.currentUserLiked, 
         likeCount: data.likeCount,
       }));
@@ -18,11 +18,11 @@ export const PusherLikesProvider = ({ children }) => {
     
 
     pusherClient.subscribe("likes-channel");
-    pusherClient.bind("like:post", handleLikePost);
+    pusherClient.bind("like:update", handleLikeUpdate);
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("like:post", handleLikePost);
+      pusherClient.unbind("like:update", handleLikeUpdate);
     };
   }, [dispatch]);
 

@@ -26,7 +26,7 @@ export async function POST(request) {
       await prisma.like.create({
         data: {
           user: { connect: { id: userId } },
-          Post: { connect: { id: postId } }, // Corrected field name to "Post"
+          Post: { connect: { id: postId } }, 
         },
       });
       currentUserLiked = true; // User liked the post
@@ -45,8 +45,8 @@ export async function POST(request) {
     });
 
     // Pusher broadcast
-    await pusherServer.trigger("likes-channel", "post:liked", {
-      postId,
+    await pusherServer.trigger("likes-channel", "like:update", {
+      itemId: postId,
       likeCount: updatedLikeCount,
       actionUserId: userId, // User who performed the action
       currentUserLiked // Indicates if the action was like or unlike

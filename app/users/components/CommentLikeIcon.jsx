@@ -1,26 +1,23 @@
 "use client"
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import { FiHeart } from "react-icons/fi";
-import { toast } from "react-hot-toast";
+import { toast } from "sonner";
 import { notifyLike } from "@/Custom-Toast-Messages/Notify";
-import { useSession } from "next-auth/react";
 import { useDispatch, useSelector } from "react-redux";
-//import { toggleCommentLike } from "@/redux/features/likesSlice"; 
-import { useCurrentUser } from "@/hooks/use-current-user";
+import { toggleLike } from "@/redux/features/likesSlice";
 import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
-const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => {
+
+const CommentLikeIcon = ({ commentId }) => {
   const dispatch = useDispatch();
-  const user = useCurrentUser();
-  const userId = user.id;
-
-  const commentLikes = useSelector((state) => state.likes.comments[commentId]);
-  const isLiked = commentLikes?.userLikes[userId] ?? currentUserLiked;
-  const likeCount = commentLikes?.likeCount ?? initialLikesCount;
-
+  const likeState = useSelector((state) => state.likes.comments[commentId]);
+  const { currentUserLiked, likeCount } = useMemo(() => {
+    return likeState || { currentUserLiked: false, likeCount: 0 };
+  }, [likeState]);
+  
   const heartIconRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,13 +26,14 @@ const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => 
 
     try {
       const response = await axios.post('/api/like-comment', { commentId });
-      const { likeCount, userLikedComment } = response.data;
-
-      // Dispatch action to update global state
-      dispatch(toggleCommentLike({ commentId, userId, isLiked: userLikedComment, likeCount }));
-
+      const { likeCount, currentUserLiked } = response.data;
+      dispatch(toggleLike({ 
+        commentId, 
+        currentUserLiked,
+        likeCount
+      }));
+      toast.success('Updated Like!');
       animateHeartIcon();
-      notifyLike();
     } catch (error) {
       toast.error('Error updating like.');
     } finally {
@@ -59,7 +57,7 @@ const CommentLikeIcon = ({ commentId, initialLikesCount, currentUserLiked }) => 
         disabled={isLoading}
       >
         <span ref={heartIconRef} className="text-rose-600">
-          <FiHeart className={clsx('mr-1', {'fill-current': isLiked})} />
+          <FiHeart className={clsx('mr-1', {'fill-current': currentUserLiked})} />
         </span>
         <span style={{ opacity: likeCount > 0 ? 1 : 0 }}>
           {likeCount}

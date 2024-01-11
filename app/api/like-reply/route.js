@@ -9,31 +9,31 @@ export async function POST(request) {
   const { replyId } = await request.json();
 
   try {
-    let userLikedReply = false;
+    let currentUserLiked = false;
 
-    // Check if like already exists
-    const existingLike = await prisma.like.findUnique({
+    // Check if like already exists for the reply
+    const existingLike = await prisma.like.findFirst({
       where: {
-        userId_replyId: {
-          userId,
-          replyId,
-        },
+        userId,
+        replyId,
       },
     });
 
     if (existingLike == null) {
+      // User hasn't liked the reply, create a new like
       await prisma.like.create({
         data: {
           user: { connect: { id: userId } },
-          reply: { connect: { id: replyId } },
+          Reply: { connect: { id: replyId } }, 
         },
       });
-      userLikedReply = true; // User liked the reply
+      currentUserLiked = true; // User liked the reply
     } else {
+      // User has already liked the reply, remove their original like
       await prisma.like.delete({
         where: { id: existingLike.id },
       });
-      userLikedReply = false; // User unliked the reply
+      currentUserLiked = false; // User unliked the reply
     }
 
     // Get updated like count
@@ -42,17 +42,17 @@ export async function POST(request) {
     });
 
     // Pusher broadcast
-    await pusherServer.trigger("likes-channel", "reply:liked", {
-      replyId,
+    await pusherServer.trigger("likes-channel", "like:update", {
+      itemId: replyId,
       likeCount: updatedLikeCount,
       actionUserId: userId, // User who performed the action
-      userLikedReply // Indicates if the action was like or unlike
+      currentUserLiked // Indicates if the action was like or unlike
     });
 
     return NextResponse.json({ 
       message: "Like updated successfully", 
       likeCount: updatedLikeCount,
-      userLikedReply: userLikedReply
+      currentUserLiked
   }, { status: 200 });
   } catch (error) {
     console.error("Error updating like:", error);

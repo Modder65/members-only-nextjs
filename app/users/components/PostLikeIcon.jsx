@@ -23,16 +23,12 @@ const PostLikeIcon = ({ postId }) => {
     try {
       // Make sure 'itemType' is correctly set to 'POST'
       const response = await axios.post('/api/like-post', { postId });
-      console.log("Server Response", response.data);
       const { likeCount, currentUserLiked } = response.data;
-      console.log({ postId, currentUserLiked, likeCount }); // Log the entire payload
-      // Dispatch the appropriate Redux action
       dispatch(toggleLike({ 
         postId, 
         currentUserLiked,
         likeCount
       }));
-  
       toast.success('Updated Like!');
       animateHeartIcon();
     } catch (error) {

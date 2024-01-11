@@ -44,7 +44,8 @@ export default function Users() {
 
         // Prepare data for initializing likes
         const likesData = response.data.map(post => ({
-          postId: post.id,
+          type: 'posts',
+          itemId: post.id,
           currentUserLiked: post.currentUserLiked, 
           likeCount: post.initialLikesCount,
         }));

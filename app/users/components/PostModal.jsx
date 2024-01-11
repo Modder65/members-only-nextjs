@@ -202,11 +202,7 @@ function PostModal() {
                       })
                     }
                   </p>
-                  <CommentLikeIcon 
-                    commentId={comment.id} 
-                    initialLikesCount={comment._count.likes}
-                    currentUserLiked={comment.currentUserLiked}
-                  />
+                  <CommentLikeIcon commentId={comment.id} />
                   <RepliesSection commentId={comment.id} initialRepliesCount={comment._count.replies} />
                 </div>
               ))}

@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useTransition } from "react";
 import { DateTime } from "luxon";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import { pusherClient } from "@/lib/pusher";
 import { notifyNewReply } from "@/Custom-Toast-Messages/Notify";
@@ -19,7 +20,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { createReply } from "@/actions/create-reply";
+import { initializeLikes } from "@/redux/features/likesSlice";
 import ReplyLikeIcon from "./ReplyLikeIcon";
+import axios from "axios";
 
 
 
@@ -32,6 +35,8 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   const [replyCount, setReplyCount] = useState(initialRepliesCount);
   const [showReplies, setShowReplies] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const form = useForm({
     resolver: zodResolver(CreateReplySchema),
@@ -70,7 +75,19 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
         const response = await axios.get(`/api/replies?commentId=${commentId}`);
         setReplies(response.data);
         setRepliesLoaded(true);
+
+        // Prepare data for initializing likes
+        const likesData = response.data.map(reply => ({
+          type: 'replies',
+          itemId: reply.id,
+          currentUserLiked: reply.currentUserLiked, 
+          likeCount: reply.initialLikesCount,
+        }));
+
+        // Initialize the likes in the redux store
+        dispatch(initializeLikes(likesData));
       } catch (error) {
+        console.error(error);
         toast.error("Failed to fetch replies");
       } finally {
         setIsLoading(false);
@@ -79,7 +96,7 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
   };
 
   const toggleRepliesDisplay = async () => {
-    // Fetch comments only if they are not currently shown
+    // Fetch replies only if they are not currently shown
     if (!showReplies) {
       await fetchReplies(commentId);
     }
@@ -144,7 +161,7 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
                 <Button
                   disabled={isPending}
                   type="submit"
-                  className="text-center"
+                  className="text-center mb-4"
                 >
                   Submit Reply
                 </Button>
@@ -169,11 +186,7 @@ export const RepliesSection = ({ commentId, initialRepliesCount }) => {
                 </p>
               </div>
               <div>
-                <ReplyLikeIcon 
-                  replyId={reply.id} 
-                  initialLikesCount={reply._count.likes}
-                  currentUserLiked={reply.currentUserLiked} 
-                />
+                <ReplyLikeIcon replyId={reply.id} />
               </div>
             </div>
           ))}

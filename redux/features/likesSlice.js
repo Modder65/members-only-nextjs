@@ -39,8 +39,15 @@ const likesSlice = createSlice({
       item.currentUserLiked = currentUserLiked;
     },
     initializeLikes: (state, action) => {
-      action.payload.forEach(({ postId, currentUserLiked, likeCount }) => {
-        state.posts[postId] = { currentUserLiked, likeCount };
+      action.payload.forEach(({ type, itemId, currentUserLiked, likeCount }) => {
+        if (!state[type]) state[type] = {};
+    
+        if (!state[type][itemId]) {
+          state[type][itemId] = { currentUserLiked: false, likeCount: 0 };
+        }
+    
+        state[type][itemId].currentUserLiked = currentUserLiked;
+        state[type][itemId].likeCount = likeCount;
       });
     },
   },

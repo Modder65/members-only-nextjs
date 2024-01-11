@@ -9,31 +9,31 @@ export async function POST(request) {
   const { commentId } = await request.json();
 
   try {
-    let userLikedComment = false;
+    let currentUserLiked = false;
 
-    // Check if like already exists
-    const existingLike = await prisma.like.findUnique({
+    // Check if like already exists for the comment
+    const existingLike = await prisma.like.findFirst({
       where: {
-        userId_commentId: {
-          userId,
-          commentId,
-        },
+        userId,
+        commentId,
       },
     });
 
     if (existingLike == null) {
+      // User hasn't liked the comment, create a new like
       await prisma.like.create({
         data: {
           user: { connect: { id: userId } },
-          comment: { connect: { id: commentId } },
+          Comment: { connect: { id: commentId } }, 
         },
       });
-      userLikedComment = true; // User liked the comment
+      currentUserLiked = true; // User liked the comment
     } else {
+      // User has already liked the comment, remove their original like
       await prisma.like.delete({
         where: { id: existingLike.id },
       });
-      userLikedComment = false; // User unliked the comment
+      currentUserLiked = false; // User unliked the comment
     }
 
     // Get updated like count
@@ -42,17 +42,17 @@ export async function POST(request) {
     });
 
     // Pusher broadcast
-    await pusherServer.trigger("likes-channel", "comment:liked", {
-      commentId,
+    await pusherServer.trigger("likes-channel", "like:update", {
+      itemId: commentId,
       likeCount: updatedLikeCount,
       actionUserId: userId, // User who performed the action
-      userLikedComment // Indicates if the action was like or unlike
+      currentUserLiked // Indicates if the action was like or unlike
     });
 
     return NextResponse.json({ 
       message: "Like updated successfully", 
       likeCount: updatedLikeCount,
-      userLikedComment: userLikedComment
+      currentUserLiked
   }, { status: 200 });
   } catch (error) {
     console.error("Error updating like:", error);
