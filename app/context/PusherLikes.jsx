@@ -6,17 +6,17 @@ import { toggleLike } from "@/redux/features/likesSlice";
 
 export const PusherLikesProvider = ({ children }) => {
   const dispatch = useDispatch();
+  
 
   useEffect(() => {
     const handleLikeUpdate = (data) => {
       dispatch(toggleLike({
         itemId: data.itemId, 
-        currentUserLiked: data.currentUserLiked, 
         likeCount: data.likeCount,
+        currentUserLiked: data.currentUserLiked, 
       }));
     }
     
-
     pusherClient.subscribe("likes-channel");
     pusherClient.bind("like:update", handleLikeUpdate);
 

@@ -44,6 +44,7 @@ export async function POST(request) {
       where: { postId },
     });
 
+    
     // Pusher broadcast
     await pusherServer.trigger("likes-channel", "like:update", {
       itemId: postId,
@@ -52,6 +53,7 @@ export async function POST(request) {
       currentUserLiked // Indicates if the action was like or unlike
     });
 
+    
     return NextResponse.json({ 
       message: "Like updated successfully", 
       likeCount: updatedLikeCount,
