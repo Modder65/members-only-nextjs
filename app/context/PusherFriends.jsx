@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { pusherClient } from "../../lib/pusher";
 import { useDispatch } from "react-redux";
-import { addPendingRequest, removePendingRequest, addFriend } from "@/redux/features/accountSlice";
+import { addPendingRequest, removePendingRequest, addFriend, removeFriend } from "@/redux/features/accountSlice";
 
 
 export const PusherFriendsProvider = ({ children }) => {

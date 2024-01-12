@@ -1,18 +1,16 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
-import { pusherServer } from "@/lib/pusher";
+import { currentUser } from "@/lib/auth";
 import prisma from "@/lib/prismadb";
 
 export async function GET(request) {
-  const session = await auth();
-  const userId = session.user.id;
+  const user = await currentUser();
 
   try {
     const friendships = await prisma.friendship.findMany({
       where: {
         OR: [
-          { receiverId: userId, status: 'ACCEPTED' }, // Current user is the receiver
-          { senderId: userId, status: 'ACCEPTED' }   // Current user is the sender
+          { receiverId: user.id, status: 'ACCEPTED' }, // Current user is the receiver
+          { senderId: user.id, status: 'ACCEPTED' }   // Current user is the sender
         ]
       },
       include: {

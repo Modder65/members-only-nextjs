@@ -1,15 +1,14 @@
 import prisma from "@/lib/prismadb";
+import { currentUser } from "@/lib/auth";
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
 
 export async function GET(request) {
-  const session = await auth(); // Get the user session
-  const userId = session.user.id; // The ID of the user whose pending requests we want to fetch
+  const user = await currentUser();
 
   try {
     const pendingRequests = await prisma.friendship.findMany({
       where: {
-        receiverId: userId, // Assuming 'friendId' is the user who received the request
+        receiverId: user.id, 
         status: 'PENDING'
       },
       include: {
