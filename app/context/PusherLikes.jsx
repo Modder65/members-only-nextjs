@@ -10,23 +10,25 @@ export const PusherLikesProvider = ({ children }) => {
 
   useEffect(() => {
     const handleLikeUpdate = (data) => {
-      try {
-        dispatch(toggleLike({
-          itemId: data.itemId, 
-          likeCount: data.likeCount,
-          currentUserLiked: data.currentUserLiked, 
-        }));
-      } catch (error) {
-        console.error(error);
+      if (data.postId) {
+        dispatch(toggleLike({ postId: data.postId, likeCount: data.likeCount, currentUserLiked: data.currentUserLiked }));
+      } else if (data.commentId) {
+        dispatch(toggleLike({ commentId: data.commentId, likeCount: data.likeCount, currentUserLiked: data.currentUserLiked }));
+      } else if (data.replyId) {
+        dispatch(toggleLike({ replyId: data.replyId, likeCount: data.likeCount, currentUserLiked: data.currentUserLiked }));
       }
     }
     
     pusherClient.subscribe("likes-channel");
     pusherClient.bind("like:post", handleLikeUpdate);
+    pusherClient.bind("like:comment", handleLikeUpdate);
+    pusherClient.bind("like:reply", handleLikeUpdate);
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
       pusherClient.unbind("like:post", handleLikeUpdate);
+      pusherClient.unbind("like:comment", handleLikeUpdate);
+      pusherClient.unbind("like:reply", handleLikeUpdate);
     };
   }, [dispatch]);
 
