@@ -23,11 +23,11 @@ const PostLikeIcon = ({ postId }) => {
     try {
       // Make sure 'itemType' is correctly set to 'POST'
       const response = await axios.post('/api/like-post', { postId });
-      const { likeCount, currentUserLiked } = response.data;
+      const { likeCount } = response.data;
       dispatch(toggleLike({ 
         postId, 
         likeCount,
-        currentUserLiked
+        currentUserLiked: !currentUserLiked
       }));
       toast.success('Updated Like!');
       animateHeartIcon();

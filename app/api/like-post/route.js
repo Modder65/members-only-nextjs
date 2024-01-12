@@ -9,8 +9,6 @@ export async function POST(request) {
   const { postId } = await request.json();
 
   try {
-    let currentUserLiked = false;
-
     // Check if like already exists for the post
     const existingLike = await prisma.like.findFirst({
       where: {
@@ -27,13 +25,11 @@ export async function POST(request) {
           Post: { connect: { id: postId } }, 
         },
       });
-      currentUserLiked = true; // User liked the post
     } else {
       // User has already liked the post, remove their original like
       await prisma.like.delete({
         where: { id: existingLike.id },
       });
-      currentUserLiked = false; // User unliked the post
     }
 
     // Get updated like count for the post
@@ -51,7 +47,6 @@ export async function POST(request) {
     return NextResponse.json({ 
       message: "Like updated successfully", 
       likeCount: updatedLikeCount,
-      currentUserLiked
   }, { status: 200 });
   } catch (error) {
     console.error("Error updating like:", error);
