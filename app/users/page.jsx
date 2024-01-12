@@ -112,7 +112,7 @@ export default function Users() {
     <div className="mx-auto max-w-6xl px-5 py-5">
       <h2 className="mb-5 text-3xl font-bold">Posts</h2>
       {user ? (
-        <p className="mb-5 text-xl">Welcome <strong>{user.name}</strong>!</p>
+        <p className="mb-5 text-xl">Welcome <strong>{user?.name}</strong>!</p>
       ) : (
         <p>Welcome to the members only page!</p>
       )}
