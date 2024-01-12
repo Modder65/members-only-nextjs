@@ -50,7 +50,6 @@ export async function POST(request) {
     return NextResponse.json({ 
       message: "Like updated successfully", 
       likeCount: updatedLikeCount,
-      currentUserLiked
   }, { status: 200 });
   } catch (error) {
     console.error("Error updating like:", error);

@@ -27,11 +27,11 @@ const ReplyLikeIcon = ({ replyId }) => {
 
     try {
       const response = await axios.post('/api/like-reply', { replyId });
-      const { likeCount, currentUserLiked } = response.data;
+      const { likeCount } = response.data;
       dispatch(toggleLike({ 
         replyId, 
-        currentUserLiked,
-        likeCount
+        likeCount,
+        currentUserLiked: !currentUserLiked
       }));
       animateHeartIcon();
     } catch (error) {

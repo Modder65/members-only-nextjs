@@ -26,11 +26,11 @@ const CommentLikeIcon = ({ commentId }) => {
 
     try {
       const response = await axios.post('/api/like-comment', { commentId });
-      const { likeCount, currentUserLiked } = response.data;
+      const { likeCount } = response.data;
       dispatch(toggleLike({ 
         commentId, 
-        currentUserLiked,
-        likeCount
+        likeCount,
+        currentUserLiked: !currentUserLiked
       }));
       toast.success('Updated Like!');
       animateHeartIcon();
