@@ -14,7 +14,6 @@ const RegisterPage = () => {
 
   
   useEffect(() => {
-    console.log("hello there");
     verifyInvite(token)
       .then((data) => {
         if (data?.error) {

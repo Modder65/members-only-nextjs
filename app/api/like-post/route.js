@@ -19,8 +19,6 @@ export async function POST(request) {
       },
     });
 
-    console.log("Existing Like:", existingLike);
-
     if (existingLike == null) {
       // User hasn't liked the post, create a new like
       await prisma.like.create({
@@ -31,7 +29,6 @@ export async function POST(request) {
       });
       currentUserLiked = true; // User liked the post
     } else {
-      console.log("Deleting existing like");
       // User has already liked the post, remove their original like
       await prisma.like.delete({
         where: { id: existingLike.id },
@@ -44,7 +41,6 @@ export async function POST(request) {
       where: { postId },
     });
 
-    console.log('Triggering Pusher event:', { itemId: postId, likeCount: updatedLikeCount, currentUserLiked });
     // Pusher broadcast
     await pusherServer.trigger("likes-channel", "like:update", {
       postId,

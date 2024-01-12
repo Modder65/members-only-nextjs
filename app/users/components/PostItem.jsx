@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from "react";
-import { useSession } from "next-auth/react";
+import { useCurrentUser } from "@/hooks/use-current-user";
 import { DateTime } from "luxon";
 import { toast } from "sonner";
 import { FiMessageSquare } from "react-icons/fi";
@@ -19,11 +19,12 @@ import Avatar from "./Avatar";
 
 
 
+
 const PostItem = ({ post, postId, initialCommentsCount }) => {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [isLoading, setIsLoading] = useState(false);
-  const { data: session } = useSession();
+  const user = useCurrentUser();
 
   const dispatch = useDispatch();
   
@@ -97,9 +98,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
         }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
           Posted by 
-          {console.log("Session id:", typeof(session.user.id))}
-          {console.log("Post id:", typeof(post.user.id))}
-          {session.user.id === post.user.id ? (
+          {user.id === post.user.id ? (
             <span> {post.user.name}</span>
           ) : (
             <Link href={`/users/${post.user.id}`}>

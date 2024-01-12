@@ -155,7 +155,6 @@ const UserProfile = () => {
 
                   {/* Display friends where the user is the recipient */}
                   {userData.friendUserFriendships.map(friendship => (
-                    console.log("Friend Id:", friendship.id),
                     <div key={friendship.user.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                       <div className="flex items-center gap-2">
                         <Avatar user={friendship.user}/>

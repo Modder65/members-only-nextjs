@@ -194,7 +194,6 @@ const handleRemoveFriend = async (friendRequestId) => {
                     <div className="space-y-2">
                       {friends.map(friendship => (
                         // ... Render each friend
-                        console.log("Friend Id:", friendship.id),
                         <div key={friendship.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                             <div className="flex items-center gap-2">
                               <Avatar user={user.id === friendship.senderId ? friendship.friend : friendship.user}/>

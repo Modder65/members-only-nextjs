@@ -22,7 +22,6 @@ export const register = async (values) => {
 
   // Validate the invitation token a second time during registration
   const validInviteToken = await getInvitationTokenByEmail(email);
-  console.log("Valid invite token:", validInviteToken);
 
   if (!validInviteToken) {
     return { error: "Invalid invitation token!" };

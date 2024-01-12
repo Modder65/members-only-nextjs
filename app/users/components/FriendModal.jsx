@@ -120,7 +120,6 @@ function FriendsModal() {
           </div>
           <div className="fade-container">
             <div className="mt-4 max-h-[400px] overflow-y-auto scrollbar-custom pb-24">
-                {console.log(friends)}
               {friends.map(friendship => (
                 <div key={friendship.id} className="friend-item flex items-center justify-between border-b-2 border-gray-700 py-5">
                     <div className="flex items-center gap-2">
