@@ -42,8 +42,8 @@ export async function POST(request) {
     });
 
     // Pusher broadcast
-    await pusherServer.trigger("likes-channel", "like:comment", {
-      itemId: commentId,
+    await pusherServer.trigger("likes-channel", "like:update", {
+      commentId,
       likeCount: updatedLikeCount,
       currentUserLiked // Indicates if the action was like or unlike
     });

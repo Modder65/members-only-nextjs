@@ -26,8 +26,8 @@ const PostLikeIcon = ({ postId }) => {
       const { likeCount, currentUserLiked } = response.data;
       dispatch(toggleLike({ 
         postId, 
-        currentUserLiked,
-        likeCount
+        likeCount,
+        currentUserLiked
       }));
       toast.success('Updated Like!');
       animateHeartIcon();
