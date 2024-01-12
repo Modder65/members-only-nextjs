@@ -22,11 +22,11 @@ export const PusherLikesProvider = ({ children }) => {
     }
     
     pusherClient.subscribe("likes-channel");
-    pusherClient.bind("like:update", handleLikeUpdate);
+    pusherClient.bind("like:post", handleLikeUpdate);
 
     return () => {
       pusherClient.unsubscribe("likes-channel");
-      pusherClient.unbind("like:update", handleLikeUpdate);
+      pusherClient.unbind("like:post", handleLikeUpdate);
     };
   }, [dispatch]);
 
