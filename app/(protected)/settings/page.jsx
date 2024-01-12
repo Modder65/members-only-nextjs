@@ -3,7 +3,7 @@
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useTransition, useState } from "react";
+import { useTransition, useState, useEffect } from "react";
 import { BeatLoader } from "react-spinners";
 
 import { SettingsSchema } from "@/schemas";
@@ -43,7 +43,7 @@ import { UserRole } from "@prisma/client";
 
 const SettingsPage = () => {
   const user = useCurrentUser();
-
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const { update } = useSession();
@@ -61,6 +61,19 @@ const SettingsPage = () => {
     }
   });
 
+   // Update form values once the user data is loaded
+   useEffect(() => {
+    if (user) {
+      form.reset({
+        name: user.name || "",
+        email: user.email || "",
+        role: user.role || "",
+        isTwoFactorEnabled: user.isTwoFactorEnabled || false,
+      });
+      setIsLoading(false);
+    }
+  }, [user, form.reset]);
+
   const onSubmit = (values) => {
     startTransition(() => {
       settings(values)
@@ -76,6 +89,14 @@ const SettingsPage = () => {
         })
         .catch(() => setError("Something went wrong!"));
     });
+  }
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center">
+        <BeatLoader /> 
+      </div>
+    );
   }
 
   return ( 
