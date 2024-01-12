@@ -11,11 +11,11 @@ export const PusherLikesProvider = ({ children }) => {
   useEffect(() => {
     const handleLikeUpdate = (data) => {
       if (data.postId) {
-        dispatch(toggleLike({ postId: data.postId, likeCount: data.likeCount, currentUserLiked: data.currentUserLiked }));
+        dispatch(toggleLike({ postId: data.postId, likeCount: data.likeCount }));
       } else if (data.commentId) {
-        dispatch(toggleLike({ commentId: data.commentId, likeCount: data.likeCount, currentUserLiked: data.currentUserLiked }));
+        dispatch(toggleLike({ commentId: data.commentId, likeCount: data.likeCount }));
       } else if (data.replyId) {
-        dispatch(toggleLike({ replyId: data.replyId, likeCount: data.likeCount, currentUserLiked: data.currentUserLiked }));
+        dispatch(toggleLike({ replyId: data.replyId, likeCount: data.likeCount }));
       }
     }
     

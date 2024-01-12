@@ -45,7 +45,6 @@ export async function POST(request) {
     await pusherServer.trigger("likes-channel", "like:comment", {
       commentId,
       likeCount: updatedLikeCount,
-      currentUserLiked // Indicates if the action was like or unlike
     });
 
     return NextResponse.json({ 
