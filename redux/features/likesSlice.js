@@ -26,17 +26,18 @@ const likesSlice = createSlice({
         itemId = replyId;
       }
 
-      if (!type || !itemId) return; // Exit if type or itemId is not determined
-
       // Initialize the state for the specific item if it doesn't exist
       if (!state[type][itemId]) {
         state[type][itemId] = { currentUserLiked: false, likeCount: 0 };
       }
 
-      // Update the like status and count
-      const item = state[type][itemId];
-      item.likeCount = likeCount;
-      item.currentUserLiked = currentUserLiked;
+      // Update the like count 
+      state[type][itemId].likeCount = likeCount;
+
+      // Update currentUserLiked only if its explicity provided 
+      if (currentUserLiked !== undefined) {
+        state[type][itemId].currentUserLiked = currentUserLiked;
+      }
     },
     initializeLikes: (state, action) => {
       action.payload.forEach(({ type, itemId, currentUserLiked, likeCount }) => {
