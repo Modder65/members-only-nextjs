@@ -49,27 +49,29 @@ export const LoginForm = () => {
   const onSubmit = (values) => {
     setError("");
     setSuccess("");
-
+  
     startTransition(() => {
       login(values, callbackUrl)
         .then((data) => {
-          if (data?.error) {
+          if (data?.error && data?.twoFactor) {
+            // If there's a 2FA error, let the user try again
+            setError(data.error);
+          } else if (data?.error) {
+            // Handle other errors
             form.reset();
             setError(data.error);
-          }
-
-          if (data?.success) {
+          } else if (data?.success) {
+            // Handle success
             form.reset();
             setSuccess(data.success);
-          }
-
-          if (data?.twoFactor) {
+          } else if (data?.twoFactor) {
+            // Prompt for 2FA code
             setShowTwoFactor(true);
           }
         })
         .catch(() => setError("Something went wrong!"))
     });
-  }
+  };  
 
   return (
     <CardWrapper

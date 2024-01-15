@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 import prisma from "@/lib/prismadb";
+import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 
 import { signIn } from "@/auth";
@@ -36,6 +37,14 @@ export const login = async (values, callbackUrl) => {
     return { error: "Email does not exist!" };
   }
 
+    // Validate password
+    // Fixes error where users could proceed to the 2FA screen,
+    // after entering an incorrect password
+  const isPasswordValid = await bcrypt.compare(password, existingUser.password);
+  if (!isPasswordValid) {
+    return { error: "Invalid credentials!" };
+  }
+
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(
       existingUser.email,
@@ -55,18 +64,18 @@ export const login = async (values, callbackUrl) => {
         existingUser.email
       );
 
-      if (!twoFactorToken) {
-        return { error: "Invalid code!" };
+      const hasExpired = new Date(twoFactorToken.expires) < new Date();
+      
+      // Returns twoFactor: true alongside the error message to tell the client-side,
+      // that the user is still in the process of completing 2FA. Without this flag,
+      // the client might incorrectly assume that the 2FA process is either not required or already complet. 
+      // This fixes the error where a user could no longer submit the 2FA form after entering an incorrect code once.
+      if (!twoFactorToken || twoFactorToken.token !== code || hasExpired) {
+        return { twoFactor: true, error: "Invalid or expired code. Please try again." };
       }
 
       if (twoFactorToken.token !== code) {
         return { error: "Invalid code!" };
-      }
-
-      const hasExpired = new Date(twoFactorToken.expires) < new Date();
-
-      if (hasExpired) {
-        return { error: "Code expired!" };
       }
 
       await prisma.twoFactorToken.delete({
