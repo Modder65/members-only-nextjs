@@ -98,7 +98,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
         }
         <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
           Posted by 
-          {user?.id === post?.user?.id ? (
+          {user?.id === post?.user?.id ? ( //optional chaining fixed client-side error on users page on refresh
             <span> {post.user.name}</span>
           ) : (
             <Link href={`/users/${post.user.id}`}>
