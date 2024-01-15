@@ -83,6 +83,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
     <div className="max-auto max-w-6xl px-5 mb-5">
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
+          {console.log("Post User:", post.user)}
           <Avatar user={post.user}/>
           <h2 className=" text-xl font-bold">{post.title}</h2>
         </div>
