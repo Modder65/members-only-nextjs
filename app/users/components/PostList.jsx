@@ -4,14 +4,14 @@ import PostModal from "./PostModal";
 const PostList = ({ posts }) => {
   return (
     <>
-      {posts.map(post => post && post.id ? (
+      {posts.map(post => (
         <PostItem 
           key={post.id} 
           post={post} 
           postId={post.id} 
           initialCommentsCount={post._count.comments}
         />
-      ) : null)}
+      ))}
       <PostModal />
     </>
   );
