@@ -195,7 +195,7 @@ const ManageUsers = () => {
                         <AlertDialogHeader>
                           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                           <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete this user's
+                            This action cannot be undone. This will permanently delete this users
                             account and remove their data from our servers.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
