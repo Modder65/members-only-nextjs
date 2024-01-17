@@ -21,6 +21,17 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -32,6 +43,7 @@ import { SearchUserSchema } from "@/schemas";
 import { searchUser } from "@/actions/search-user";
 import { toast } from "sonner";
 import { autoCompleteUserEmail } from "@/actions/auto-complete";
+import { deleteUser } from "@/actions/delete-user";
 
 const ManageUsers = () => {
   const [autocompleteResults, setAutocompleteResults] = useState([]);
@@ -63,6 +75,13 @@ const ManageUsers = () => {
         .catch(() => toast.error("Something went wrong!"))
     });
   }
+
+  const onDelete = (userId) => {
+    deleteUser(userId)
+      .then((data) => {
+        setUserData(null);
+      })
+  };
 
   const fetchAutocompleteResults = (partialEmail) => {
     if (partialEmail.length > 2) { // to avoid too many requests
@@ -154,18 +173,38 @@ const ManageUsers = () => {
               </Card>
               {userData && (
                 <Card className="">
-                  <CardListItem className="flex flex-row items-center gap-x-2 w-full">
-                    <Avatar>
-                      <AvatarImage src={userData?.image || ""}/>
-                      <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-                from-green-400 to-green-800">
-                        <FaUser className="text-white"/>
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex flex-col">
-                      <p>{userData.name}</p>
-                      <p className="truncate max-w-[30%]">{userData.email}</p>
+                  <CardListItem className="flex flex-row items-center justify-between w-full">
+                    <div className="flex flex-row items-center gap-x-2">
+                      <Avatar>
+                        <AvatarImage src={userData?.image || ""}/>
+                        <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+                        from-green-400 to-green-800">
+                          <FaUser className="text-white"/>
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col">
+                        <p>{userData.name}</p>
+                        <p className="truncate max-w-[60%]">{userData.email}</p>
+                      </div>
                     </div>
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive">Delete User</Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete this user's
+                            account and remove their data from our servers.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => onDelete(userData.id)}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </CardListItem>
                 </Card>
               )}
