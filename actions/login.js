@@ -68,7 +68,7 @@ export const login = async (values, callbackUrl) => {
       
       // Returns twoFactor: true alongside the error message to tell the client-side,
       // that the user is still in the process of completing 2FA. Without this flag,
-      // the client might incorrectly assume that the 2FA process is either not required or already complet. 
+      // the client might incorrectly assume that the 2FA process is either not required or already complete. 
       // This fixes the error where a user could no longer submit the 2FA form after entering an incorrect code once.
       if (!twoFactorToken || twoFactorToken.token !== code || hasExpired) {
         return { twoFactor: true, error: "Invalid or expired code. Please try again." };

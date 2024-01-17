@@ -31,8 +31,10 @@ import { UserRole } from "@prisma/client";
 import { SearchUserSchema } from "@/schemas";
 import { searchUser } from "@/actions/search-user";
 import { toast } from "sonner";
+import { autoCompleteUserEmail } from "@/actions/auto-complete";
 
 const ManageUsers = () => {
+  const [autocompleteResults, setAutocompleteResults] = useState([]);
   const [userData, setUserData] = useState(null);
   const [isPending, startTransition] = useTransition();
 
@@ -61,6 +63,36 @@ const ManageUsers = () => {
         .catch(() => toast.error("Something went wrong!"))
     });
   }
+
+  const fetchAutocompleteResults = (partialEmail) => {
+    if (partialEmail.length > 2) { // to avoid too many requests
+      try {
+        autoCompleteUserEmail(partialEmail)
+          .then((data) => {
+            if (data?.error) {
+              toast.error(data.error);
+            }
+
+            const emails = data;
+            setAutocompleteResults(emails);
+          })
+      } catch (error) {
+        console.error("Failed to fetch autocomplete results", error);
+        setAutocompleteResults([]);
+      }
+    } else {
+      setAutocompleteResults([]);
+    }
+  };
+
+  const submitForm = form.handleSubmit(onSubmit);
+
+  const selectEmail = (email) => {
+    form.setValue('email', email); // Update the email field with the selected email
+    setAutocompleteResults([]); // Optionally, clear the autocomplete results
+    submitForm(); 
+  };
+  
 
   return (    
     <Card className="w-[600px] shadow-md">
@@ -95,6 +127,10 @@ const ManageUsers = () => {
                             type="email"
                             disabled={isPending}
                             className="w-[300px]"
+                            onChange={(e) => {
+                              field.onChange(e); // existing change handler
+                              fetchAutocompleteResults(e.target.value); // new autocomplete handler
+                            }}
                           />
                         </FormControl>
                         <FormMessage />
@@ -109,6 +145,13 @@ const ManageUsers = () => {
               
             </div>
             <div>
+              <div>
+                {autocompleteResults.map((email, index) => (
+                  <div key={index} className="autocomplete-result cursor-pointer hover:opacity-60" onClick={() => selectEmail(email)}>
+                    {email}
+                  </div>
+                ))}
+              </div>
               {userData && (
                 <Card className="">
                   <CardListItem className="flex flex-row items-center gap-x-2 w-full">
