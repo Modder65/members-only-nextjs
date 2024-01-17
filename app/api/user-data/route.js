@@ -11,13 +11,6 @@ export async function GET(request) {
     const userData = await prisma.user.findUnique({
       where: { id: userId },
       include: {
-        posts: {
-          orderBy: { createdAt: 'desc' },
-          include: {
-            user: { select: { id: true, name: true, image: true } },
-            _count: { select: { comments: true, likes: true } },
-          }
-        },
         userFriendships: {
           where: { status: 'ACCEPTED' },
           include: {

@@ -109,7 +109,6 @@ function FriendsModal() {
 
 
   return (
-    
     <Dialog onClose={handleClose} open={isModalOpen} className="relative z-50 px-5">
       <div className="fixed inset-0 bg-black/75" aria-hidden="true" />
       <div className="fixed inset-0 flex w-screen items-center justify-center p-4" ref={modalRef}>
@@ -120,6 +119,9 @@ function FriendsModal() {
           </div>
           <div className="fade-container">
             <div className="mt-4 max-h-[400px] overflow-y-auto scrollbar-custom pb-24">
+              {friends.length === 0 &&
+                <p>{`You have no friends :(`}</p>
+              }
               {friends.map(friendship => (
                 <div key={friendship.id} className="friend-item flex items-center justify-between border-b-2 border-gray-700 py-5">
                     <div className="flex items-center gap-2">

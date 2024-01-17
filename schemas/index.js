@@ -91,3 +91,9 @@ export const InvitationSchema = z.object({
     message: "Email is required",
   }),
 });
+
+export const SearchUserSchema = z.object({
+  email: z.string().email({
+    message: "Email is required",
+  }),
+});

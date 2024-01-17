@@ -2,12 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   userPosts: [],
+  othersPosts: [],
   friends: [],
   pendingRequests: [],
   userData: null,
   friendshipStatus: null,
   friendButtonText: 'Friend',
   userPostsLoaded: false,
+  othersPostsLoaded: false,
   userRequestsLoaded: false,
 };
 
@@ -16,7 +18,10 @@ export const accountSlice = createSlice({
   initialState,
   reducers: {
     setUserPosts: (state, action) => {
-      state.userPosts = action.payload;
+      state.userPosts = [...state.userPosts, ...action.payload];
+    },
+    setOthersPosts: (state, action) => {
+      state.othersPosts = action.payload;
     },
     setFriends: (state, action) => {
       state.friends = action.payload;
@@ -35,6 +40,9 @@ export const accountSlice = createSlice({
     },
     setUserPostsLoaded: (state, action) => {
       state.userPostsLoaded = action.payload;
+    },
+    setOthersPostsLoaded: (state, action) => {
+      state.othersPostsLoaded = action.payload;
     },
     setUserRequestsLoaded: (state, action) => {
       state.userRequestsLoaded = action.payload;
@@ -56,12 +64,14 @@ export const accountSlice = createSlice({
 
 export const { 
   setUserPosts, 
+  setOthersPosts,
   setFriends, 
   setPendingRequests, 
   setUserData, 
   setFriendshipStatus,
   setFriendButtonText,
   setUserPostsLoaded,
+  setOthersPostsLoaded,
   setUserRequestsLoaded,
   addPendingRequest,
   removePendingRequest,
