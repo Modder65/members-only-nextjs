@@ -27,6 +27,7 @@ export default function Users() {
 
   const [ref, inView] = useInView({
     threshold: 0,
+    rootMargin: '500px 0px'
   });
  
   useEffect(() => {
@@ -124,6 +125,6 @@ export default function Users() {
       ) : (
         <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
       )}
-  </div>
+    </div>
   );
 }
