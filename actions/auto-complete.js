@@ -1,5 +1,7 @@
 "use server";
 
+import prisma from "@/lib/prismadb";
+
 export const autoCompleteUserEmail = async (partialEmail) => {
   const users = await prisma.user.findMany({
     where: {
