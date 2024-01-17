@@ -45,7 +45,7 @@ const CardListItem = React.forwardRef(({ className, ...props }, ref) => (
     className={cn("flex flex-col space-y-1.5 p-3", className)}
     {...props} />
 ))
-CardHeader.displayName = "CardHeader"
+CardListItem.displayName = "CardListItem"
 
 const CardFooter = React.forwardRef(({ className, ...props }, ref) => (
   <div
