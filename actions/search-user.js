@@ -12,7 +12,7 @@ export const searchUser = async (values) => {
 
   const { email } = validatedFields.data;
 
-  const existingUser = getUserByEmail(email);
+  const existingUser = await getUserByEmail(email);
 
   if (!existingUser) {
     return { error: "User Not Found!" };

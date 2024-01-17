@@ -10,7 +10,8 @@ import {
 import {
   Card,
   CardHeader,
-  CardContent
+  CardContent,
+  CardListItem,
 } from "@/components/ui/card";
 import {
   Form, 
@@ -52,10 +53,9 @@ const ManageUsers = () => {
             toast.error(data.error);
           }
 
-          if (data?.success) {
+          if (data) {
             setUserData(data.user); // Clear previous user data
             form.reset();
-            toast.success(data.success);
           }
         })
         .catch(() => toast.error("Something went wrong!"))
@@ -74,7 +74,7 @@ const ManageUsers = () => {
           <div className="flex flex-col gap-y-2">
             <FormSuccess message="You are allowed to see this content!"/>
             <div className="flex flex-row items-center justify-between
-            rounded-lg border p-3 shadow-md">
+            rounded-lg border p-3 shadow-md mb-5">
               <p className="text-sm font-medium">
                 Search User
               </p>
@@ -106,20 +106,25 @@ const ManageUsers = () => {
                   </Button>
                 </form>
               </Form>
+              
+            </div>
+            <div>
               {userData && (
-                <div className="flex">
-                  <Avatar>
-                    <AvatarImage src={userData?.image || ""}/>
-                    <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-              from-green-400 to-green-800">
-                      <FaUser className="text-white"/>
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex flex-col">
-                    <p>{userData?.email}</p>
-                    <p>{userData?.name}</p>
-                  </div>
-                </div>
+                <Card className="">
+                  <CardListItem className="flex flex-row items-center gap-x-2 w-full">
+                    <Avatar>
+                      <AvatarImage src={userData?.image || ""}/>
+                      <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+                from-green-400 to-green-800">
+                        <FaUser className="text-white"/>
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <p>{userData.name}</p>
+                      <p className="truncate max-w-[30%]">{userData.email}</p>
+                    </div>
+                  </CardListItem>
+                </Card>
               )}
             </div>
           </div>

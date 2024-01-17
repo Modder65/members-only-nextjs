@@ -78,7 +78,7 @@ export default function CreatePostPage() {
 
   return (
     <div className="flex justify-center mt-10">
-      <Card className="w-[600px]">
+      <Card className="max-w-6xl w-full">
         <CardHeader>
           <p className="text-2xl font-semibold text-center">
             ✉️ Create a Post

@@ -80,7 +80,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
   }, [commentHandler]);
 
   return (
-    <div className="max-auto max-w-6xl px-5 mb-5">
+    <div className="max-auto max-w-3xl mb-5">
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <Avatar user={post.user}/>

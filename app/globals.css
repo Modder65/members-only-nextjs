@@ -40,6 +40,11 @@ body,
     --ring: 222.2 84% 4.9%;
  
     --radius: 0.5rem;
+
+    
+    --custom-green-light: rgba(74, 222, 128, 1);
+    --custom-green-dark: rgba(22, 101, 52, 1);
+
   }
  
   .dark {
@@ -80,4 +85,10 @@ body,
   body {
     @apply bg-background text-foreground;
   }
+}
+
+
+/* Custom CSS file */
+.custom-gradient {
+  background-image: linear-gradient(90deg, var(--custom-green-dark) 0%, var(--custom-green-light) 50%, var(--custom-green-dark) 100%);
 }

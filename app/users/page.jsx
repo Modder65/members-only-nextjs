@@ -10,6 +10,7 @@ import { BeatLoader } from "react-spinners";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useDispatch } from "react-redux";
 import { initializeLikes } from "@/redux/features/likesSlice";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
@@ -110,13 +111,16 @@ export default function Users() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-5">
-      <h2 className="mb-5 text-3xl font-bold">Posts</h2>
-      {user ? (
-        <p className="mb-5 text-xl">Welcome <strong>{user?.name}</strong>!</p>
-      ) : (
-        <p>Welcome to the members only page!</p>
-      )}
+    <div className="mx-auto max-w-3xl px-5 py-5">
+      <Card className="mb-5">
+        <CardHeader>
+          <h2 className="mb-5 text-3xl font-bold">Posts</h2>
+          <p className="mb-5 text-xl">Welcome <strong>{user?.name}</strong>!</p>
+        </CardHeader>
+        <CardContent>
+
+        </CardContent>
+      </Card>  
       <PostList posts={posts} />
       {hasMore ? (
         <div ref={ref} className="flex justify-center">

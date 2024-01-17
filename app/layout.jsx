@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <head>
           <title>MembersOnly</title>
         </head>
-        <body className={`bg-neutral-100 ${nunito.className}`}>
+        <body className={`custom-gradient ${nunito.className}`}>
           <ToasterContext />
           <Toaster />
           {children}

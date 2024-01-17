@@ -9,7 +9,7 @@ export function Header() {
 
   return (
     <header className="bg-white py-4 flex justify-center shadow">
-      <div className="header-container w-full max-w-6xl flex justify-between items-center px-4">
+      <div className="header-container w-full max-w-3xl flex justify-between items-center px-4">
         <div className="header-title-container">
           <h1 className="text-3xl font-bold">
             <span className="text-emerald-600">Members</span>
