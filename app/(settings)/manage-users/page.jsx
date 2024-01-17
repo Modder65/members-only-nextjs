@@ -145,13 +145,13 @@ const ManageUsers = () => {
               
             </div>
             <div>
-              <div>
+              <Card className="mb-5">
                 {autocompleteResults.map((email, index) => (
-                  <div key={index} className="autocomplete-result cursor-pointer hover:opacity-60" onClick={() => selectEmail(email)}>
+                  <CardListItem key={index} className="autocomplete-result cursor-pointer hover:opacity-60" onClick={() => selectEmail(email)}>
                     {email}
-                  </div>
+                  </CardListItem>
                 ))}
-              </div>
+              </Card>
               {userData && (
                 <Card className="">
                   <CardListItem className="flex flex-row items-center gap-x-2 w-full">
