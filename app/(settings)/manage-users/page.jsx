@@ -32,6 +32,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -44,6 +51,7 @@ import { searchUser } from "@/actions/search-user";
 import { toast } from "sonner";
 import { autoCompleteUserEmail } from "@/actions/auto-complete";
 import { deleteUser } from "@/actions/delete-user";
+import { changeRole } from "@/actions/change-role";
 
 const ManageUsers = () => {
   const [autocompleteResults, setAutocompleteResults] = useState([]);
@@ -110,6 +118,10 @@ const ManageUsers = () => {
     form.setValue('email', email); // Update the email field with the selected email
     setAutocompleteResults([]); // Optionally, clear the autocomplete results
     submitForm(); 
+  };
+
+  const roleChange = (userId, newRole) => {
+    changeRole(userId, newRole)
   };
   
 
@@ -188,9 +200,25 @@ const ManageUsers = () => {
                       </div>
                     </div>
                     <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="destructive">Delete User</Button>
-                      </AlertDialogTrigger>
+                      <div className="flex flex-col items-center gap-y-2">
+                        <AlertDialogTrigger asChild>
+                          <Button variant="destructive">Delete User</Button>
+                        </AlertDialogTrigger>
+                        <Select onValueChange={(selectedRole) => roleChange(userData.id, selectedRole)}>
+                          <SelectTrigger>
+                            <SelectValue placeholder={userData.role}/>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value={UserRole.ADMIN}>
+                              ADMIN
+                            </SelectItem>
+                            <SelectItem value={UserRole.USER}>
+                              USER
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
                       <AlertDialogContent>
                         <AlertDialogHeader>
                           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
