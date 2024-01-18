@@ -122,6 +122,9 @@ const ManageUsers = () => {
 
   const roleChange = (userId, newRole) => {
     changeRole(userId, newRole)
+      .then((data) => {
+        toast.success(`User Role Updated: ${newRole}`);
+      })
   };
   
 
