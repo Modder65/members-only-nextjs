@@ -10,6 +10,7 @@ export async function GET(request) {
     const userId = user.id;
 
     const { searchParams } = new URL(request.url);
+    const sortOrder = searchParams.get("sortOrder") || "desc"; // Default to descending
     const page = parseInt(searchParams.get("page") || "0", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
     const skip = page * limit;
@@ -18,7 +19,7 @@ export async function GET(request) {
     const posts = await prisma.post.findMany({
       take: limit,
       skip: skip,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: sortOrder },
       include: {
         user: { select: { id: true, name: true, image: true } },
         _count: { select: { comments: true } },

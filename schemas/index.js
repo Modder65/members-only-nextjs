@@ -97,3 +97,10 @@ export const SearchUserSchema = z.object({
     message: "Email is required",
   }),
 });
+
+export const FilterPostSchema = z.object({
+  sortOrder: z.enum(["desc", "asc"], {
+    required_error: "Sort order is required",
+    invalid_type_error: "Invalid sort order"
+  }),
+});
