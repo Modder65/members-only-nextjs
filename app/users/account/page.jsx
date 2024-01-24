@@ -10,6 +10,12 @@ import {
   TabsList,
   TabsTrigger
 } from "@/components/ui/tabs";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardListItem,
+} from "@/components/ui/card";
 import { toast } from "sonner";
 import { BeatLoader } from "react-spinners";
 import Avatar from '../components/Avatar';
@@ -134,63 +140,67 @@ const Account = () => {
               <BeatLoader />
             </div>
           ) : (
-            <>
-              <h2 className="text-xl font-bold mb-4">Pending Requests</h2>
-              {pendingRequests.length > 0 ? (
-                <div className="space-y-2">
-                  {pendingRequests.map(request => (
-                    // ... Render each pending request
-                    <div key={request.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
-                      <div className="flex items-center gap-2">
-                        <Avatar user={request?.user}/>
-                        <p>{request?.user?.name}</p>
-                      </div>
-                      
-                      <div className="flex items-center gap-2">
-                        <button type="button"
-                          className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                          onClick={() => handleAcceptRequest(request.id)}
-                        >
-                          Accept
-                        </button>
-                        <button type="button"
-                          className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                          onClick={() => handleDeclineRequest(request.id)}
-                        >
-                          Decline
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : <p>No incoming friend requests.</p>}
-
-              <h2 className="text-xl font-bold mt-6 mb-4">Friends</h2>
-              {friends.length > 0 ? (
-                <div className="space-y-2">
-                  {friends.map(friendship => (
-                    // ... Render each friend
-                    <div key={friendship.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+            <Card>
+              <CardHeader>
+                <h2 className="text-xl font-bold mb-4">Pending Requests</h2>
+              </CardHeader>
+              <CardContent>
+                {pendingRequests.length > 0 ? (
+                  <div className="space-y-2">
+                    {pendingRequests.map(request => (
+                      // ... Render each pending request
+                      <div key={request.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                         <div className="flex items-center gap-2">
-                          <Avatar user={user.id === friendship.senderId ? friendship.friend : friendship.user}/>
-                          <Link href={`/users/${user.id === friendship.senderId ? friendship.friend.id : friendship.user.id}`} className="text-blue-600 hover:underline">
-                            <span className="text-blue-600 hover:underline cursor-pointer">{user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</span>
-                          </Link>
+                          <Avatar user={request?.user}/>
+                          <p>{request?.user?.name}</p>
                         </div>
                         
                         <div className="flex items-center gap-2">
                           <button type="button"
-                            className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                            onClick={() => handleRemoveFriend(friendship.id)}
+                            className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                            onClick={() => handleAcceptRequest(request.id)}
                           >
-                            Unfriend
+                            Accept
+                          </button>
+                          <button type="button"
+                            className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                            onClick={() => handleDeclineRequest(request.id)}
+                          >
+                            Decline
                           </button>
                         </div>
-                    </div>
-                  ))}
-                </div>
-              ) : <p>{`You have no friends :(`}</p>} 
-            </>
+                      </div>
+                    ))}
+                  </div>
+                ) : <p>No incoming friend requests.</p>}
+
+                <h2 className="text-xl font-bold mt-6 mb-4">Friends</h2>
+                {friends.length > 0 ? (
+                  <div className="space-y-2">
+                    {friends.map(friendship => (
+                      // ... Render each friend
+                      <div key={friendship.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                          <div className="flex items-center gap-2">
+                            <Avatar user={user.id === friendship.senderId ? friendship.friend : friendship.user}/>
+                            <Link href={`/users/${user.id === friendship.senderId ? friendship.friend.id : friendship.user.id}`} className="text-blue-600 hover:underline">
+                              <span className="text-blue-600 hover:underline cursor-pointer">{user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</span>
+                            </Link>
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <button type="button"
+                              className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                              onClick={() => handleRemoveFriend(friendship.id)}
+                            >
+                              Unfriend
+                            </button>
+                          </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : <p>{`You have no friends :(`}</p>}
+              </CardContent>
+            </Card>
           )}
         </TabsContent>
         <TabsContent value="posts">
