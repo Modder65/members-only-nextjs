@@ -10,6 +10,12 @@ import {
   TabsList,
   TabsTrigger
 } from "@/components/ui/tabs";
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  CardListItem,
+} from "@/components/ui/card";
 import { toast } from "sonner";
 import { useInView } from "react-intersection-observer";
 import { GoPlus } from "react-icons/go";
@@ -19,6 +25,7 @@ import axios from 'axios';
 import Avatar from '../components/Avatar';
 import PostList from '../components/PostList';
 import Link from "next/link";
+import { CardContent } from '@/components/ui/card';
 
 
 
@@ -149,32 +156,38 @@ const UserProfile = () => {
         <TabsContent value="about">Content 0</TabsContent>
         <TabsContent value="friends">
           {/* Display the user's friends */}
-          <h2 className="text-xl font-bold mb-4">Friends</h2>
-          {userData && (userData.userFriendships.length > 0 || userData.friendUserFriendships.length > 0) ? (
-            <div className="space-y-2">
-              {/* Display friends where the user is the initiator */}
-              {userData.userFriendships.map(friendship => (
-                <div key={friendship.friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
-                  <div className="flex items-center gap-2">
-                    <Avatar user={friendship.friend}/>
-                    <p>{friendship.friend.name}</p>
-                  </div>
-                </div>
-              ))}
+          <Card>
+            <CardHeader>
+              <h2 className="text-xl font-bold mb-4">Friends</h2>
+            </CardHeader>
+            <CardContent>
+              {userData && (userData.userFriendships.length > 0 || userData.friendUserFriendships.length > 0) ? (
+                <div className="space-y-2">
+                  {/* Display friends where the user is the initiator */}
+                  {userData.userFriendships.map(friendship => (
+                    <div key={friendship.friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                      <div className="flex items-center gap-2">
+                        <Avatar user={friendship.friend}/>
+                        <p>{friendship.friend.name}</p>
+                      </div>
+                    </div>
+                  ))}
 
-              {/* Display friends where the user is the recipient */}
-              {userData.friendUserFriendships.map(friendship => (
-                <div key={friendship.user.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
-                  <div className="flex items-center gap-2">
-                    <Avatar user={friendship.user}/>
-                    <Link href={`/users/${friendship.user.id}`} className="text-blue-600 hover:underline">
-                      <span className="text-blue-600 hover:underline cursor-pointer">{friendship.user.name}</span>
-                    </Link>
-                  </div>
+                  {/* Display friends where the user is the recipient */}
+                  {userData.friendUserFriendships.map(friendship => (
+                    <div key={friendship.user.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                      <div className="flex items-center gap-2">
+                        <Avatar user={friendship.user}/>
+                        <Link href={`/users/${friendship.user.id}`} className="text-blue-600 hover:underline">
+                          <span className="text-blue-600 hover:underline cursor-pointer">{friendship.user.name}</span>
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : <p>{`They have no friends :(`}</p>}
+              ) : <p>{`They have no friends :(`}</p>}
+            </CardContent>
+          </Card>
         </TabsContent>
         <TabsContent value="posts">
           <PostList posts={othersPosts}/>
