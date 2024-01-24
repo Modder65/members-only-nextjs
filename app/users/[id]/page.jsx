@@ -128,7 +128,7 @@ const UserProfile = () => {
       <Card className="mb-5">
         <CardListItem>
           <div className="flex justify-between items-center">
-            <div className='flex gap-2 items-center mb-5'>
+            <div className='flex gap-2 items-center'>
               <Avatar user={userData}/>
               <p className="text-lg font-semibold">{userData?.name}</p>
             </div>
