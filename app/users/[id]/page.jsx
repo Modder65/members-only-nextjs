@@ -125,24 +125,28 @@ const UserProfile = () => {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-5">
-      <div className="flex justify-between items-center">
-        <div className='flex gap-2 items-center mb-5'>
-          <Avatar user={userData}/>
-          <p className="text-lg font-semibold">{userData?.name}</p>
-        </div>
-        <button type="button"
-          className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 ${
-              friendshipStatus === 'ACCEPTED' ? 'bg-green-600' :
-              friendshipStatus === 'PENDING' ? 'bg-orange-500' : // Orange/yellow color for PENDING
-              'bg-blue-600' // Default color
-          }`}
-          onClick={sendFriendRequest}
-          disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
-        >
-          {friendButtonText}
-          {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
-        </button>
-      </div>
+      <Card>
+        <CardContent>
+          <div className="flex justify-between items-center">
+            <div className='flex gap-2 items-center mb-5'>
+              <Avatar user={userData}/>
+              <p className="text-lg font-semibold">{userData?.name}</p>
+            </div>
+            <button type="button"
+              className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 ${
+                  friendshipStatus === 'ACCEPTED' ? 'bg-green-600' :
+                  friendshipStatus === 'PENDING' ? 'bg-orange-500' : // Orange/yellow color for PENDING
+                  'bg-blue-600' // Default color
+              }`}
+              onClick={sendFriendRequest}
+              disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
+            >
+              {friendButtonText}
+              {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
+            </button>
+          </div>
+        </CardContent>
+      </Card>
       
       <div>
       <Tabs defaultValue="account" className="w-full" onValueChange={handleTabChange}>
