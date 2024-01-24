@@ -25,8 +25,6 @@ import axios from 'axios';
 import Avatar from '../components/Avatar';
 import PostList from '../components/PostList';
 import Link from "next/link";
-import { CardContent } from '@/components/ui/card';
-
 
 
 const UserProfile = () => {
