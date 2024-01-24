@@ -116,10 +116,13 @@ export default function Users() {
   }, []);
 
   const onSubmit = (data) => {
-    setSortOrder(data.sortOrder);
-    setPosts([]);
-    setPage(0);
-    setIsLoading(true);
+    // Only fetch new posts if the sortOrder has actually changed
+    if (data.sortOrder !== sortOrder) {
+      setSortOrder(data.sortOrder);
+      setPosts([]);
+      setPage(0);
+      setIsLoading(true);
+    }
   };
   
   
