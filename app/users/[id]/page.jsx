@@ -119,7 +119,7 @@ const UserProfile = () => {
   
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-5">
+    <div className="mx-auto max-w-3xl px-5 py-5">
       <div className="flex justify-between items-center">
         <div className='flex gap-2 items-center mb-5'>
           <Avatar user={userData}/>

@@ -120,7 +120,7 @@ const Account = () => {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-5">
+    <div className="mx-auto max-w-3xl px-5 py-5">
       <Tabs defaultValue="account" className="w-full" onValueChange={handleTabChange}>
         <TabsList className="grid grid-cols-3 w-full bg-white shadow-md mb-5">
           <TabsTrigger value="about">About</TabsTrigger>
