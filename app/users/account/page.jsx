@@ -33,7 +33,7 @@ const Account = () => {
   const user = useCurrentUser();
 
   const dispatch = useDispatch();
-  const { userPosts, friends, pendingRequests, userPostsLoaded, friendshipStatus } = useSelector((state) => state.account);
+  const { friends, pendingRequests, friendshipStatus } = useSelector((state) => state.account);
 
   const [ref, inView] = useInView({ threshold: 0 });
 
@@ -66,25 +66,6 @@ const Account = () => {
       fetchData();
     }
   }, [selectedTabIndex, friends.length, pendingRequests.length, user?.id, dispatch]);
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      if (selectedTabIndex === 2) {
-        setIsLoading(true);
-        try {
-          const limit = 10;
-          const response = await axios.get(`/api/user-posts?page=${page}&limit=${limit}`);
-          dispatch(setUserPosts(response.data));
-          setHasMore(response.data.length === limit);
-        } catch (error) {
-          toast.error("Failed to fetch posts");
-        } finally {
-          setIsLoading(false);
-        }
-      }
-    };
-    fetchPosts();
-  }, [page, selectedTabIndex, dispatch]);
   
   useEffect(() => {
     if (inView && hasMore) {
@@ -131,7 +112,6 @@ const Account = () => {
         <TabsList className="grid grid-cols-3 w-full bg-white shadow-md mb-5">
           <TabsTrigger value="about">About</TabsTrigger>
           <TabsTrigger value="friends">Friends</TabsTrigger>
-          <TabsTrigger value="posts">Your Posts</TabsTrigger>
         </TabsList>
         <TabsContent value="about">Content 0</TabsContent>
         <TabsContent value="friends">
@@ -202,16 +182,6 @@ const Account = () => {
               </CardContent>
             </Card>
           )}
-        </TabsContent>
-        <TabsContent value="posts">
-          <PostList posts={userPosts}/>
-          {hasMore ? (
-            <div ref={ref} className="flex justify-center">
-              <BeatLoader />
-            </div>
-          ) : (
-            <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
-          )} 
         </TabsContent>
       </Tabs>
     </div>
