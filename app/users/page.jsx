@@ -13,7 +13,7 @@ import { BeatLoader } from "react-spinners";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useDispatch } from "react-redux";
 import { initializeLikes } from "@/redux/features/likesSlice";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardListItem } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Form, 
@@ -36,6 +36,7 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
+import { autoCompleteUserName } from "@/actions/auto-complete-username";
 
 
 
@@ -45,6 +46,8 @@ export default function Users() {
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [sortOrder, setSortOrder] = useState('desc');
+  const [selectedUserName, setSelectedUserName] = useState('');
+  const [autocompleteResults, setAutocompleteResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const user = useCurrentUser();
@@ -59,14 +62,19 @@ export default function Users() {
     resolver: zodResolver(FilterPostSchema),
     defaultValues: {
       sortOrder: 'desc',
+      name: '',
     },
   });
  
   const fetchPosts = async (sortOrder = 'desc') => {
     try {
       const limit = 10;
-      console.log("Sort Order:", sortOrder);
-      const response = await axios.get(`/api/posts?page=${page}&limit=${limit}&sortOrder=${sortOrder}`);
+      let queryString = `/api/posts?page=${page}&limit=${limit}&sortOrder=${sortOrder}`;
+      if (selectedUserName) {
+        console.log(selectedUserName);
+        queryString += `&userName=${encodeURIComponent(selectedUserName)}`;
+      }
+      const response = await axios.get(queryString);
       
       // If page is 0, replace the posts; otherwise, append them
       if (page === 0) {
@@ -96,7 +104,7 @@ export default function Users() {
 
   useEffect(() => {
     fetchPosts(sortOrder);
-  }, [page, sortOrder]);
+  }, [page, sortOrder, selectedUserName]);
 
   useEffect(() => {
     if (inView && hasMore) {
@@ -116,8 +124,11 @@ export default function Users() {
   }, []);
 
   const onSubmit = (data) => {
-    // Only fetch new posts if the sortOrder has actually changed
-    if (data.sortOrder !== sortOrder) {
+    // Update the selectedUserName state regardless of other conditions
+    setSelectedUserName(data.name);
+
+    // Fetch new posts if sortOrder has changed or userName has changed
+    if (data.sortOrder !== sortOrder || data.name !== selectedUserName) {
       setSortOrder(data.sortOrder);
       setPosts([]);
       setPage(0);
@@ -125,7 +136,31 @@ export default function Users() {
     }
   };
   
-  
+  const fetchAutocompleteResults = (partialName) => {
+    if (partialName.length > 2) { // to avoid too many requests
+      try {
+        autoCompleteUserName(partialName)
+          .then((data) => {
+            if (data?.error) {
+              toast.error(data.error);
+            }
+
+            const names = data;
+            setAutocompleteResults(names);
+          })
+      } catch (error) {
+        console.error("Failed to fetch autocomplete results", error);
+        setAutocompleteResults([]);
+      }
+    } else {
+      setAutocompleteResults([]);
+    }
+  };
+
+  const selectName = (name) => {
+    form.setValue('name', name); // Update the email field with the selected email
+    setAutocompleteResults([]); // Optionally, clear the autocomplete results 
+  };
 
   useEffect(() => {
     pusherClient.subscribe("posts-channel");
@@ -196,6 +231,34 @@ export default function Users() {
                   </FormItem>
                 )}
               />
+              <FormField 
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                          <Input 
+                            {...field}
+                            placeholder="John Doe"
+                            className="w-full"
+                            onChange={(e) => {
+                              field.onChange(e); // existing change handler
+                              fetchAutocompleteResults(e.target.value); // new autocomplete handler
+                            }}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Card className="mb-5">
+                    {autocompleteResults.map((name, index) => (
+                      <CardListItem key={index} className="autocomplete-result cursor-pointer hover:opacity-60" onClick={() => selectName(name)}>
+                        {name}
+                      </CardListItem>
+                    ))}
+                  </Card>
                 <Button
                   type="submit"
                 >

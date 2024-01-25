@@ -11,12 +11,13 @@ export async function GET(request) {
 
     const { searchParams } = new URL(request.url);
     const sortOrder = searchParams.get("sortOrder") || "desc"; // Default to descending
+    const userName = searchParams.get("userName"); // Extract username from query params
     const page = parseInt(searchParams.get("page") || "0", 10);
     const limit = parseInt(searchParams.get("limit") || "10", 10);
     const skip = page * limit;
 
-    // Fetch posts and their initial like counts
-    const posts = await prisma.post.findMany({
+    // Construct the query conditionally based on whether a username is provided
+    const queryOptions = {
       take: limit,
       skip: skip,
       orderBy: { createdAt: sortOrder },
@@ -24,8 +25,23 @@ export async function GET(request) {
         user: { select: { id: true, name: true, image: true } },
         _count: { select: { comments: true } },
         likes: true,
-      }
-    });
+      },
+    };
+
+    // Add a where clause if userName is provided
+    if (userName) {
+      queryOptions.where = {
+        user: {
+          name: {
+            equals: userName,
+            mode: 'insensitive', // Optional: case-insensitive search
+          }
+        }
+      };
+    }
+
+    // Fetch posts based on the constructed query
+    const posts = await prisma.post.findMany(queryOptions);
 
     // Map posts to include initial like counts and statuses
     const postsWithLikeStatus = posts.map(post => ({

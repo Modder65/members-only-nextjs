@@ -103,4 +103,5 @@ export const FilterPostSchema = z.object({
     required_error: "Sort order is required",
     invalid_type_error: "Invalid sort order"
   }),
+  name: z.optional(z.string()),
 });
