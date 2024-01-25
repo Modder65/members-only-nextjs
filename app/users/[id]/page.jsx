@@ -37,7 +37,7 @@ const UserProfile = () => {
   const user = useCurrentUser();
   
   const dispatch = useDispatch();
-  const { userData, othersPosts, friendshipStatus, friendButtonText, othersPostsLoaded } = useSelector((state) => state.account);
+  const { userData, friendshipStatus, friendButtonText } = useSelector((state) => state.account);
 
   const [ref, inView] = useInView({
     threshold: 0,
