@@ -2,7 +2,7 @@
 
 import { FaUser } from "react-icons/fa";
 import { IoExitOutline } from "react-icons/io5";
-import { GoPeople } from "react-icons/go";
+import { IoPeopleOutline } from "react-icons/io5";
 
 import {
   DropdownMenu,
@@ -41,7 +41,7 @@ export const UserButton = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
         <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/users')}>
-          <GoPeople className="h-5 w-5 mr-2" />
+          <IoPeopleOutline className="h-5 w-5 mr-2" />
           Home
         </DropdownMenuItem>
         <LogoutButton>

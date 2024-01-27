@@ -1,12 +1,9 @@
-import { IoIosSettings } from "react-icons/io";
-import { BiMessageAltDetail } from "react-icons/bi";
-import { AiOutlineHome } from "react-icons/ai";
-import { BsPerson } from "react-icons/bs";
-import { SlPeople } from "react-icons/sl";
+import { IoSettingsOutline } from "react-icons/io5";
+import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { IoHomeOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
+import { IoExitOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
-import { ExitIcon } from "@radix-ui/react-icons";
-import { useDispatch } from "react-redux";
-import { openModal } from "@/redux/features/friendsModalSlice";
 import { useRouter } from "next/navigation";
 
 
@@ -27,12 +24,6 @@ import { LogoutButton } from './auth/logout-button';
 
 const HeaderMenu = ({ user }) => {
   const router = useRouter();
-
-  const dispatch = useDispatch();
-
-  const openModalHandler = async () => {
-    dispatch(openModal());
-  }
 
   const handleNavigation = (url) => {
     router.push(url);
@@ -55,28 +46,24 @@ const HeaderMenu = ({ user }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
         <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users')}>
-          <AiOutlineHome className="h-6 w-6 mr-2"/>
+          <IoHomeOutline className="h-6 w-6 mr-2" />
           Home
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users/account')}>
-          <BsPerson className="h-6 w-6 mr-2"/>
+          <IoPersonOutline className="h-6 w-6 mr-2" />
           Account
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={openModalHandler}>
-          <SlPeople className="h-6 w-6 mr-2"/>
-          Friends
-        </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users/create-post')}>
-          <BiMessageAltDetail className="h-6 w-6 mr-2"/>
+          <IoChatboxEllipsesOutline className="h-6 w-6 mr-2" />
           Create Post
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/settings')}>
-          <IoIosSettings className="h-6 w-6 mr-2"/>
+          <IoSettingsOutline className="h-6 w-6 mr-2" />
           Settings
         </DropdownMenuItem>
         <LogoutButton>
           <DropdownMenuItem className="text-base cursor-pointer">
-            <ExitIcon className="h-6 w-6 mr-2"/>
+            <IoExitOutline className="h-6 w-6 mr-2" />
             Logout
           </DropdownMenuItem>
         </LogoutButton>
