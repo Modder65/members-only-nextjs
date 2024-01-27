@@ -207,16 +207,19 @@ const ManageUsers = () => {
                         <AlertDialogTrigger asChild>
                           <Button variant="destructive">Delete User</Button>
                         </AlertDialogTrigger>
-                        <Select onValueChange={(selectedRole) => roleChange(userData.id, selectedRole)}>
+                        <Select 
+                          defaultValue={userData.role}
+                          onValueChange={(selectedRole) => roleChange(userData.id, selectedRole)}
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder={userData.role}/>
                           </SelectTrigger>
                           <SelectContent>
                             <SelectItem value={UserRole.ADMIN}>
-                              ADMIN
+                              Admin
                             </SelectItem>
                             <SelectItem value={UserRole.USER}>
-                              USER
+                              User
                             </SelectItem>
                           </SelectContent>
                         </Select>
