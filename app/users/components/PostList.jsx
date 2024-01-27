@@ -1,5 +1,4 @@
 import PostItem from "./PostItem";
-import PostModal from "./PostModal";
 
 const PostList = ({ posts }) => {
   return (
@@ -12,7 +11,6 @@ const PostList = ({ posts }) => {
           initialCommentsCount={post._count.comments}
         />
       ))}
-      <PostModal />
     </>
   );
 }
