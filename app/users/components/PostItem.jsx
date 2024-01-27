@@ -8,7 +8,6 @@ import { FiMessageSquare } from "react-icons/fi";
 import { pusherClient } from "@/lib/pusher";
 import { notifyNewComment } from "@/Custom-Toast-Messages/Notify";
 import { useDispatch } from "react-redux";
-import { openModal } from "@/redux/features/postModalSlice";
 import { setCommentsForPost, updateCommentForPost } from "@/redux/features/commentsSlice";
 import { CldImage } from "next-cloudinary";
 import { initializeLikes } from "@/redux/features/likesSlice";
@@ -16,6 +15,7 @@ import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
 import Avatar from "./Avatar";
+import { CommentButton } from "./CommentButton";
 
 
 
@@ -56,9 +56,8 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
     }
   };
 
-  const openModalHandler = async () => {
-    await fetchComments();
-    dispatch(openModal({ post }));
+  const openModalHandler = async (postId) => {
+    await fetchComments(postId);
   }
 
   const commentHandler = useCallback((comment) => {
@@ -116,12 +115,15 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
           }
         </p>
         <div className="flex justify-between items-center mt-3">
-          <button onClick={openModalHandler}
-           className="bg-emerald-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
-           >
-            <FiMessageSquare className="mr-2" />
-            {`Show Comments (${commentCount})`}
-          </button>
+          <CommentButton post={post} asChild>
+            <button 
+            onClick={() => openModalHandler(postId)}
+            className="bg-emerald-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
+            >
+              <FiMessageSquare className="mr-2" />
+              {`Show Comments (${commentCount})`}
+            </button>
+          </CommentButton>
           <PostLikeIcon postId={postId} />
         </div>
       </div>
