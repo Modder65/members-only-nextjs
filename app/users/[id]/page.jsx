@@ -16,14 +16,17 @@ import {
   CardContent,
   CardListItem,
 } from "@/components/ui/card";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback
+} from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { useInView } from "react-intersection-observer";
 import { GoPlus } from "react-icons/go";
-import { BeatLoader } from "react-spinners";
+import { FaUser } from "react-icons/fa";
 import { useCurrentUser } from '@/hooks/use-current-user';
 import axios from 'axios';
-import Avatar from '../components/Avatar';
-import PostList from '../components/PostList';
 import Link from "next/link";
 
 
@@ -142,7 +145,13 @@ const UserProfile = () => {
                   {userData.userFriendships.map(friendship => (
                     <div key={friendship.friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                       <div className="flex items-center gap-2">
-                        <Avatar user={friendship.friend}/>
+                        <Avatar>
+                          <AvatarImage src={friendship.friend.image || ""}/>
+                          <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+                            from-green-400 to-green-800">
+                            <FaUser className="text-white"/>
+                          </AvatarFallback>
+                        </Avatar>
                         <p>{friendship.friend.name}</p>
                       </div>
                     </div>
@@ -152,7 +161,13 @@ const UserProfile = () => {
                   {userData.friendUserFriendships.map(friendship => (
                     <div key={friendship.user.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
                       <div className="flex items-center gap-2">
-                        <Avatar user={friendship.user}/>
+                        <Avatar>
+                          <AvatarImage src={friendship.user.image || ""}/>
+                          <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+                            from-green-400 to-green-800">
+                            <FaUser className="text-white"/>
+                          </AvatarFallback>
+                        </Avatar>
                         <Link href={`/users/${friendship.user.id}`} className="text-blue-600 hover:underline">
                           <span className="text-blue-600 hover:underline cursor-pointer">{friendship.user.name}</span>
                         </Link>
