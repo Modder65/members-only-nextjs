@@ -11,14 +11,15 @@ import { useDispatch } from "react-redux";
 import { setCommentsForPost, updateCommentForPost } from "@/redux/features/commentsSlice";
 import { CldImage } from "next-cloudinary";
 import { initializeLikes } from "@/redux/features/likesSlice";
+import { CommentButton } from "./CommentButton";
+import {
+  Avatar,
+  AvatarImage,
+  AvatarFallback
+} from "@/components/ui/avatar";
 import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
-import Avatar from "./Avatar";
-import { CommentButton } from "./CommentButton";
-
-
-
 
 const PostItem = ({ post, postId, initialCommentsCount }) => {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
@@ -82,7 +83,13 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
     <div className="max-auto max-w-3xl mb-5">
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
-          <Avatar user={post.user}/>
+          <Avatar>
+            <AvatarImage src={post.user.image || ""}/>
+            <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+              from-green-400 to-green-800">
+              <FaUser className="text-white"/>
+            </AvatarFallback>
+          </Avatar>
           <h2 className=" text-xl font-bold">{post.title}</h2>
         </div>
         <p className="mb-3">{post.message}</p>
