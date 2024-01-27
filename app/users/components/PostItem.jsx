@@ -17,6 +17,7 @@ import {
   AvatarImage,
   AvatarFallback
 } from "@/components/ui/avatar";
+import { FaUser } from "react-icons/fa";
 import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
