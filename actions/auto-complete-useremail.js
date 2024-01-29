@@ -9,6 +9,9 @@ export const autoCompleteUserEmail = async (partialEmail) => {
         contains: partialEmail,
         mode: 'insensitive', // for case-insensitive search
       },
+      NOT: {
+        email: process.env.OWNER_EMAIL, // Exclude the owner's email from suggestions
+      },
     },
     select: {
       email: true,
