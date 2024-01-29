@@ -5,15 +5,12 @@ import { IoPersonOutline } from "react-icons/io5";
 import { IoExitOutline } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-
-
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-
 import {
   Avatar,
   AvatarImage,
