@@ -17,6 +17,17 @@ import {
   CardListItem,
 } from "@/components/ui/card";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
   Avatar,
   AvatarImage,
   AvatarFallback
@@ -185,12 +196,28 @@ const Account = () => {
                           </div>
                           
                           <div className="flex items-center gap-2">
-                            <button type="button"
-                              className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                              onClick={() => handleRemoveFriend(friendship.id)}
-                            >
-                              Unfriend
-                            </button>
+                            <AlertDialog>
+                              <AlertDialogTrigger>
+                                <button type="button"
+                                  className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                                >
+                                Unfriend
+                                </button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>Are you sure you want to unfriend?</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    This user will be removed from your friends list.
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                  <AlertDialogAction onClick={() => handleRemoveFriend(friendship.id)}>Continue</AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                            
                           </div>
                       </div>
                     ))}
