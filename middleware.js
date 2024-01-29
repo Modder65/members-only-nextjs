@@ -48,13 +48,6 @@ export default auth((req) => {
     return null;
   }
 
-  // Redirects user back to the page they were rpeviously at the next time
-  // they log in. (This is used in login-form, login server action, and social.jsx for OAuth Logins)
-  // ISSUE: Non-admins can use this to access admin pages if they manually
-  // edit the url to go to an admin url, then log in as a user. It will
-  // still redirect them to protected admin pages. 
-  // RESOLVED: Used Admin role-gate to block content for non-admin users,
-  // even if theyve used the trick above to access an admin only route.
   if (!isLoggedIn && !isPublicRoute) {
     let callbackUrl = nextUrl.pathname;
     

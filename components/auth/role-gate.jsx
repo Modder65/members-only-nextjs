@@ -5,11 +5,11 @@ import { FormError } from "@/components/form-error";
 
 export const RoleGate = ({
   children,
-  allowedRole
+  allowedRoles
 }) => {
   const role = useCurrentRole(); 
 
-  if (role !== allowedRole) {
+  if (!allowedRoles.includes(role)) {
     return (
       <FormError message="You do not have permission to view this content!"/>
     );

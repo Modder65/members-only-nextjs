@@ -136,7 +136,7 @@ const ManageUsers = () => {
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <RoleGate allowedRole={UserRole.ADMIN}>
+        <RoleGate allowedRoles={[UserRole.OWNER, UserRole.ADMIN]}>
           <div className="flex flex-col gap-y-2">
             <FormSuccess message="You are allowed to see this content!"/>
             <div className="flex flex-row items-center justify-between
@@ -215,6 +215,9 @@ const ManageUsers = () => {
                             <SelectValue placeholder={userData.role}/>
                           </SelectTrigger>
                           <SelectContent>
+                            <SelectItem value={UserRole.OWNER}>
+                              Owner
+                            </SelectItem>
                             <SelectItem value={UserRole.ADMIN}>
                               Admin
                             </SelectItem>

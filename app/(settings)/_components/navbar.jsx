@@ -10,6 +10,11 @@ export const Navbar = () => {
   const pathname = usePathname();
   const user = useCurrentUser();
 
+  // Check if the user's role is "OWNER" or "ADMIN"
+  const isAdminOrOwner = user?.role === "OWNER" || user?.role === "ADMIN";
+  const isOwner = user?.role === "OWNER";
+  const isAdmin = user?.role === "ADMIN";
+
   return (
     <nav className="bg-secondary flex justify-between
      items-center p-4 rounded-xl w-[600px] shadow-sm">
@@ -30,17 +35,17 @@ export const Navbar = () => {
             Client
           </Link>
         </Button>
-        {user?.role === "ADMIN" && (
+        {isOwner && (
           <Button
             asChild
-            variant={pathname === "/admin" ? "default" : "outline"}
+            variant={pathname === "/owner" ? "default" : "outline"}
           >
-            <Link href="/admin">
-              Admin
+            <Link href="/owner">
+              Owner
             </Link>
           </Button>
         )}
-        {user?.role === "ADMIN" && (
+        {isAdminOrOwner && (
           <Button
             asChild
             variant={pathname === "/manage-users" ? "default" : "outline"}

@@ -23,7 +23,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { invite } from "@/actions/invite";
 
 
-const AdminPage = () => {
+const OwnerPage = () => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
@@ -66,11 +66,11 @@ const AdminPage = () => {
     <Card className="w-[600px]">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">
-          🔑 Admin
+          🔑 Owner
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <RoleGate allowedRole={UserRole.ADMIN}>
+        <RoleGate allowedRoles={[UserRole.OWNER]}>
           <FormSuccess message="You are allowed to see this content!"/>
           <div className="flex flex-row items-center justify-between
           rounded-lg border p-3 shadow-md">
@@ -123,4 +123,4 @@ const AdminPage = () => {
    );
 }
  
-export default AdminPage;
+export default OwnerPage;
