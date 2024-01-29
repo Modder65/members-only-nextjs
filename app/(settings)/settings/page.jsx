@@ -56,7 +56,6 @@ const SettingsPage = () => {
       newPassword: undefined,
       name: user?.name || undefined, // Undefined means it wont save to database, dont use an empty string
       email: user?.email || undefined,
-      role: user?.role || undefined,
       isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined
     }
   });
@@ -67,7 +66,6 @@ const SettingsPage = () => {
       form.reset({
         name: user.name || "",
         email: user.email || "",
-        role: user.role || "",
         isTwoFactorEnabled: user.isTwoFactorEnabled || false,
       });
       setIsLoading(false);
@@ -188,37 +186,6 @@ const SettingsPage = () => {
                   />
                 </>
               )}
-              {user?.role === "ADMIN" && (
-                <FormField 
-                  control={form.control}
-                  name="role"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Role</FormLabel>
-                      <Select
-                        disabled={isPending}
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a role"/>
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value={UserRole.ADMIN}>
-                            Admin
-                          </SelectItem>
-                          <SelectItem value={UserRole.USER}>
-                            User
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
               {user?.isOAuth === false && (
                 <FormField 
                   control={form.control}
@@ -260,14 +227,3 @@ const SettingsPage = () => {
 }
  
 export default SettingsPage;
-
-/*
-<Button
-        asChild
-        variant="default"
-      >
-        <Link href="/users">
-          Users
-        </Link>
-      </Button>
-*/
