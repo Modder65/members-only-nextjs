@@ -52,11 +52,16 @@ import { toast } from "sonner";
 import { autoCompleteUserEmail } from "@/actions/auto-complete-useremail";
 import { deleteUser } from "@/actions/delete-user";
 import { changeRole } from "@/actions/change-role";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 const ManageUsers = () => {
   const [autocompleteResults, setAutocompleteResults] = useState([]);
   const [userData, setUserData] = useState(null);
   const [isPending, startTransition] = useTransition();
+
+  const user = useCurrentUser();
+
+  const isOwner = user?.role === "OWNER";
 
   const form = useForm({
     resolver: zodResolver(SearchUserSchema),
@@ -126,7 +131,34 @@ const ManageUsers = () => {
         toast.success(`User Role Updated: ${newRole}`);
       })
   };
+
+  // Disable role changer if an Admin tries to change another admins role
+  const shouldDisableRoleSelector = (userData) => {
+    return user.role === "ADMIN" && userData.role === "ADMIN";
+  };
+
+  // Filter role options based on current user's role and selected user's role
+  // Admins can only change a users role to banned or user
+  const getRoleOptions = (userData) => {
+    if (isOwner) {
+      return Object.values(UserRole);
+    } else if (user.role === "ADMIN" && userData.role === "USER") {
+      return [UserRole.USER, UserRole.BANNED];
+    }
+    return [];
+  };
   
+  // Utility function to format role for display
+  const formatRole = (role) => {
+    const roleMap = {
+      OWNER: "Owner",
+      ADMIN: "Admin",
+      USER: "User",
+      BANNED: "Banned"
+    };
+
+    return roleMap[role] || role;
+  };
 
   return (    
     <Card className="w-[600px] shadow-md">
@@ -205,25 +237,22 @@ const ManageUsers = () => {
                     <AlertDialog>
                       <div className="flex flex-col items-center gap-y-2">
                         <AlertDialogTrigger asChild>
-                          <Button variant="destructive">Delete User</Button>
+                          <Button variant="destructive" disabled={!isOwner}>Delete User</Button>
                         </AlertDialogTrigger>
                         <Select 
                           defaultValue={userData.role}
                           onValueChange={(selectedRole) => roleChange(userData.id, selectedRole)}
+                          disabled={shouldDisableRoleSelector(userData)}
                         >
                           <SelectTrigger>
                             <SelectValue placeholder={userData.role}/>
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value={UserRole.OWNER}>
-                              Owner
-                            </SelectItem>
-                            <SelectItem value={UserRole.ADMIN}>
-                              Admin
-                            </SelectItem>
-                            <SelectItem value={UserRole.USER}>
-                              User
-                            </SelectItem>
+                            {getRoleOptions(userData).map((role) => (
+                              <SelectItem key={role} value={role}>
+                                {formatRole(role)}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                       </div>
