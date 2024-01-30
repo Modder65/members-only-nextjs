@@ -19,10 +19,17 @@ import {
   sendTwoFactorTokenEmail
 } from "@/lib/mail";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
-
-
+import { currentRole } from "@/lib/auth";
+import { UserRole } from "@prisma/client";
 
 export const login = async (values, callbackUrl) => {
+  const role = await currentRole();
+
+  if (role === UserRole.BANNED) {
+    
+    return { error: "You've been banned!" };
+  }
+
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
