@@ -19,17 +19,9 @@ import {
   sendTwoFactorTokenEmail
 } from "@/lib/mail";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
-import { currentRole } from "@/lib/auth";
 import { UserRole } from "@prisma/client";
 
 export const login = async (values, callbackUrl) => {
-  const role = await currentRole();
-
-  if (role === UserRole.BANNED) {
-    
-    return { error: "You've been banned!" };
-  }
-
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -44,9 +36,13 @@ export const login = async (values, callbackUrl) => {
     return { error: "Email does not exist!" };
   }
 
-    // Validate password
-    // Fixes error where users could proceed to the 2FA screen,
-    // after entering an incorrect password
+  if (existingUser.role === UserRole.BANNED) {
+    return { error: "You've been banned!" };
+  }
+
+  // Validate password
+  // Fixes error where users could proceed to the 2FA screen,
+  // after entering an incorrect password
   const isPasswordValid = await bcrypt.compare(password, existingUser.password);
   if (!isPasswordValid) {
     return { error: "Invalid credentials!" };
