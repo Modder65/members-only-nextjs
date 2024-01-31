@@ -268,7 +268,7 @@ export default function Users() {
           </Form>
         </CardContent>
       </Card>  
-      <PostList posts={posts} />
+      <PostList posts={posts} setPosts={setPosts}/>
       {hasMore && !isLoading ? (
         <div ref={ref} className="flex justify-center">
           <BeatLoader />

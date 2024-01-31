@@ -23,7 +23,7 @@ import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
 import DeletePost from "./DeletePost";
 
-const PostItem = ({ post, postId, initialCommentsCount }) => {
+const PostItem = ({ posts, setPosts, post, postId, initialCommentsCount }) => {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [isLoading, setIsLoading] = useState(false);
@@ -124,7 +124,7 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
               })
             }
           </p>
-          <DeletePost postId={post.id}/>
+          <DeletePost postId={post.id} posts={posts} setPosts={setPosts}/>
         </div>
         <div className="flex justify-between items-center mt-3">
           <CommentButton post={post} asChild>

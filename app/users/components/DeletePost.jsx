@@ -11,8 +11,28 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { IoTrashOutline } from "react-icons/io5";
+import { pusherClient } from "@/lib/pusher";
 
-const DeletePost = ({ postId }) => {
+const DeletePost = ({ postId, posts, setPosts }) => {
+  useEffect(() => {
+    const handlePostDelete = (deletedPost) => {
+      setPosts(posts.filter(post => post.id !== deletedPost.id));
+    };
+
+    pusherClient.subscribe("posts-channel");
+    pusherClient.bind("post:deleted", handlePostDelete);
+
+    return () => {
+      pusherClient.unsubscribe("posts-channel");
+      pusherClient.unbind("post:deleted", handlePostDelete);
+    };
+  }, [posts, setPosts]);
+
+  const handleDeleteClick = async () => {
+    // Call the API to delete the post
+    await deletePost(postId);
+  };
+
   return ( 
     <AlertDialog>
       <AlertDialogTrigger>
@@ -27,7 +47,7 @@ const DeletePost = ({ postId }) => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => deletePost(postId)}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={handleDeleteClick}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
