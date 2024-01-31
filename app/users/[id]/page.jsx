@@ -26,9 +26,9 @@ import { useInView } from "react-intersection-observer";
 import { GoPlus } from "react-icons/go";
 import { FaUser } from "react-icons/fa";
 import { useCurrentUser } from '@/hooks/use-current-user';
+import { DateTime } from 'luxon';
 import axios from 'axios';
 import Link from "next/link";
-
 
 const UserProfile = () => {
   const params = useParams();
@@ -100,13 +100,20 @@ const UserProfile = () => {
   };
   
 
+  console.log(userData);
   return (
     <div className="mx-auto max-w-3xl px-5 py-5">
       <Card className="mb-5">
         <CardListItem>
           <div className="flex justify-between items-center">
             <div className='flex gap-2 items-center'>
-              <Avatar user={userData}/>
+              <Avatar>
+                <AvatarImage src={userData?.image || ""}/>
+                <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
+                  from-green-400 to-green-800">
+                  <FaUser className="text-white"/>
+                </AvatarFallback>
+              </Avatar>
               <p className="text-lg font-semibold">{userData?.name}</p>
             </div>
             <button type="button"
@@ -131,7 +138,26 @@ const UserProfile = () => {
           <TabsTrigger value="about">About</TabsTrigger>
           <TabsTrigger value="friends">Friends</TabsTrigger>
         </TabsList>
-        <TabsContent value="about">Content 0</TabsContent>
+        <TabsContent value="about">
+          <Card>
+            <CardHeader>
+              <h2 className="text-xl font-bold mb-4">About</h2>
+            </CardHeader>
+            <CardContent>
+              <p>Member Since: {
+                  DateTime.fromISO(user?.createdAt).toLocaleString({
+                    month: 'numeric',
+                    day: 'numeric',
+                    year: '2-digit',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true,
+                  })
+                }
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
         <TabsContent value="friends">
           {/* Display the user's friends */}
           <Card>

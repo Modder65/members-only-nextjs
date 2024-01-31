@@ -36,9 +36,9 @@ import { toast } from "sonner";
 import { BeatLoader } from "react-spinners";
 import { FaUser } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/use-current-user";
+import { DateTime } from "luxon";
 import axios from "axios";
 import Link from "next/link";
-
 
 const Account = () => {
   // ... existing state and useEffect hooks
@@ -129,7 +129,26 @@ const Account = () => {
           <TabsTrigger value="about">About</TabsTrigger>
           <TabsTrigger value="friends">Friends</TabsTrigger>
         </TabsList>
-        <TabsContent value="about">Content 0</TabsContent>
+        <TabsContent value="about">
+          <Card>
+            <CardHeader>
+              <h2 className="text-xl font-bold mb-4">About</h2>
+            </CardHeader>
+            <CardContent>
+              <p>Member Since: {
+                  DateTime.fromISO(user?.createdAt).toLocaleString({
+                    month: 'numeric',
+                    day: 'numeric',
+                    year: '2-digit',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true,
+                  })
+                }
+              </p>
+            </CardContent>
+          </Card>
+        </TabsContent>
         <TabsContent value="friends">
           {loading ? (
             <div className="flex justify-center">
@@ -175,8 +194,10 @@ const Account = () => {
                     ))}
                   </div>
                 ) : <p>No incoming friend requests.</p>}
-
-                <h2 className="text-xl font-bold mt-6 mb-4">Friends</h2>
+                <CardHeader className="pl-0 pr-0">
+                  <h2 className="text-xl font-bold mt-6 mb-4">Friends</h2>
+                </CardHeader>
+                
                 {friends.length > 0 ? (
                   <div className="space-y-2">
                     {friends.map(friendship => (
