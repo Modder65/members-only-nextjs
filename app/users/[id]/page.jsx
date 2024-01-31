@@ -194,9 +194,13 @@ const UserProfile = () => {
                             <FaUser className="text-white"/>
                           </AvatarFallback>
                         </Avatar>
-                        <Link href={`/users/${friendship.user.id}`} className="text-blue-600 hover:underline">
-                          <span className="text-blue-600 hover:underline cursor-pointer">{friendship.user.name}</span>
-                        </Link>
+                        {friendship.user.id !== user?.id ? (
+                          <Link href={`/users/${friendship.user.id}`} className="text-blue-600 hover:underline">
+                            <span className="text-blue-600 hover:underline cursor-pointer">{friendship.user.name}</span>
+                          </Link>
+                        ) : (
+                          <span>{friendship.user.name}</span>
+                        )}
                       </div>
                     </div>
                   ))}
