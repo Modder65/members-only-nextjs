@@ -3,6 +3,7 @@
 import { FaUser } from "react-icons/fa";
 import { IoExitOutline } from "react-icons/io5";
 import { IoPeopleOutline } from "react-icons/io5";
+import { IoPersonOutline } from "react-icons/io5";
 
 import {
   DropdownMenu,
@@ -43,6 +44,10 @@ export const UserButton = () => {
         <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/users')}>
           <IoPeopleOutline className="h-5 w-5 mr-2" />
           Home
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" onClick={() => handleNavigation('/users/account')}>
+          <IoPersonOutline className="h-5 w-5 mr-2" />
+          Account
         </DropdownMenuItem>
         <LogoutButton>
           <DropdownMenuItem className="cursor-pointer">
