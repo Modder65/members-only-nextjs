@@ -1,3 +1,5 @@
+"use client";
+
 import { deletePost } from "@/actions/delete-post";
 import {
   AlertDialog,
