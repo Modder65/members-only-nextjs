@@ -55,6 +55,13 @@ export const {
         session.user.id = token.sub;
       }
 
+      // Fetch user from the database to get the createdAt property
+      const user = await getUserById(token.sub);
+      if (user) {
+        // Add createdAt property to session.user
+        session.user.createdAt = user.createdAt;
+      }
+
       if (token.role && session.user) {
         session.user.role = token.role;
       }
