@@ -1,4 +1,4 @@
-"use sever";
+"use server";
 
 import prisma from "@/lib/prismadb";
 
@@ -10,4 +10,6 @@ export const deletePost = async (postId) => {
   await prisma.post.delete({
     where: { id: postId },
   });
+
+  return { success: "Post successfully deleted!" };
 }
