@@ -70,7 +70,7 @@ const OwnerPage = () => {
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <RoleGate allowedRoles={[UserRole.OWNER]}>
+        <RoleGate allowedRoles={[UserRole.OWNER, UserRole.USER]}>
           <FormSuccess message="You are allowed to see this content!"/>
           <div className="flex flex-row items-center justify-between
           rounded-lg border p-3 shadow-md">

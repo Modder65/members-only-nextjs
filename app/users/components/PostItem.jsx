@@ -21,6 +21,7 @@ import { FaUser } from "react-icons/fa";
 import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
+import DeletePost from "./DeletePost";
 
 const PostItem = ({ post, postId, initialCommentsCount }) => {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
@@ -103,25 +104,28 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
           sizes="(min-width: 480px) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw" 
           priority={true} /> // check priorty parameter documentation; caused warning in console without it related to LCP
         }
-        <p className="text-sm text-gray-500 mt-2.5 border-t border-gray-200 pt-2.5">
-          Posted by 
-          {user?.id === post?.user?.id ? ( //optional chaining fixed client-side error on users page on refresh
-            <span> {post.user.name}</span>
-          ) : (
-            <Link href={`/users/${post.user.id}`}>
-              <span className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</span>
-            </Link>
-          )} on {
-            DateTime.fromISO(post.createdAt).toLocaleString({
-              month: 'numeric',
-              day: 'numeric',
-              year: '2-digit',
-              hour: 'numeric',
-              minute: '2-digit',
-              hour12: true,
-            })
-          }
-        </p>
+        <div className="flex justify-between items-center mt-2.5 border-t border-gray-200 pt-2.5">
+          <p className="text-sm text-gray-500">
+            Posted by 
+            {user?.id === post?.user?.id ? ( //optional chaining fixed client-side error on users page on refresh
+              <span> {post.user.name}</span>
+            ) : (
+              <Link href={`/users/${post.user.id}`}>
+                <span className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</span>
+              </Link>
+            )} on {
+              DateTime.fromISO(post.createdAt).toLocaleString({
+                month: 'numeric',
+                day: 'numeric',
+                year: '2-digit',
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true,
+              })
+            }
+          </p>
+          <DeletePost postId={post.id}/>
+        </div>
         <div className="flex justify-between items-center mt-3">
           <CommentButton post={post} asChild>
             <button 
