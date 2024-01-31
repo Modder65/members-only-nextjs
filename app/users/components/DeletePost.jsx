@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { deletePost } from "@/actions/delete-post";
 import {
   AlertDialog,
