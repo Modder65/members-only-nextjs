@@ -23,6 +23,14 @@ const postsSlice = createSlice({
     removePost: (state, action) => {
       state.posts = state.posts.filter(post => post.id !== action.payload);
     },
+    editPost: (state, action) => {
+      const { id, title, message } = action.payload;
+      const existingPost = state.posts.find(post => post.id === id);
+      if (existingPost) {
+        existingPost.title = title;
+        existingPost.message = message;
+      }
+    },
   },
 });
 
@@ -31,7 +39,8 @@ export const {
   appendPosts,
   prependPost,
   addPost,
-  removePost
+  removePost,
+  editPost,
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
