@@ -1,11 +1,31 @@
 "use server";
 
 import { pusherServer } from "@/lib/pusher";
+import { currentUser } from "@/lib/auth";
 import { EditPostSchema } from "@/schemas";
 import prisma from "@/lib/prismadb";
 import sanitizeHtml from "sanitize-html";
 
 export const editPost = async (values, postId) => {
+  const user = await currentUser();
+
+  if (!user) {
+    return { error: "User not found!" };
+  }
+
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    include: { user: true },
+  });
+
+  if (!post) {
+    return { error: "Post not found!" };
+  }
+
+  if (post.user.id !== user.id) {
+    return { error: "Unauthorized action!" };
+  }
+
   const validatedFields = EditPostSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -30,13 +50,15 @@ export const editPost = async (values, postId) => {
     }
   });
 
-  await prisma.post.update({
+  const editedPost = await prisma.post.update({
     where: { id: postId },
     data: {
       title: sanitizedTitle,
       message: sanitizedMessage,
     },
   });
+
+  await pusherServer.trigger("posts-channel", "post:edited", editedPost);
 
   return { success: "Post updated successfully!" };
 }
