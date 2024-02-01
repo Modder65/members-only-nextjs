@@ -14,26 +14,21 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { IoTrashOutline } from "react-icons/io5";
-import { pusherClient } from "@/lib/pusher";
+import { toast } from "sonner";
 
-const DeletePost = ({ postId, posts, setPosts }) => {
-  useEffect(() => {
-    const handlePostDelete = (deletedPost) => {
-      setPosts(posts.filter(post => post.id !== deletedPost.id));
-    };
+const DeletePost = ({ postId }) => {
+  const handleDeleteClick = () => {
+    deletePost(postId)
+      .then((data) => {
+        if (data?.error) {
+          toast.error("Error deleting post!");
+        }
 
-    pusherClient.subscribe("posts-channel");
-    pusherClient.bind("post:deleted", handlePostDelete);
-
-    return () => {
-      pusherClient.unsubscribe("posts-channel");
-      pusherClient.unbind("post:deleted", handlePostDelete);
-    };
-  }, [posts, setPosts]);
-
-  const handleDeleteClick = async () => {
-    // Call the API to delete the post
-    await deletePost(postId);
+        if (data?.success) {
+          toast.success("Deleted post successfully!");
+        }
+      })
+      .catch(() => toast.error("Something went wrong!"))
   };
 
   return ( 

@@ -20,6 +20,9 @@ const postsSlice = createSlice({
     addPost: (state, action) => {
       state.posts.unshift(action.payload);
     },
+    removePost: (state, action) => {
+      state.posts = state.posts.filter(post => post.id !== action.payload);
+    },
   },
 });
 
@@ -27,7 +30,8 @@ export const {
   setPosts,
   appendPosts,
   prependPost,
-  addPost 
+  addPost,
+  removePost
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
