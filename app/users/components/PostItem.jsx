@@ -20,6 +20,7 @@ import {
 import { FaUser } from "react-icons/fa";
 import { IoPencilOutline } from "react-icons/io5";
 import { setPosts } from "@/redux/features/postsSlice";
+import { UserRole } from "@prisma/client";
 import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
@@ -133,7 +134,9 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
                 <IoPencilOutline className="w-6 h-6" />
               </span>
             </EditPost>
-            <DeletePost postId={post.id} posts={posts} setPosts={setPosts}/>
+            { (user?.id === post?.user?.id || user?.role === UserRole.OWNER) && (
+              <DeletePost postId={post.id} posts={posts} setPosts={setPosts}/>
+            )}
           </div>
         </div>
         <div className="flex justify-between items-center mt-3">

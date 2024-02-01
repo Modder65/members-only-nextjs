@@ -1,11 +1,28 @@
 "use server";
 
 import prisma from "@/lib/prismadb";
+import { currentUser } from "@/lib/auth";
+import { UserRole } from "@prisma/client";
 import { pusherServer } from "@/lib/pusher";
 
 export const deletePost = async (postId) => {
-  if (!postId) {
+  const user = await currentUser();
+
+  if (!user) {
+    return { error: "User not found!" };
+  }
+
+  const post = await prisma.post.findUnique({
+    where: { id: postId },
+    include: { user: true },
+  });
+
+  if (!post) {
     return { error: "Post not found!" };
+  }
+
+  if (post.user.id !== user.id && user.role !== UserRole.OWNER) {
+    return { error: "Unauthorized action!" };
   }
 
   const deletedPost = await prisma.post.delete({
