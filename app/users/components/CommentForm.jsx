@@ -20,7 +20,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { createComment } from '@/actions/create-comment';

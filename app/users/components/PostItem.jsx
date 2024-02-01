@@ -18,12 +18,15 @@ import {
   AvatarFallback
 } from "@/components/ui/avatar";
 import { FaUser } from "react-icons/fa";
+import { IoPencilOutline } from "react-icons/io5";
+import { setPosts } from "@/redux/features/postsSlice";
 import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
 import DeletePost from "./DeletePost";
+import EditPost from "./EditPost";
 
-const PostItem = ({ posts, setPosts, post, postId, initialCommentsCount }) => {
+const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [isLoading, setIsLoading] = useState(false);
@@ -124,7 +127,14 @@ const PostItem = ({ posts, setPosts, post, postId, initialCommentsCount }) => {
               })
             }
           </p>
-          <DeletePost postId={post.id} posts={posts} setPosts={setPosts}/>
+          <div className="flex justify-center items-center">
+            <EditPost post={post} asChild>
+              <span className="cursor-pointer">
+                <IoPencilOutline className="w-6 h-6" />
+              </span>
+            </EditPost>
+            <DeletePost postId={post.id} posts={posts} setPosts={setPosts}/>
+          </div>
         </div>
         <div className="flex justify-between items-center mt-3">
           <CommentButton post={post} asChild>

@@ -63,7 +63,6 @@ export const RegisterSchema = z.object({
   }),
 });
 
-// Edit later
 export const CreatePostSchema = z.object({
   title: z.string().min(4, {
     message: "Minimum 4 characters required",
@@ -72,6 +71,15 @@ export const CreatePostSchema = z.object({
     message: "Minimum 4 characters required"
   }),
 });
+
+export const EditPostSchema = z.object({
+  title: z.string().min(4, {
+    message: "Minimum 4 characters required",
+  }),
+  message: z.string().min(4, {
+    message: "Minimum 4 characters required"
+  }),
+})
 
 export const CreateCommentSchema = z.object({
   message: z.string().min(1, {

@@ -149,7 +149,7 @@ export default function CreatePostPage() {
                   className="w-[100px]"
                 >
                   Submit Post
-              </Button>
+                </Button>
               </div>
             </form>
           </Form>

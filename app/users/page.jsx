@@ -13,6 +13,7 @@ import { BeatLoader } from "react-spinners";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { useDispatch } from "react-redux";
 import { initializeLikes } from "@/redux/features/likesSlice";
+import { setPosts, appendPosts, prependPost } from "@/redux/features/postsSlice";
 import { Card, CardContent, CardHeader, CardListItem } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -42,7 +43,6 @@ import { autoCompleteUserName } from "@/actions/auto-complete-username";
 
 
 export default function Users() {
-  const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [sortOrder, setSortOrder] = useState('desc');
@@ -78,9 +78,9 @@ export default function Users() {
       
       // If page is 0, replace the posts; otherwise, append them
       if (page === 0) {
-        setPosts(response.data);
+        dispatch(setPosts(response.data));
       } else {
-        setPosts(prevPosts => [...prevPosts, ...response.data]);
+        dispatch(appendPosts(response.data));
       }
 
       // Prepare data for initializing likes
@@ -113,13 +113,7 @@ export default function Users() {
   }, [inView, hasMore]);
   
   const postHandler = useCallback((post) => {
-    setPosts(current => {
-      // If a post with this ID already exists, don't add it
-      if (!find(current, { id: post.id })) {
-        return [post, ...current];
-      }
-      return current;
-    });
+    dispatch(prependPost(post));
     notifyNewPost();
   }, []);
 
@@ -130,7 +124,7 @@ export default function Users() {
     // Fetch new posts if sortOrder has changed or userName has changed
     if (data.sortOrder !== sortOrder || data.name !== selectedUserName) {
       setSortOrder(data.sortOrder);
-      setPosts([]);
+      dispatch(setPosts([]));
       setPage(0);
       setIsLoading(true);
     }
@@ -268,7 +262,7 @@ export default function Users() {
           </Form>
         </CardContent>
       </Card>  
-      <PostList posts={posts} setPosts={setPosts}/>
+      <PostList />
       {hasMore && !isLoading ? (
         <div ref={ref} className="flex justify-center">
           <BeatLoader />
