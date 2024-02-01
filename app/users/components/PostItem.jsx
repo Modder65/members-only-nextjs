@@ -129,11 +129,13 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
             }
           </p>
           <div className="flex justify-center items-center">
-            <EditPost post={post} asChild>
-              <span className="cursor-pointer">
-                <IoPencilOutline className="w-6 h-6" />
-              </span>
-            </EditPost>
+            { (user?.id === post?.user?.id) && (
+              <EditPost post={post} asChild>
+                <span className="cursor-pointer">
+                  <IoPencilOutline className="w-6 h-6" />
+                </span>
+              </EditPost>
+            )}
             { (user?.id === post?.user?.id || user?.role === UserRole.OWNER) && (
               <DeletePost postId={post.id} posts={posts} setPosts={setPosts}/>
             )}
