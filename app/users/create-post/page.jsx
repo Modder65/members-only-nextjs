@@ -27,8 +27,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createPost } from "@/actions/create-post";
-import ClipLoader from "react-spinners/ClipLoader";
-
+import Image from 'next/image'
 
 export default function CreatePostPage() {
   const [isPending, startTransition] = useTransition();
@@ -71,6 +70,7 @@ export default function CreatePostPage() {
   // Needs to be edited to work
   const handleUpload = (result) => {
     const url = result?.info?.secure_url;
+    console.log("Image url", url);
     if (url) {
       setImageURL(url); // Store the image URL instead of directly uploading
     }
@@ -125,6 +125,12 @@ export default function CreatePostPage() {
                     </FormItem>
                   )}
                 />
+                {imageURL && (
+                  <div className="space-y-2">
+                    <h3 className="mb-2">Image Preview</h3>
+                    <Image src={imageURL} alt="Uploaded" width={500} height={500} className="rounded shadow-md" />
+                  </div>
+                )}
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
