@@ -17,7 +17,8 @@ export default function RootLayout({ children }) {
           <title>MembersOnly</title>
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </head>
-        <body className={`custom-gradient ${nunito.className}`}>
+        {/* margin and overflowY properties are needed to prevent gap and removed scrollbar when opening shadcnui user dropdown menu*/}
+        <body className={`custom-gradient ${nunito.className}`} style={{ margin: '0px !important', overflowY: 'scroll !important' }}>
           <ToasterContext />
           <Toaster />
           {children}
