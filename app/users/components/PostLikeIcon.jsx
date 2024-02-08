@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useRef } from "react";
-import { FiHeart } from "react-icons/fi";
+import { FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLike } from "@/redux/features/likesSlice";
@@ -49,7 +50,7 @@ const PostLikeIcon = ({ postId }) => {
   return ( 
     <div className="flex items-center mt-2">
     <button
-      className="flex items-center"
+      className="flex items-center gap-x-1.5 font-bold"
       onClick={handleToggleLike}
       disabled={isLoading}
     >
@@ -57,7 +58,12 @@ const PostLikeIcon = ({ postId }) => {
         {likeCount}
       </span>
       <span ref={heartIconRef} className="text-rose-600">
-        <FiHeart size={20} className={clsx('ml-1', {'fill-current': currentUserLiked})} />
+        {!currentUserLiked && (
+          <FaRegHeart className="w-6 h-6" />
+        )}
+        {currentUserLiked && (
+          <FaHeart className="w-6 h-6" />
+        )}
       </span>
     </button>
   </div>

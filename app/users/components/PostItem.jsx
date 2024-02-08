@@ -17,20 +17,26 @@ import {
   AvatarImage,
   AvatarFallback
 } from "@/components/ui/avatar";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { FaUser } from "react-icons/fa";
-import { IoPencilOutline } from "react-icons/io5";
+import { FaRegEdit } from "react-icons/fa";
 import { setPosts } from "@/redux/features/postsSlice";
 import { UserRole } from "@prisma/client";
 import Link from "next/link";
 import axios from "axios";
 import PostLikeIcon from "./PostLikeIcon";
 import DeletePost from "./DeletePost";
-import EditPost from "./EditPost";
 
 const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
   const [commentsLoaded, setCommentsLoaded] = useState(false);
   const [commentCount, setCommentCount] = useState(initialCommentsCount);
   const [isLoading, setIsLoading] = useState(false);
+
   const user = useCurrentUser();
 
   const dispatch = useDispatch();
@@ -128,13 +134,23 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
               })
             }
           </p>
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center gap-x-3">
             { (user?.id === post?.user?.id) && (
-              <EditPost post={post} asChild>
-                <span className="cursor-pointer">
-                  <IoPencilOutline className="w-6 h-6" />
-                </span>
-              </EditPost>
+              <Link href={`users/post/${post.id}`}>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span className="cursor-pointer">
+                        <FaRegEdit className="w-6 h-6" />
+                      </span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Edit Post</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+                
+              </Link>
             )}
             { (user?.id === post?.user?.id || user?.role === UserRole.OWNER) && (
               <DeletePost postId={post.id} posts={posts} setPosts={setPosts}/>

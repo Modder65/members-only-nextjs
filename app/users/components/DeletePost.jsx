@@ -13,7 +13,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { IoTrashOutline } from "react-icons/io5";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+import { FaRegTrashAlt } from "react-icons/fa";
 import { toast } from "sonner";
 
 const DeletePost = ({ postId }) => {
@@ -33,9 +39,18 @@ const DeletePost = ({ postId }) => {
 
   return ( 
     <AlertDialog>
-      <AlertDialogTrigger>
-        <IoTrashOutline className="w-6 h-6 text-rose-600" />
-      </AlertDialogTrigger>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <AlertDialogTrigger>
+                <FaRegTrashAlt className="w-6 h-6 text-rose-600" />
+              </AlertDialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Delete Post</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure you want to delete this post?</AlertDialogTitle>

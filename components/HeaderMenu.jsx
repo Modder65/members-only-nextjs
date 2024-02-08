@@ -1,8 +1,8 @@
-import { IoSettingsOutline } from "react-icons/io5";
-import { IoChatboxEllipsesOutline } from "react-icons/io5";
-import { IoHomeOutline } from "react-icons/io5";
-import { IoPersonOutline } from "react-icons/io5";
-import { IoExitOutline } from "react-icons/io5";
+import { FaRegSun } from "react-icons/fa";
+import { FaRegCommentDots } from "react-icons/fa";
+import { FaHouseUser } from "react-icons/fa";
+import { FaRegUser } from "react-icons/fa";
+import { FaRegShareSquare } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import {
@@ -42,25 +42,25 @@ const HeaderMenu = ({ user }) => {
         
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
-        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users')}>
-          <IoHomeOutline className="h-6 w-6 mr-2" />
+        <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/users')}>
+          <FaHouseUser className="h-6 w-6 mr-2" />
           Home
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users/account')}>
-          <IoPersonOutline className="h-6 w-6 mr-2" />
+        <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/users/account')}>
+          <FaRegUser className="h-6 w-6 mr-2" />
           Account
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/users/create-post')}>
-          <IoChatboxEllipsesOutline className="h-6 w-6 mr-2" />
+        <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/users/create-post')}>
+          <FaRegCommentDots className="h-6 w-6 mr-2" />
           Create Post
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer flex items-center text-base" onClick={() => handleNavigation('/settings')}>
-          <IoSettingsOutline className="h-6 w-6 mr-2" />
+        <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/settings')}>
+          <FaRegSun className="h-6 w-6 mr-2" />
           Settings
         </DropdownMenuItem>
         <LogoutButton>
-          <DropdownMenuItem className="text-base cursor-pointer">
-            <IoExitOutline className="h-6 w-6 mr-2" />
+          <DropdownMenuItem className="text-lg cursor-pointer">
+            <FaRegShareSquare className="h-6 w-6 mr-2" />
             Logout
           </DropdownMenuItem>
         </LogoutButton>

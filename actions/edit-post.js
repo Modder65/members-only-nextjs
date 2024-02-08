@@ -6,7 +6,7 @@ import { EditPostSchema } from "@/schemas";
 import prisma from "@/lib/prismadb";
 import sanitizeHtml from "sanitize-html";
 
-export const editPost = async (values, postId) => {
+export const editPost = async (values, postId, image) => {
   const user = await currentUser();
 
   if (!user) {
@@ -27,6 +27,7 @@ export const editPost = async (values, postId) => {
   }
 
   const validatedFields = EditPostSchema.safeParse(values);
+  const imageUrl = image;
 
   if (!validatedFields.success) {
     return { error: "Invalid fields!" };
@@ -55,6 +56,7 @@ export const editPost = async (values, postId) => {
     data: {
       title: sanitizedTitle,
       message: sanitizedMessage,
+      image: imageUrl,
     },
   });
 
