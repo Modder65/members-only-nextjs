@@ -6,6 +6,12 @@ import { FaHeart } from "react-icons/fa";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleLike } from "@/redux/features/likesSlice";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
@@ -57,14 +63,24 @@ const PostLikeIcon = ({ postId }) => {
       <span style={{ opacity: likeCount > 0 ? 1 : 0, minWidth: '10px' }}>
         {likeCount}
       </span>
-      <span ref={heartIconRef} className="text-rose-600">
-        {!currentUserLiked && (
-          <FaRegHeart className="w-6 h-6" />
-        )}
-        {currentUserLiked && (
-          <FaHeart className="w-6 h-6" />
-        )}
-      </span>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span ref={heartIconRef} className="text-rose-600">
+              {!currentUserLiked && (
+                <FaRegHeart className="w-6 h-6" />
+              )}
+              {currentUserLiked && (
+                <FaHeart className="w-6 h-6" />
+              )}
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Like Post</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      
     </button>
   </div>
    );
