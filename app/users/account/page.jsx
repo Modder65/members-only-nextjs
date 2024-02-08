@@ -123,11 +123,11 @@ const Account = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-5 py-5">
+    <div className="mx-auto max-w-3xl px-5">
       <Tabs defaultValue="about" className="w-full" onValueChange={handleTabChange}>
-        <TabsList className="grid grid-cols-2 w-full bg-white shadow-md mb-5">
-          <TabsTrigger value="about">About</TabsTrigger>
-          <TabsTrigger value="friends">Friends</TabsTrigger>
+        <TabsList className="flex justify-center gap-x-2.5 w-full shadow-md mb-8 mt-8">
+          <TabsTrigger value="about" className="w-[100px] h-9 px-4 py-2">About</TabsTrigger>
+          <TabsTrigger value="friends" className="w-[100px] h-9 px-4 py-2">Friends</TabsTrigger>
         </TabsList>
         <TabsContent value="about">
           <Card>

@@ -1,13 +1,15 @@
 import { Navbar } from "./_components/navbar";
+import { Header } from "@/components/Header";
 
 const SettingsLayout = ({children}) => {
   return ( 
-    <div className="h-full w-full flex flex-col gap-y-10 items-center 
-     bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-    from-green-400 to-green-800 pt-[4rem]">
-      <Navbar />
-      {children}
-    </div>
+    <>
+      <Header />
+      <div className="max-w-3xl mx-auto px-5 h-full flex flex-col items-center gap-y-8 pt-[2rem]">
+        <Navbar />
+        {children}
+      </div>
+    </>
    );
 }
  

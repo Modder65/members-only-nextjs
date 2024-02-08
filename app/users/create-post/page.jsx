@@ -134,7 +134,7 @@ export default function CreatePostPage() {
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                  <p>Upload an Image:</p>
+                  <p>Upload/Replace an Image:</p>
                   <CldUploadButton
                     options={{ 
                       sources: ['local'],

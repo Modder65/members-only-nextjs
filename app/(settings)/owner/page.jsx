@@ -63,7 +63,7 @@ const OwnerPage = () => {
   }
 
   return ( 
-    <Card className="w-[600px]">
+    <Card className="max-w-3xl w-full">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">
           🔑 Owner
