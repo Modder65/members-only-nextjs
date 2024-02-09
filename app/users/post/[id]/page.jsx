@@ -116,7 +116,7 @@ export default function EditPost({ params }) {
   }
 
   return ( 
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-center mt-8 max-w-3xl w-full mx-auto px-5">
       <Card className="max-w-3xl w-full">
         <CardHeader>
           <p className="text-2xl font-semibold text-center">
@@ -195,7 +195,7 @@ export default function EditPost({ params }) {
                     onUpload={handleUpload}
                     uploadPreset="jfaab9re"
                   >
-                    <HiPhoto size={30} className="text-blue-600" />
+                    <HiPhoto size={30} className="cursor-pointer text-skin-icon-accent hover:text-skin-icon-accent-hover" />
                   </CldUploadButton>
                 </div>
                 <FormError message={error}/>

@@ -1,20 +1,10 @@
-import { Nunito } from "next/font/google";
-
-import { cn } from "@/lib/utils";
-
-const font = Nunito({
-  subsets: ["latin"],
-  weight: ["600"],
-});
 
 export const Header = ({ label }) => {
   return (
     <div className="w-full flex flex-col gap-y-4 items-center justify-center">
-      <h1 className={cn(
-        "text-3xl font-semibold",
-        font.className,
-      )}>
-        🔐MembersOnly
+      <h1 className="text-3xl font-bold">
+        <span className="text-skin-fill">🔐Members</span>
+        <span className="text-black">Only</span>
       </h1>
       <p className="text-muted-foreground text-sm">
         {label}

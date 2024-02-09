@@ -17,6 +17,30 @@ module.exports = {
       },
     },
     extend: {
+      textColor: {
+        skin: {
+          base: 'var(--color-text-base)',
+          muted: 'var(--color-text-muted)',
+          inverted: 'var(--color-text-inverted)',
+          fill: 'var(--color-fill)',
+          'icon-accent': 'var(--color-icon-accent)',
+          'icon-accent-hover': 'var(--color-icon-accent-hover)',
+        }
+      },
+      backgroundColor: {
+        skin: {
+          fill: 'var(--color-fill)',
+          'button-accent': 'var(--color-button-accent)',
+          'button-onbackground-accent': 'var(--color-button-onbackground-accent)',
+          'button-accent-hover': 'var(--color-button-accent-hover)',
+        }
+      },
+      gradientColorStops: {
+        skin: {
+          hue: 'var(--color-fill)'
+        }
+      },
+
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

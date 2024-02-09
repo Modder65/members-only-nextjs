@@ -79,6 +79,55 @@ body,
 }
  
 @layer base {
+  :root {
+    --color-fill: #34d399; 
+    --color-text-base: #000000;
+    --color-text-inverted: #34d399;
+    --color-button-accent: #34d399;
+    --color-button-accent-hover: #5ddcad;
+    --color-icon-accent: #34d399;
+    --color-icon-accent-hover: #5ddcad;
+  }
+  .theme-emerald {
+    --color-fill: #34d399; 
+    --color-text-base: #000000;
+    --color-text-inverted: #34d399;
+    --color-button-accent: #34d399;
+    --color-button-onbackground-accent: #000000;
+    --color-button-accent-hover: #5ddcad; /* 80% opacity of button color */
+    --color-icon-accent: #34d399;
+    --color-icon-accent-hover: #5ddcad; /* 80% opacity of icon color */
+  }
+  .theme-sky {
+    --color-fill: #38bdf8; 
+    --color-text-base: #000000;
+    --color-text-inverted: #38bdf8;
+    --color-button-accent: #38bdf8;
+    --color-button-onbackground-accent: #000000;
+    --color-button-accent-hover: #60caf9; /* 80% opacity of button color */
+    --color-icon-accent: #38bdf8;
+    --color-icon-accent-hover: #60caf9; /* 80% opacity of icon color */
+  }
+  .theme-rose {
+    --color-fill: #e11d48;
+    --color-text-base: #ffffff;
+    --color-text-inverted: #e11d48;
+    --color-button-accent: #e11d48;
+    --color-button-onbackground-accent: #ffffff;
+    --color-button-accent-hover: #e74a6d; /* 80% opacity of button color */
+    --color-icon-accent: #e11d48;
+    --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
+  }
+  .theme-black {
+    --color-fill: #000000;
+    --color-text-base: #ffffff;
+    --color-text-inverted: #000000;
+    --color-button-accent: #000000;
+    --color-button-onbackground-accent: #ffffff;
+    --color-button-accent-hover: #333333; /* 80% opacity of button color */
+    --color-icon-accent: #000000;
+    --color-icon-accent-hover: #333333; /* 80% opacity of icon color */
+  }
   * {
     @apply border-border;
   }
@@ -132,3 +181,5 @@ body,
   background: linear-gradient(to bottom, transparent, white); /* Adjust color to match background */
   pointer-events: none;
 }
+
+/* THEMES */

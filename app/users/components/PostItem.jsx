@@ -92,13 +92,12 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
   }, [commentHandler]);
 
   return (
-    <div className="max-auto max-w-3xl mb-5">
+    <div className="max-auto max-w-3xl mb-7">
       <div className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm">
         <div className="flex items-center gap-2 mb-3">
           <Avatar>
             <AvatarImage src={post.user.image || ""}/>
-            <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-              from-green-400 to-green-800">
+            <AvatarFallback className="bg-skin-fill">
               <FaUser className="text-white"/>
             </AvatarFallback>
           </Avatar>
@@ -161,7 +160,7 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
           <CommentButton post={post} asChild>
             <button 
             onClick={() => openModalHandler(postId)}
-            className="bg-emerald-600 rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
+            className="bg-skin-fill rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
             >
               <FiMessageSquare className="mr-2" />
               {`Show Comments (${commentCount})`}

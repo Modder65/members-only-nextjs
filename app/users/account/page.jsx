@@ -126,8 +126,8 @@ const Account = () => {
     <div className="mx-auto max-w-3xl px-5">
       <Tabs defaultValue="about" className="w-full" onValueChange={handleTabChange}>
         <TabsList className="flex justify-center gap-x-2.5 w-full shadow-md mb-8 mt-8">
-          <TabsTrigger value="about" className="w-[100px] h-9 px-4 py-2">About</TabsTrigger>
-          <TabsTrigger value="friends" className="w-[100px] h-9 px-4 py-2">Friends</TabsTrigger>
+          <TabsTrigger value="about" className="h-9 px-4 py-2">About</TabsTrigger>
+          <TabsTrigger value="friends" className="h-9 px-4 py-2">Friends</TabsTrigger>
         </TabsList>
         <TabsContent value="about">
           <Card>
@@ -168,8 +168,7 @@ const Account = () => {
                         <div className="flex items-center gap-2">
                           <Avatar>
                             <AvatarImage src={request?.user?.image || ""}/>
-                            <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-                              from-green-400 to-green-800">
+                            <AvatarFallback className="bg-skin-fill">
                               <FaUser className="text-white"/>
                             </AvatarFallback>
                           </Avatar>
@@ -206,8 +205,7 @@ const Account = () => {
                           <div className="flex items-center gap-2">
                             <Avatar>
                               <AvatarImage src={user.id === friendship.senderId ? friendship.friend.image : friendship.user.image || ""}/>
-                              <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-                                from-green-400 to-green-800">
+                              <AvatarFallback className="bg-skin-fill">
                                 <FaUser className="text-white"/>
                               </AvatarFallback>
                             </Avatar>

@@ -109,8 +109,7 @@ const UserProfile = () => {
             <div className='flex gap-2 items-center'>
               <Avatar>
                 <AvatarImage src={userData?.image || ""}/>
-                <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-                  from-green-400 to-green-800">
+                <AvatarFallback className="bg-skin-fill">
                   <FaUser className="text-white"/>
                 </AvatarFallback>
               </Avatar>
@@ -134,9 +133,9 @@ const UserProfile = () => {
       
       <div>
       <Tabs defaultValue="about" className="w-full" onValueChange={handleTabChange}>
-        <TabsList className="grid grid-cols-2 w-full bg-white shadow-md mb-5">
-          <TabsTrigger value="about">About</TabsTrigger>
-          <TabsTrigger value="friends">Friends</TabsTrigger>
+        <TabsList className="flex justify-center gap-x-2.5 w-full shadow-md mb-8 mt-8">
+          <TabsTrigger value="about" className="h-9 px-4 py-2">About</TabsTrigger>
+          <TabsTrigger value="friends" className="h-9 px-4 py-2">Friends</TabsTrigger>
         </TabsList>
         <TabsContent value="about">
           <Card>
@@ -173,8 +172,7 @@ const UserProfile = () => {
                       <div className="flex items-center gap-2">
                         <Avatar>
                           <AvatarImage src={friendship.friend.image || ""}/>
-                          <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-                            from-green-400 to-green-800">
+                          <AvatarFallback className="bg-skin-fill">
                             <FaUser className="text-white"/>
                           </AvatarFallback>
                         </Avatar>
@@ -189,8 +187,7 @@ const UserProfile = () => {
                       <div className="flex items-center gap-2">
                         <Avatar>
                           <AvatarImage src={friendship.user.image || ""}/>
-                          <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-                            from-green-400 to-green-800">
+                          <AvatarFallback className="bg-skin-fill">
                             <FaUser className="text-white"/>
                           </AvatarFallback>
                         </Avatar>

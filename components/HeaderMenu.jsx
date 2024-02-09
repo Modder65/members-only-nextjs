@@ -28,12 +28,11 @@ const HeaderMenu = ({ user }) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="outline-none">
         <div className="flex items-center gap-x-2">
           <Avatar>
             <AvatarImage src={user?.image || ""}/>
-            <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-            from-green-400 to-green-800">
+            <AvatarFallback className="bg-skin-fill">
               <FaUser className="text-white"/>
             </AvatarFallback>
           </Avatar>

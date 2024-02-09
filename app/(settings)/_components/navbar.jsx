@@ -33,6 +33,14 @@ export const Navbar = () => {
           Client
         </Link>
       </Button>
+      <Button
+        asChild
+        variant={pathname === "/themes" ? "default" : "outline"}
+      >
+        <Link href="/themes">
+          Themes
+        </Link>
+      </Button>
       {isOwner && (
         <Button
           asChild

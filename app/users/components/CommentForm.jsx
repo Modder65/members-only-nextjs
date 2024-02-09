@@ -74,11 +74,11 @@ export const CommentForm = ({ post }) => {
   }
 
   return (
-    <Card className="w-[500px] rounded px-5 py-5 bg-white">
-      <CardHeader className="flex justify-between p-0">
-        <p className="text-xl font-bold">{post?.title}</p>
+    <Card className="w-[500px] rounded p-0 bg-white">
+      <CardHeader className="flex justify-between px-6 pb-0">
+        <p className="text-xl font-bold truncate max-w-[calc(100%-2.5rem)]">{post?.title}</p>
       </CardHeader>
-      <p className='text-sm text-gray-500 mb-10'>
+      <p className='text-sm text-gray-500 mb-1 px-6'>
       Posted by 
       <Link href={`/users/${post?.user.id}`} className="text-blue-600 hover:underline">
         <span className="text-blue-600 hover:underline cursor-pointer"> {post?.user.name}</span>
@@ -94,6 +94,32 @@ export const CommentForm = ({ post }) => {
         }
       </p>
       <CardContent>
+        <div className="fade-container">
+          <div className="mt-4 max-h-[400px] overflow-y-auto scrollbar-custom pb-24">
+            {!comments && (
+              <BeatLoader />
+            )}
+            {comments.map(comment => (
+              <div key={comment.id} className="comment-item p-3 border-t border-gray-300">
+                <p className="text-gray-800">{comment.message}</p>
+                <p className="text-sm text-gray-500">
+                  Posted by {comment.user.name} on {
+                    DateTime.fromISO(comment.createdAt).toLocaleString({
+                      month: 'numeric',
+                      day: 'numeric',
+                      year: '2-digit',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                      hour12: true,
+                    })
+                  }
+                </p>
+                <CommentLikeIcon commentId={comment.id} />
+                <RepliesSection commentId={comment.id} initialRepliesCount={comment._count.replies} />
+              </div>
+            ))}
+          </div>
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 mt-4">
             <div className="space-y-4">
@@ -126,32 +152,6 @@ export const CommentForm = ({ post }) => {
             </div>
           </form>
         </Form>
-        <div className="fade-container">
-          <div className="mt-4 max-h-[400px] overflow-y-auto scrollbar-custom pb-24">
-            {!comments && (
-              <BeatLoader />
-            )}
-            {comments.map(comment => (
-              <div key={comment.id} className="comment-item p-3 border-t border-gray-300">
-                <p className="text-gray-800">{comment.message}</p>
-                <p className="text-sm text-gray-500">
-                  Posted by {comment.user.name} on {
-                    DateTime.fromISO(comment.createdAt).toLocaleString({
-                      month: 'numeric',
-                      day: 'numeric',
-                      year: '2-digit',
-                      hour: 'numeric',
-                      minute: '2-digit',
-                      hour12: true,
-                    })
-                  }
-                </p>
-                <CommentLikeIcon commentId={comment.id} />
-                <RepliesSection commentId={comment.id} initialRepliesCount={comment._count.replies} />
-              </div>
-            ))}
-          </div>
-        </div>
       </CardContent>
     </Card>
   );

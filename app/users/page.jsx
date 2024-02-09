@@ -185,8 +185,8 @@ export default function Users() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-5 py-5">
-      <Card className="mb-5">
+    <div className="mx-auto max-w-3xl w-full px-5 mt-8">
+      <Card className="mb-7">
         <CardHeader>
           <h2 className="mb-5 text-3xl font-bold">Posts</h2>
           <p className="mb-5 text-xl">Welcome <strong>{user?.name}</strong>!</p>
