@@ -12,7 +12,7 @@ const ThemesPage = () => {
 
   const changeTheme = (themeName) => {
     // Define all possible theme classes 
-    const themeClasses = ['theme-emerald', 'theme-sky', 'theme-rose', 'theme-black'];
+    const themeClasses = ['theme-emerald', 'theme-sky', 'theme-rose', 'theme-black', 'theme-gray'];
 
     // Remove any existing theme classes from the body
     themeClasses.forEach(themeClass => {
