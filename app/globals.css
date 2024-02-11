@@ -84,6 +84,7 @@ body,
     --color-text-base: #000000;
     --color-text-inverted: #34d399;
     --color-button-accent: #34d399;
+    --color-button-onbackground-accent: #000000;
     --color-button-accent-hover: #5ddcad;
     --color-icon-accent: #34d399;
     --color-icon-accent-hover: #5ddcad;
