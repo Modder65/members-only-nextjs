@@ -55,6 +55,12 @@ const ThemesPage = () => {
             <Button variant="unchanged" className="bg-black" onClick={() => changeTheme('theme-black')}>Change Theme</Button>
           </div>
         </CardListItem>
+        <CardListItem className="shadow-md rounded-md">
+          <div className="flex justify-between items-center">
+            <p className="text-gray-400">Gray</p>
+            <Button variant="unchanged" className="bg-gray-400" onClick={() => changeTheme('theme-gray')}>Change Theme</Button>
+          </div>
+        </CardListItem>
       </CardContent>
     </Card>
   );

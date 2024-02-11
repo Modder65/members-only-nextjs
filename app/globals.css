@@ -128,6 +128,16 @@ body,
     --color-icon-accent: #000000;
     --color-icon-accent-hover: #333333; /* 80% opacity of icon color */
   }
+  .theme-gray {
+    --color-fill: #9ca3af;
+    --color-text-base: #ffffff;
+    --color-text-inverted: #9ca3af;
+    --color-button-accent: #9ca3af;
+    --color-button-onbackground-accent: #ffffff;
+    --color-button-accent-hover: #AFB5BF; /* 80% opacity of button color */
+    --color-icon-accent: #9ca3af;
+    --color-icon-accent-hover: #AFB5BF; /* 80% opacity of icon color */
+  }
   * {
     @apply border-border;
   }
