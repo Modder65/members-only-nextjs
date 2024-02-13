@@ -42,24 +42,24 @@ const HeaderMenu = ({ user }) => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40" align="end">
         <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/users')}>
-          <FaHouseUser className="h-6 w-6 mr-2" />
+          <FaHouseUser className="h-5 w-5 mr-2" />
           Home
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/users/account')}>
-          <FaRegUser className="h-6 w-6 mr-2" />
+          <FaRegUser className="h-5 w-5 mr-2" />
           Account
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/users/create-post')}>
-          <FaRegCommentDots className="h-6 w-6 mr-2" />
+          <FaRegCommentDots className="h-5 w-5 mr-2" />
           Create Post
         </DropdownMenuItem>
         <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/settings')}>
-          <FaRegSun className="h-6 w-6 mr-2" />
+          <FaRegSun className="h-5 w-5 mr-2" />
           Settings
         </DropdownMenuItem>
         <LogoutButton>
           <DropdownMenuItem className="text-lg cursor-pointer">
-            <FaRegShareSquare className="h-6 w-6 mr-2" />
+            <FaRegShareSquare className="h-5 w-5 mr-2" />
             Logout
           </DropdownMenuItem>
         </LogoutButton>

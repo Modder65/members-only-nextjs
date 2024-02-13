@@ -33,6 +33,7 @@ module.exports = {
           'button-accent': 'var(--color-button-accent)',
           'button-onbackground-accent': 'var(--color-button-onbackground-accent)',
           'button-accent-hover': 'var(--color-button-accent-hover)',
+          'dropdownitem-accent-hover': 'var(--color-dropdownitem-accent-hover)',
         }
       },
       gradientColorStops: {
