@@ -31,31 +31,31 @@ const ThemesPage = () => {
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
-        <CardListItem className="shadow-md rounded-md">
+        <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
             <p className="text-emerald-400">Emerald-Green</p>
             <Button variant="unchanged" className="bg-emerald-400" onClick={() => changeTheme('theme-emerald')}>Change Theme</Button>
           </div>
         </CardListItem>
-        <CardListItem className="shadow-md rounded-md">
+        <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
             <p className="text-sky-400">Sky-Blue</p>
             <Button variant="unchanged" className="bg-sky-400" onClick={() => changeTheme('theme-sky')}>Change Theme</Button>
           </div>
         </CardListItem>
-        <CardListItem className="shadow-md rounded-md">
+        <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
             <p className="text-rose-600">Rose-Red</p>
             <Button variant="unchanged" className="bg-rose-600" onClick={() => changeTheme('theme-rose')}>Change Theme</Button>
           </div>
         </CardListItem>
-        <CardListItem className="shadow-md rounded-md">
+        <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
             <p className="text-black">Black</p>
             <Button variant="unchanged" className="bg-black" onClick={() => changeTheme('theme-black')}>Change Theme</Button>
           </div>
         </CardListItem>
-        <CardListItem className="shadow-md rounded-md">
+        <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
             <p className="text-gray-400">Gray</p>
             <Button variant="unchanged" className="bg-gray-400" onClick={() => changeTheme('theme-gray')}>Change Theme</Button>

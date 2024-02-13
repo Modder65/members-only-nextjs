@@ -26,7 +26,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { Button } from '@/components/ui/button';
@@ -34,7 +34,9 @@ import { Input } from '@/components/ui/input';
 import { toast } from "sonner";
 import { getPostById } from '@/actions/getPostById';
 import { FaRegTimesCircle } from "react-icons/fa";
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function EditPost({ params }) {
   const [isPending, startTransition] = useTransition();
@@ -119,6 +121,18 @@ export default function EditPost({ params }) {
     <div className="flex justify-center mt-8 max-w-3xl w-full mx-auto px-5">
       <Card className="max-w-3xl w-full">
         <CardHeader>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link href="/users" className="cursor-pointer w-6">
+                  <FaRegArrowAltCircleLeft className="w-6 h-6"/>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Back to Home</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <p className="text-2xl font-semibold text-center">
             ✏️ Edit Post
           </p>

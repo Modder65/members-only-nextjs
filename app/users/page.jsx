@@ -34,10 +34,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { autoCompleteUserName } from "@/actions/auto-complete-username";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import PostList from "./components/PostList";
-import { autoCompleteUserName } from "@/actions/auto-complete-username";
+import Link from "next/link";
+
 
 
 
@@ -268,7 +270,9 @@ export default function Users() {
           <BeatLoader />
         </div>
       ) : (
-        <p className="text-center font-semibold text-xl mt-5">There are no more posts.</p>
+        <Link href="#" className="mb-7">
+          <p className="text-center font-semibold text-xl">There are no more posts.</p>
+        </Link>
       )}
     </div>
   );

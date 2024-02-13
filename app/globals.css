@@ -89,6 +89,7 @@ body,
     --color-icon-accent: #34d399;
     --color-icon-accent-hover: #5ddcad;
     --color-dropdownitem-accent-hover: #34d399;
+    --color-switch-checked: #34d399;
   }
   .theme-emerald {
     --color-fill: #34d399; 
@@ -100,6 +101,7 @@ body,
     --color-icon-accent: #34d399;
     --color-icon-accent-hover: #5ddcad; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #34d399;
+    --color-switch-checked: #34d399;
   }
   .theme-sky {
     --color-fill: #38bdf8; 
@@ -111,6 +113,7 @@ body,
     --color-icon-accent: #38bdf8;
     --color-icon-accent-hover: #60caf9; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #38bdf8;
+    --color-switch-checked: #38bdf8;
   }
   .theme-rose {
     --color-fill: #e11d48;
@@ -122,6 +125,7 @@ body,
     --color-icon-accent: #e11d48;
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #e11d48;
+    --color-switch-checked: #e11d48;
   }
   .theme-black {
     --color-fill: #000000;
@@ -133,6 +137,7 @@ body,
     --color-icon-accent: #000000;
     --color-icon-accent-hover: #333333; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #000000;
+    --color-switch-checked: #000000;
   }
   .theme-gray {
     --color-fill: #9ca3af;
@@ -144,6 +149,7 @@ body,
     --color-icon-accent: #9ca3af;
     --color-icon-accent-hover: #AFB5BF; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #9ca3af;
+    --color-switch-checked: #9ca3af;
   }
   * {
     @apply border-border;

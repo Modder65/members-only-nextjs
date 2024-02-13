@@ -21,13 +21,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-
+} from "@/components/ui/form";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createPost } from "@/actions/create-post";
-import Image from 'next/image'
+import { FaRegArrowAltCircleLeft } from "react-icons/fa";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function CreatePostPage() {
   const [isPending, startTransition] = useTransition();
@@ -80,6 +87,18 @@ export default function CreatePostPage() {
     <div className="flex justify-center mt-8 max-w-3xl w-full mx-auto px-5">
       <Card className="max-w-3xl w-full">
         <CardHeader>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link href="/users" className="cursor-pointer w-6">
+                  <FaRegArrowAltCircleLeft className="w-6 h-6"/>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Back to Home</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
           <p className="text-2xl font-semibold text-center">
             ✉️ Create a Post
           </p>

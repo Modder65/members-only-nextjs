@@ -44,7 +44,6 @@ import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { RoleGate } from "@/components/auth/role-gate";
-import { FormSuccess } from "@/components/form-success";
 import { UserRole } from "@prisma/client";
 import { SearchUserSchema } from "@/schemas";
 import { searchUser } from "@/actions/search-user";
@@ -170,7 +169,6 @@ const ManageUsers = () => {
       <CardContent className="space-y-4">
         <RoleGate allowedRoles={[UserRole.OWNER, UserRole.ADMIN]}>
           <div className="flex flex-col gap-y-2">
-            <FormSuccess message="You are allowed to see this content!"/>
             <div className="flex flex-row items-center justify-between
             rounded-lg border p-3 shadow-md mb-5">
               <p className="text-sm font-medium">
