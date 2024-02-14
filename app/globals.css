@@ -114,6 +114,10 @@ body,
     --color-icon-accent-hover: #60caf9; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #38bdf8;
     --color-switch-checked: #38bdf8;
+    --background-image: url('../public/images/blue_mountains_back.jpg');
+    --background-size: auto 100%; /* width is auto, height is 100% */
+    --background-repeat: no-repeat;
+    --background-attachment: fixed;
   }
   .theme-rose {
     --color-fill: #e11d48;

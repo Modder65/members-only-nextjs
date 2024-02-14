@@ -37,6 +37,12 @@ module.exports = {
           'switch-checked': 'var(--color-switch-checked)',
         }
       },
+      backgroundImage: {
+        image: 'var(--background-image)',
+      },
+      backgroundSize: {
+        size: 'var(--background-size)',
+      },
       gradientColorStops: {
         skin: {
           hue: 'var(--color-fill)'

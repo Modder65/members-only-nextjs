@@ -179,7 +179,7 @@ export default function EditPost({ params }) {
                 {imageURL && (
                   <div className="space-y-2">
                     <div className="flex gap-x-2 mb-2">
-                      <h3>Image Preview</h3>
+                      <h3>Delete</h3>
                       <TooltipProvider>
                         <Tooltip>
                           <TooltipTrigger asChild>
@@ -199,7 +199,7 @@ export default function EditPost({ params }) {
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                  <p>Upload/Replace an Image:</p>
+                  <p>Upload</p>
                   <CldUploadButton
                     options={{ 
                       sources: ['local'],

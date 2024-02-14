@@ -146,14 +146,14 @@ export default function CreatePostPage() {
                 />
                 {imageURL && (
                   <div className="space-y-2">
-                    <h3 className="mb-2">Image Preview</h3>
+                    <h3 className="mb-2">Delete</h3>
                     <Image src={imageURL} alt="Uploaded" width={500} height={500} className="rounded shadow-md" />
                   </div>
                 )}
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-2">
-                  <p>Upload/Replace an Image:</p>
+                  <p>Upload</p>
                   <CldUploadButton
                     options={{ 
                       sources: ['local'],

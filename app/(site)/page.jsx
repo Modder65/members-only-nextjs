@@ -20,7 +20,7 @@ export default function Home() {
           🔐MembersOnly
         </h1>
         <p className="text-skin-base text-lg">
-          A private social media platform
+          A Private Social Media Platform
         </p>
         <div>
           <LoginButton mode="modal" asChild>

@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
           <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         </head>
         {/* margin and overflowY properties are needed to prevent gap and removed scrollbar when opening shadcnui user dropdown menu*/}
-        <body className={`bg-skin-fill ${nunito.className}`} style={{ margin: '0px !important', overflowY: 'scroll !important' }}>
+        <body className={`bg-skin-fill bg-image bg-size bg-no-repeat bg-fixed bg-center ${nunito.className}`} style={{ margin: '0px !important', overflowY: 'scroll !important' }}>
           <ToasterContext />
           <Toaster />
           {children}
