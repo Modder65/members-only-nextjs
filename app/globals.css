@@ -104,16 +104,16 @@ body,
     --color-switch-checked: #34d399;
   }
   .theme-sky {
-    --color-fill: #38bdf8; 
-    --color-text-base: #000000;
-    --color-text-inverted: #38bdf8;
-    --color-button-accent: #38bdf8;
-    --color-button-onbackground-accent: #000000;
+    --color-fill: #4eaee3; 
+    --color-text-base:  #002b57;
+    --color-text-inverted: #4eaee3;
+    --color-button-accent: #4eaee3;
+    --color-button-onbackground-accent:#002b57;
     --color-button-accent-hover: #60caf9; /* 80% opacity of button color */
-    --color-icon-accent: #38bdf8;
+    --color-icon-accent: #4eaee3;
     --color-icon-accent-hover: #60caf9; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #38bdf8;
-    --color-switch-checked: #38bdf8;
+    --color-dropdownitem-accent-hover: #4eaee3;
+    --color-switch-checked: #4eaee3;
     --background-image: url('../public/images/blue_mountains_back.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
