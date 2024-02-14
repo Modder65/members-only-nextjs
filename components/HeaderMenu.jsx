@@ -32,7 +32,7 @@ const HeaderMenu = ({ user }) => {
         <div className="flex items-center gap-x-2">
           <Avatar>
             <AvatarImage src={user?.image || ""}/>
-            <AvatarFallback className="bg-skin-fill">
+            <AvatarFallback>
               <FaUser className="text-white"/>
             </AvatarFallback>
           </Avatar>

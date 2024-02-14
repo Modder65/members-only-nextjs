@@ -15,22 +15,14 @@ export const Navbar = () => {
   const isAdmin = user?.role === "ADMIN";
 
   return (
-    <nav className="max-w-3xl w-full mx-auto bg-secondary flex justify-center gap-x-2.5
+    <nav className="max-w-3xl w-full mx-auto bg-white flex justify-center gap-x-2.5
      items-center p-4 rounded-xl shadow-sm">
       <Button
         asChild
-        variant={pathname === "/server" ? "default" : "outline"}
+        variant={pathname === "/settings" ? "default" : "outline"}
       >
-        <Link href="/server">
-          Server
-        </Link>
-      </Button>
-      <Button
-        asChild
-        variant={pathname === "/client" ? "default" : "outline"}
-      >
-        <Link href="/client">
-          Client
+        <Link href="/settings">
+          Settings
         </Link>
       </Button>
       <Button
@@ -61,14 +53,6 @@ export const Navbar = () => {
           </Link>
         </Button>
       )}
-      <Button
-        asChild
-        variant={pathname === "/settings" ? "default" : "outline"}
-      >
-        <Link href="/settings">
-          Settings
-        </Link>
-      </Button>
     </nav>
   );
 }

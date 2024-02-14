@@ -23,6 +23,7 @@ module.exports = {
           muted: 'var(--color-text-muted)',
           inverted: 'var(--color-text-inverted)',
           fill: 'var(--color-fill)',
+          header: 'var(--color-text-header)',
           'icon-accent': 'var(--color-icon-accent)',
           'icon-accent-hover': 'var(--color-icon-accent-hover)',
         }
@@ -31,9 +32,12 @@ module.exports = {
         skin: {
           fill: 'var(--color-fill)',
           'button-accent': 'var(--color-button-accent)',
+          'button-accent-unselected': 'var(--color-button-accent-unselected)',
           'button-onbackground-accent': 'var(--color-button-onbackground-accent)',
           'button-accent-hover': 'var(--color-button-accent-hover)',
           'dropdownitem-accent-hover': 'var(--color-dropdownitem-accent-hover)',
+          'icon-accent': 'var(--color-icon-accent)',
+          'icon-accent-hover': 'var(--color-icon-accent-hover)',
           'switch-checked': 'var(--color-switch-checked)',
         }
       },
@@ -43,6 +47,11 @@ module.exports = {
       backgroundSize: {
         size: 'var(--background-size)',
       },
+      borderColor: {
+        skin: {
+          fill: 'var(--color-border)',
+        }
+      },
       gradientColorStops: {
         skin: {
           hue: 'var(--color-fill)'
@@ -50,6 +59,8 @@ module.exports = {
       },
 
       colors: {
+        bluetheme: "var(--custom-blue)",
+        greentheme: "var(--custom-green)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

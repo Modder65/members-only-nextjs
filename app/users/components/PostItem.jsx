@@ -97,7 +97,7 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
         <div className="flex items-center gap-2 mb-3">
           <Avatar>
             <AvatarImage src={post.user.image || ""}/>
-            <AvatarFallback className="bg-skin-fill">
+            <AvatarFallback>
               <FaUser className="text-white"/>
             </AvatarFallback>
           </Avatar>
@@ -160,7 +160,7 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
           <CommentButton post={post} asChild>
             <button 
             onClick={() => openModalHandler(postId)}
-            className="bg-skin-fill rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
+            className="bg-skin-button-accent hover:bg-skin-button-accent-hover rounded-md px-2 py-1 text-white hover:opacity-80 flex items-center"
             >
               <FiMessageSquare className="mr-2" />
               {`Show Comments (${commentCount})`}

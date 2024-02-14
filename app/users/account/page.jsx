@@ -168,7 +168,7 @@ const Account = () => {
                         <div className="flex items-center gap-2">
                           <Avatar>
                             <AvatarImage src={request?.user?.image || ""}/>
-                            <AvatarFallback className="bg-skin-fill">
+                            <AvatarFallback>
                               <FaUser className="text-white"/>
                             </AvatarFallback>
                           </Avatar>
@@ -205,7 +205,7 @@ const Account = () => {
                           <div className="flex items-center gap-2">
                             <Avatar>
                               <AvatarImage src={user.id === friendship.senderId ? friendship.friend.image : friendship.user.image || ""}/>
-                              <AvatarFallback className="bg-skin-fill">
+                              <AvatarFallback>
                                 <FaUser className="text-white"/>
                               </AvatarFallback>
                             </Avatar>

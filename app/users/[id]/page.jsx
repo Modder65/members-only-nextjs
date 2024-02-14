@@ -109,7 +109,7 @@ const UserProfile = () => {
             <div className='flex gap-2 items-center'>
               <Avatar>
                 <AvatarImage src={userData?.image || ""}/>
-                <AvatarFallback className="bg-skin-fill">
+                <AvatarFallback>
                   <FaUser className="text-white"/>
                 </AvatarFallback>
               </Avatar>
@@ -172,7 +172,7 @@ const UserProfile = () => {
                       <div className="flex items-center gap-2">
                         <Avatar>
                           <AvatarImage src={friendship.friend.image || ""}/>
-                          <AvatarFallback className="bg-skin-fill">
+                          <AvatarFallback>
                             <FaUser className="text-white"/>
                           </AvatarFallback>
                         </Avatar>
@@ -187,7 +187,7 @@ const UserProfile = () => {
                       <div className="flex items-center gap-2">
                         <Avatar>
                           <AvatarImage src={friendship.user.image || ""}/>
-                          <AvatarFallback className="bg-skin-fill">
+                          <AvatarFallback>
                             <FaUser className="text-white"/>
                           </AvatarFallback>
                         </Avatar>

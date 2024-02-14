@@ -34,8 +34,7 @@ export const UserButton = () => {
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={user?.image || ""}/>
-          <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-    from-green-400 to-green-800">
+          <AvatarFallback>
             <FaUser className="text-white"/>
           </AvatarFallback>
         </Avatar>
