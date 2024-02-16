@@ -56,7 +56,7 @@ export const {
   addPendingRequest,
   removePendingRequest,
   addFriend,
-  removeFriend
+  removeFriend,
  } = accountSlice.actions;
 
 export default accountSlice.reducer;

@@ -70,7 +70,7 @@ const UserProfile = () => {
       if (currentStatus === 'PENDING') {
         dispatch(setFriendButtonText('Pending...'));
       } else if (currentStatus === 'ACCEPTED') {
-        dispatch(setFriendButtonText('Friends'));
+        dispatch(setFriendButtonText("You're Friends"));
       } else {
         dispatch(setFriendButtonText('Friend'));
       }
@@ -103,34 +103,6 @@ const UserProfile = () => {
   console.log(userData);
   return (
     <div className="mx-auto max-w-3xl px-5 py-5">
-      <Card className="mb-5">
-        <CardListItem>
-          <div className="flex justify-between items-center">
-            <div className='flex gap-2 items-center'>
-              <Avatar>
-                <AvatarImage src={userData?.image || ""}/>
-                <AvatarFallback>
-                  <FaUser className="text-white"/>
-                </AvatarFallback>
-              </Avatar>
-              <p className="text-lg font-semibold">{userData?.name}</p>
-            </div>
-            <button type="button"
-              className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 ${
-                  friendshipStatus === 'ACCEPTED' ? 'bg-green-600' :
-                  friendshipStatus === 'PENDING' ? 'bg-orange-500' : // Orange/yellow color for PENDING
-                  'bg-blue-600' // Default color
-              }`}
-              onClick={sendFriendRequest}
-              disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
-            >
-              {friendButtonText}
-              {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
-            </button>
-          </div>
-        </CardListItem>
-      </Card>
-      
       <div>
       <Tabs defaultValue="about" className="w-full" onValueChange={handleTabChange}>
         <TabsList className="flex justify-center gap-x-2.5 w-full shadow-md mb-8 mt-8">
@@ -139,6 +111,44 @@ const UserProfile = () => {
         </TabsList>
         <TabsContent value="about">
           <Card>
+            <div className="flex justify-between items-center p-6 pb-0">
+              <div className='flex gap-2 items-center'>
+                <Avatar>
+                  <AvatarImage src={userData?.image || ""}/>
+                  <AvatarFallback>
+                    <FaUser className="text-white"/>
+                  </AvatarFallback>
+                </Avatar>
+                <p className="text-lg font-semibold">{userData?.name}</p>
+              </div>
+              {friendshipStatus === 'ACCEPTED' && (
+                <button type="button"
+                  className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80  bg-emerald-600 disabled:pointer-events-none`}
+                  disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
+                >
+                  {friendButtonText}
+                  {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
+                </button>
+              )}
+              {friendshipStatus === 'PENDING' && (
+                <button type="button"
+                  className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 bg-orange-600 disabled:pointer-events-none`}
+                  disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
+                >
+                  {friendButtonText}
+                  {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
+                </button>
+              )}
+              {!friendshipStatus && (
+                <button type="button"
+                  className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 bg-blue-600`}
+                  onClick={sendFriendRequest}
+                >
+                  {friendButtonText}
+                  {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
+                </button>
+              )}
+            </div>
             <CardHeader>
               <h2 className="text-xl font-bold mb-4">About</h2>
             </CardHeader>

@@ -75,7 +75,6 @@ export default function CreatePostPage() {
     });
   }
 
-  // Needs to be edited to work
   const handleUpload = (result) => {
     const url = result?.info?.secure_url;
     console.log("Image url", url);

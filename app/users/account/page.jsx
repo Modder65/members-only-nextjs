@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserPosts, setFriends, setPendingRequests, setUserPostsLoaded, setFriendshipStatus } from "@/redux/features/accountSlice";
+import { setFriends, setPendingRequests, setFriendshipStatus } from "@/redux/features/accountSlice";
 import {
   Tabs,
   TabsContent,
@@ -14,7 +14,6 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardListItem,
 } from "@/components/ui/card";
 import {
   AlertDialog,
@@ -37,8 +36,13 @@ import { BeatLoader } from "react-spinners";
 import { FaUser } from "react-icons/fa";
 import { useCurrentUser } from "@/hooks/use-current-user";
 import { DateTime } from "luxon";
+import { HiPhoto } from "react-icons/hi2";
+import { CldUploadButton } from "next-cloudinary";
+import { uploadProfileImage } from "@/actions/upload-profile-image";
+import { useSession } from "next-auth/react";
 import axios from "axios";
 import Link from "next/link";
+
 
 const Account = () => {
   // ... existing state and useEffect hooks
@@ -47,6 +51,8 @@ const Account = () => {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setIsLoading] = useState(false);
   const user = useCurrentUser();
+
+  const { update } = useSession();
 
   const dispatch = useDispatch();
   const { friends, pendingRequests, friendshipStatus } = useSelector((state) => state.account);
@@ -122,6 +128,22 @@ const Account = () => {
     }
   };
 
+  const handleUpload = (result) => {
+    const url = result?.info?.secure_url;
+    uploadProfileImage(url)
+        .then((data) => {
+          if (data?.error) {
+            toast.error(data.error);
+          }
+
+          if (data?.success) {
+            toast.success(data.success);
+            update(); // from useSession hook, needed to display the new avatar image to the user right away
+          }
+        })
+        .catch(() => toast.error("Something went wrong!"));
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-5">
       <Tabs defaultValue="about" className="w-full" onValueChange={handleTabChange}>
@@ -146,6 +168,20 @@ const Account = () => {
                   })
                 }
               </p>
+              <div className="flex items-center gap-2">
+                <p>Change Avatar Image</p>
+                <CldUploadButton
+                  options={{ 
+                    sources: ['local'],
+                    maxFiles: 1,
+                    singleUploadAutoClose: false
+                  }}
+                  onUpload={handleUpload}
+                  uploadPreset="jfaab9re"
+                >
+                  <HiPhoto size={30} className="cursor-pointer text-skin-icon-accent hover:text-skin-icon-accent-hover" />
+                </CldUploadButton>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>

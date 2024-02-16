@@ -55,11 +55,12 @@ export const {
         session.user.id = token.sub;
       }
 
-      // Fetch user from the database to get the createdAt property
+      // Fetch user from the database to get the createdAt & image property
       const user = await getUserById(token.sub);
       if (user) {
-        // Add createdAt property to session.user
+        // Add createdAt & image property to session.user
         session.user.createdAt = user.createdAt;
+        session.user.image = user.image;
       }
 
       if (token.role && session.user) {
