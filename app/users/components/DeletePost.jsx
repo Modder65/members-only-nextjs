@@ -43,7 +43,7 @@ const DeletePost = ({ postId }) => {
           <Tooltip>
             <TooltipTrigger asChild>
               <AlertDialogTrigger>
-                <FaRegTrashAlt className="w-6 h-6 text-rose-600" />
+                <FaRegTrashAlt className="w-6 h-6 text-skin-icon-accent hover:text-skin-icon-accent-hover" />
               </AlertDialogTrigger>
             </TooltipTrigger>
             <TooltipContent>

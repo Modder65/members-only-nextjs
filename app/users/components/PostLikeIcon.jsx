@@ -12,7 +12,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import clsx from "clsx";
 import gsap from "gsap";
 import axios from "axios";
 
@@ -66,7 +65,7 @@ const PostLikeIcon = ({ postId }) => {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <span ref={heartIconRef} className="text-rose-600">
+            <span ref={heartIconRef} className="text-skin-icon-accent hover:text-skin-icon-accent-hover">
               {!currentUserLiked && (
                 <FaRegHeart className="w-6 h-6" />
               )}

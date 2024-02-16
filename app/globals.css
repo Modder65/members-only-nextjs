@@ -85,11 +85,14 @@ body,
     --color-fill: #3a4c14; 
     --color-text-base: #000000;
     --color-text-inverted: #3a4c14;
+    --color-text-onbackground: #ffffff;
     --color-text-header: #6b9240;
     --color-button-accent: #6b9240;
     --color-button-accent-unselected: #c7e7b3;
     --color-button-onbackground-accent: #000000;
     --color-button-accent-hover: #7cb240;
+    --color-link-accent: #6b9240;
+    --color-link-accent-hover: #7cb240;
     --color-icon-accent: #6b9240;
     --color-icon-accent-hover: #7cb240;
     --color-dropdownitem-accent-hover: #c7e7b3;
@@ -104,11 +107,14 @@ body,
     --color-fill: #3a4c14; 
     --color-text-base: #000000;
     --color-text-inverted: #3a4c14;
+    --color-text-onbackground: #ffffff;
     --color-text-header: #6b9240;
     --color-button-accent: #6b9240;
     --color-button-accent-unselected: #c7e7b3;
     --color-button-onbackground-accent: #000000;
     --color-button-accent-hover: #7cb240;
+    --color-link-accent: #6b9240;
+    --color-link-accent-hover: #7cb240;
     --color-icon-accent: #6b9240;
     --color-icon-accent-hover: #7cb240;
     --color-dropdownitem-accent-hover: #c7e7b3;
@@ -123,11 +129,14 @@ body,
     --color-fill: #4eaee3; 
     --color-text-base:  #002b57;
     --color-text-inverted: #4eaee3;
+    --color-text-onbackground: #ffffff;
     --color-text-header: #0082c4;
     --color-button-accent: #0082c4;
     --color-button-accent-unselected: #d0ebff;
     --color-button-onbackground-accent:#0082c4;
     --color-button-accent-hover: #4eaee3; /* 80% opacity of button color */
+    --color-link-accent: #0082c4;
+    --color-link-accent-hover: #4eaee3;
     --color-icon-accent: #0082c4;
     --color-icon-accent-hover: #4eaee3; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #d0ebff;
@@ -142,10 +151,13 @@ body,
     --color-fill: #e11d48;
     --color-text-base: #ffffff;
     --color-text-inverted: #e11d48;
+    --color-text-onbackground: #ffffff;
     --color-text-header: #e11d48;
     --color-button-accent: #e11d48;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #e74a6d; /* 80% opacity of button color */
+    --color-link-accent: #6b9240;
+    --color-link-accent-hover: #7cb240;
     --color-icon-accent: #e11d48;
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #e11d48;
@@ -155,10 +167,13 @@ body,
     --color-fill: #000000;
     --color-text-base: #ffffff;
     --color-text-inverted: #000000;
+    --color-text-onbackground: #ffffff;
     --color-text-header: #000000;
     --color-button-accent: #000000;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #333333; /* 80% opacity of button color */
+    --color-link-accent: #6b9240;
+    --color-link-accent-hover: #7cb240;
     --color-icon-accent: #000000;
     --color-icon-accent-hover: #333333; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #000000;
@@ -168,10 +183,13 @@ body,
     --color-fill: #9ca3af;
     --color-text-base: #ffffff;
     --color-text-inverted: #9ca3af;
+    --color-text-onbackground: #ffffff;
     --color-text-header: #9ca3af;
     --color-button-accent: #9ca3af;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #AFB5BF; /* 80% opacity of button color */
+    --color-link-accent: #6b9240;
+    --color-link-accent-hover: #7cb240;
     --color-icon-accent: #9ca3af;
     --color-icon-accent-hover: #AFB5BF; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #9ca3af;

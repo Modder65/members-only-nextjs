@@ -270,9 +270,13 @@ export default function Users() {
           <BeatLoader />
         </div>
       ) : (
-        <Link href="#" className="mb-7">
-          <p className="text-center font-semibold text-xl">There are no more posts.</p>
-        </Link>
+        <Card>
+          <CardContent className="pt-3 pb-3 pl-3 pr-3">
+            <Link href="#" className="mb-7">
+              <p className="text-skin-link-accent hover:text-skin-link-accent-hover hover:underline text-center font-semibold text-xl">No More Posts, Back to Top</p>
+            </Link>
+          </CardContent>
+        </Card>
       )}
     </div>
   );

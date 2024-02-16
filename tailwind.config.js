@@ -22,8 +22,11 @@ module.exports = {
           base: 'var(--color-text-base)',
           muted: 'var(--color-text-muted)',
           inverted: 'var(--color-text-inverted)',
+          onbackground: 'var(--color-text-onbackground)',
           fill: 'var(--color-fill)',
           header: 'var(--color-text-header)',
+          'link-accent': 'var(--color-link-accent)',
+          'link-accent-hover': 'var(--color-link-accent-hover)',
           'icon-accent': 'var(--color-icon-accent)',
           'icon-accent-hover': 'var(--color-icon-accent-hover)',
         }

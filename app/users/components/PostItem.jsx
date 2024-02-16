@@ -120,7 +120,7 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
               <span> {post.user.name}</span>
             ) : (
               <Link href={`/users/${post.user.id}`}>
-                <span className="text-blue-600 hover:underline cursor-pointer"> {post.user.name}</span>
+                <span className="font-semibold text-skin-link-accent hover:text-skin-link-accent-hover hover:underline cursor-pointer"> {post.user.name}</span>
               </Link>
             )} on {
               DateTime.fromISO(post.createdAt).toLocaleString({
@@ -140,7 +140,7 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <span className="cursor-pointer">
-                        <FaRegEdit className="w-6 h-6" />
+                        <FaRegEdit className="w-6 h-6 text-skin-icon-accent hover:text-skin-icon-accent-hover" />
                       </span>
                     </TooltipTrigger>
                     <TooltipContent>

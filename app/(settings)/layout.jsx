@@ -1,3 +1,4 @@
+import { Footer } from "@/components/Footer";
 import { Navbar } from "./_components/navbar";
 import { Header } from "@/components/Header";
 
@@ -9,6 +10,7 @@ const SettingsLayout = ({children}) => {
         <Navbar />
         {children}
       </div>
+      <Footer />
     </>
    );
 }
