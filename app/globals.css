@@ -81,22 +81,22 @@ body,
 @layer base {
   :root {
     --custom-blue: #0082c4;
-    --custom-green: #6b9240;
+    --custom-green: #436e10;
     --color-fill: #3f5b12; 
     --color-text-base: #000000;
     --color-text-inverted: #3f5b12;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #557609;
-    --color-button-accent: #557609;
+    --color-text-header: #436e10;
+    --color-button-accent: #436e10;
     --color-button-accent-unselected: #ddeab1;
     --color-button-onbackground-accent: #000000;
     --color-button-accent-hover: #6c8b29;
-    --color-link-accent: #557609;
+    --color-link-accent: #436e10;
     --color-link-accent-hover: #6c8b29;
-    --color-icon-accent: #557609;
+    --color-icon-accent: #436e10;
     --color-icon-accent-hover: #6c8b29;
     --color-dropdownitem-accent-hover: #ddeab1;
-    --color-switch-checked: #557609;
+    --color-switch-checked: #436e10;
     --color-border: #bdcc8a;
     --background-image: url('../public/images/green_bridge_back.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
@@ -108,17 +108,17 @@ body,
     --color-text-base: #000000;
     --color-text-inverted: #3f5b12;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #557609;
-    --color-button-accent: #557609;
+    --color-text-header: #436e10;
+    --color-button-accent: #436e10;
     --color-button-accent-unselected: #ddeab1;
     --color-button-onbackground-accent: #000000;
     --color-button-accent-hover: #6c8b29;
-    --color-link-accent: #557609;
+    --color-link-accent: #436e10;
     --color-link-accent-hover: #6c8b29;
-    --color-icon-accent: #557609;
+    --color-icon-accent: #436e10;
     --color-icon-accent-hover: #6c8b29;
     --color-dropdownitem-accent-hover: #ddeab1;
-    --color-switch-checked: #557609;
+    --color-switch-checked: #436e10;
     --color-border: #bdcc8a;
     --background-image: url('../public/images/green_bridge_back.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
