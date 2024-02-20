@@ -33,7 +33,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { createPost } from "@/actions/create-post";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { FaRegArrowAltCircleLeft } from "react-icons/fa";
+import { FaRegTimesCircle } from "react-icons/fa";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -92,7 +92,7 @@ export default function CreatePostPage() {
       <Card className="max-w-3xl w-full">
         <CardHeader>
           <p className="text-2xl font-semibold text-center">
-            ✉️ Create a Post
+            Create a Post
           </p>
         </CardHeader>
         <CardContent>
@@ -139,7 +139,7 @@ export default function CreatePostPage() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between mb-2">
                     {imageURL && (
-                      <div className="flex items-center gap-2">
+                      <div className="flex flex-row-reverse items-center gap-2">
                         <h3>Delete</h3>
                         <TooltipProvider>
                           <Tooltip>
@@ -155,7 +155,7 @@ export default function CreatePostPage() {
                         </TooltipProvider>
                       </div>
                     )}
-                    <div className="flex items-center gap-2">
+                    <div className={`flex ${!imageURL ? 'flex-row-reverse' : ''} items-center gap-2`}>
                       <p>Upload</p>
                       <CldUploadButton
                         options={{ 
@@ -176,18 +176,21 @@ export default function CreatePostPage() {
                 </div>
               </div>
               <div className="flex justify-between items-center">
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link href="/users" className="cursor-pointer w-6">
-                        <FaRegArrowAltCircleLeft className="w-6 h-6 text-skin-icon-accent hover:text-skin-icon-accent-hover"/>
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Back to Home</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                <div className="flex flex-row-reverse items-center gap-2">
+                  <h3>Cancel</h3>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Link href="/users" className="cursor-pointer w-6">
+                          <FaRegTimesCircle className="w-6 h-6 text-skin-icon-accent hover:text-skin-icon-accent-hover"/>
+                        </Link>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Cancel</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <FormError message={error}/>
                 <FormSuccess message={success}/>
                 <Button

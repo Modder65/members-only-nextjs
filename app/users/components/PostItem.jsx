@@ -120,7 +120,7 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
               <span> {post.user.name}</span>
             ) : (
               <Link href={`/users/${post.user.id}`}>
-                <span className="font-semibold text-skin-link-accent hover:text-skin-link-accent-hover hover:underline cursor-pointer"> {post.user.name}</span>
+                <span className="font-bold text-skin-link-accent hover:text-skin-link-accent-hover hover:underline cursor-pointer"> {post.user.name}</span>
               </Link>
             )} on {
               DateTime.fromISO(post.createdAt).toLocaleString({

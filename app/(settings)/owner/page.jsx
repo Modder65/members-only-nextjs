@@ -65,7 +65,7 @@ const OwnerPage = () => {
     <Card className="max-w-3xl w-full">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">
-          🔑 Owner
+          Owner
         </p>
       </CardHeader>
       <CardContent className="space-y-4">

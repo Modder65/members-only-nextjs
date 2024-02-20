@@ -98,7 +98,7 @@ body,
     --color-dropdownitem-accent-hover: #ddeab1;
     --color-switch-checked: #436e10;
     --color-border: #bdcc8a;
-    --background-image: url('../public/images/green_bridge_back.jpg');
+    --background-image: url('../public/images/green_forest_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
@@ -120,7 +120,7 @@ body,
     --color-dropdownitem-accent-hover: #ddeab1;
     --color-switch-checked: #436e10;
     --color-border: #bdcc8a;
-    --background-image: url('../public/images/green_bridge_back.jpg');
+    --background-image: url('../public/images/green_forest_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
@@ -147,7 +147,7 @@ body,
     --background-repeat: no-repeat;
     --background-attachment: fixed;
   }
-  .theme-rose {
+  .theme-gold {
     --color-fill: #e11d48;
     --color-text-base: #ffffff;
     --color-text-inverted: #e11d48;
@@ -162,8 +162,12 @@ body,
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #e11d48;
     --color-switch-checked: #e11d48;
+    --background-image: url('../public/images/golden_desert_back.jpg');
+    --background-size: auto 100%; /* width is auto, height is 100% */
+    --background-repeat: no-repeat;
+    --background-attachment: fixed;
   }
-  .theme-black {
+  .theme-orange {
     --color-fill: #000000;
     --color-text-base: #ffffff;
     --color-text-inverted: #000000;
@@ -178,8 +182,12 @@ body,
     --color-icon-accent-hover: #333333; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #000000;
     --color-switch-checked: #000000;
+    --background-image: url('../public/images/red_trees_back.jpg');
+    --background-size: auto 100%; /* width is auto, height is 100% */
+    --background-repeat: no-repeat;
+    --background-attachment: fixed;
   }
-  .theme-gray {
+  .theme-purple {
     --color-fill: #9ca3af;
     --color-text-base: #ffffff;
     --color-text-inverted: #9ca3af;
@@ -194,6 +202,10 @@ body,
     --color-icon-accent-hover: #AFB5BF; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #9ca3af;
     --color-switch-checked: #9ca3af;
+    --background-image: url('../public/images/purple_flowers_back.jpg');
+    --background-size: auto 100%; /* width is auto, height is 100% */
+    --background-repeat: no-repeat;
+    --background-attachment: fixed;
   }
   * {
     @apply border-border;

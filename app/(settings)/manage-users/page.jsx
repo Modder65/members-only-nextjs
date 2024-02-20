@@ -163,7 +163,7 @@ const ManageUsers = () => {
     <Card className="max-w-3xl w-full shadow-md">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">
-        👥 Manage Users
+          Manage Users
         </p>
       </CardHeader>
       <CardContent className="space-y-4">

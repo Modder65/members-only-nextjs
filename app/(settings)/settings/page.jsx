@@ -101,7 +101,7 @@ const SettingsPage = () => {
     <Card className="w-full max-w-3xl">
       <CardHeader>
         <p className="text-2xl font-semibold text-center">
-          ⚙️ Settings
+          Settings
         </p>
       </CardHeader>
       <CardContent>

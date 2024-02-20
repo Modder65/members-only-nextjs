@@ -5,6 +5,7 @@ import { PusherFriendsProvider } from "@/app/context/PusherFriends";
 import { PusherPostDeleteProvider } from "@/app/context/PusherPostDelete";
 import { PusherPostEditProvider } from "@/app/context/PusherPostEdit";
 import { ReduxProvider } from '@/redux/provider';
+import { ThemeProvider } from "@/app/context/ThemeContext";
 import AuthContext from "@/app/context/AuthContext";
 
 export function Providers({ children }) {
@@ -15,7 +16,9 @@ export function Providers({ children }) {
           <PusherPostEditProvider>
             <PusherLikesProvider>
               <PusherFriendsProvider>
-                {children}
+                <ThemeProvider>
+                  {children}
+                </ThemeProvider>
               </PusherFriendsProvider>
             </PusherLikesProvider>
           </PusherPostEditProvider>
