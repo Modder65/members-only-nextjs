@@ -133,7 +133,7 @@ body,
     --color-text-header: #0082c4;
     --color-button-accent: #0082c4;
     --color-button-accent-unselected: #d0ebff;
-    --color-button-onbackground-accent:#0082c4;
+    --color-button-onbackground-accent:#000000;
     --color-button-accent-hover: #4eaee3; /* 80% opacity of button color */
     --color-link-accent: #0082c4;
     --color-link-accent-hover: #4eaee3;
