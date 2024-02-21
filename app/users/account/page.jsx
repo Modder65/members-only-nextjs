@@ -156,12 +156,12 @@ const Account = () => {
             <div className="flex justify-between items-center p-6 pb-0">
                 <div className='flex gap-2 items-center'>
                   <Avatar>
-                    <AvatarImage src={userData?.image || ""}/>
+                    <AvatarImage src={user?.image || ""}/>
                     <AvatarFallback>
                       <FaUser className="text-white"/>
                     </AvatarFallback>
                   </Avatar>
-                  <p className="text-lg font-semibold">{userData?.name}</p>
+                  <p className="text-lg font-semibold">{user?.name}</p>
                 </div>
               </div>
             <CardHeader>
