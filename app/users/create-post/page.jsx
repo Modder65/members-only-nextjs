@@ -91,7 +91,7 @@ export default function CreatePostPage() {
     <div className="flex justify-center mt-8 max-w-3xl w-full mx-auto px-5">
       <Card className="max-w-3xl w-full">
         <CardHeader>
-          <p className="text-2xl font-semibold text-center">
+          <p className="text-2xl font-bold text-center">
             Create a Post
           </p>
         </CardHeader>

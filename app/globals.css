@@ -155,16 +155,17 @@ body,
     --color-text-base: #ffffff;
     --color-text-inverted: #891b16;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #891b16;
-    --color-button-accent: #891b16;
+    --color-text-header: #ac1826;
+    --color-button-accent: #ac1826;
     --color-button-onbackground-accent: #ffffff;
-    --color-button-accent-hover: #e74a6d; /* 80% opacity of button color */
-    --color-link-accent: #6b9240;
-    --color-link-accent-hover: #7cb240;
-    --color-icon-accent: #891b16;
+    --color-button-accent-hover: #cd2636; /* 80% opacity of button color */
+    --color-link-accent: #ac1826;
+    --color-link-accent-hover: #cd2636;
+    --color-icon-accent: #ac1826;
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #e11d48;
+    --color-dropdownitem-accent-hover: #f18181;
     --color-switch-checked: #891b16;
+    --color-border: #ffa0a0;
     --background-image: url('../public/images/red_trees_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;

@@ -20,7 +20,7 @@ const font = Nunito({
 export default function Home() { 
   const changeTheme = (themeName) => {
     // Define all possible theme classes 
-    const themeClasses = ['theme-emerald', 'theme-sky', 'theme-gold', 'theme-orange', 'theme-purple'];
+    const themeClasses = ['theme-green', 'theme-blue', 'theme-red', 'theme-yellow', 'theme-purple'];
 
     // Remove any existing theme classes from the body
     themeClasses.forEach(themeClass => {
@@ -37,61 +37,44 @@ export default function Home() {
   return (
     <main className="flex h-full flex-col items-center justify-center min-h-screen
     bg-skin-fill">
-      <div className="space-y-6 text-center">
-        <h1 className={cn("text-4xl md:text-6xl font-semibold text-skin-base drop-shadow-md",
-          font.className,
-        )}>
-          🔐MembersOnly
-        </h1>
-        <p className="text-skin-base text-lg">
-          A Private Social Media Platform
-        </p>
-        <div>
-          <LoginButton mode="modal" asChild>
-            <Button variant="onBackground" size="lg">
-              Sign In
-            </Button>
-          </LoginButton>
+      <div className="flex flex-col items-center justify-center gap-y-2">
+        <div className="space-y-6 text-center">
+          <Card>
+            <CardHeader className={cn("text-4xl md:text-6xl font-semibold text-skin-base drop-shadow-md",
+              font.className,
+            )}>
+            🔐MembersOnly
+            </CardHeader>
+            <CardContent>
+              <p className="text-skin-base text-lg mb-6">
+                A Private Social Media Platform
+              </p>
+              <div>
+                <LoginButton mode="modal" asChild>
+                  <Button variant="onBackground" size="lg">
+                    Sign In
+                  </Button>
+                </LoginButton>
+              </div>
+            </CardContent>
+          </Card>
         </div>
-        <Card className="max-w-3xl w-full shadow-md">
-          <CardHeader>
-            <p className="text-2xl font-semibold text-center">
-              Themes
-            </p>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <CardListItem className="shadow-md rounded-lg border">
-              <div className="flex justify-between items-center">
-                <p className="text-greentheme font-semibold">Olive-Green</p>
-                <Button variant="unchanged" className="bg-greentheme" onClick={() => changeTheme('theme-emerald')}>Change Theme</Button>
-              </div>
-            </CardListItem>
-            <CardListItem className="shadow-md rounded-lg border">
-              <div className="flex justify-between items-center">
-                <p className="text-bluetheme font-semibold">Sky-Blue</p>
-                <Button variant="unchanged" className="bg-bluetheme" onClick={() => changeTheme('theme-sky')}>Change Theme</Button>
-              </div>
-            </CardListItem>
-            <CardListItem className="shadow-md rounded-lg border">
-              <div className="flex justify-between items-center">
-                <p className="text-rose-600 font-semibold">Rose-Red</p>
-                <Button variant="unchanged" className="bg-rose-600" onClick={() => changeTheme('theme-gold')}>Change Theme</Button>
-              </div>
-            </CardListItem>
-            <CardListItem className="shadow-md rounded-lg border">
-              <div className="flex justify-between items-center">
-                <p className="text-black font-semibold">Black</p>
-                <Button variant="unchanged" className="bg-black" onClick={() => changeTheme('theme-orange')}>Change Theme</Button>
-              </div>
-            </CardListItem>
-            <CardListItem className="shadow-md rounded-lg border">
-              <div className="flex justify-between items-center">
-                <p className="text-gray-400 font-semibold">Gray</p>
-                <Button variant="unchanged" className="bg-gray-400" onClick={() => changeTheme('theme-purple')}>Change Theme</Button>
-              </div>
-            </CardListItem>
-          </CardContent>
-        </Card>
+        <div className="space-y-6 text-center">
+          <Card className="max-w-3xl w-full shadow-md">
+            <CardHeader>
+              <p className="text-2xl font-semibold text-center">
+                Change Theme
+              </p>
+            </CardHeader>
+            <CardContent className="flex items-center justify-center gap-x-2">
+              <div className="w-6 h-6 bg-greentheme shadow" onClick={() => changeTheme('theme-green')}></div>
+              <div className="w-6 h-6 bg-bluetheme shadow" onClick={() => changeTheme('theme-blue')}></div>
+              <div className="w-6 h-6 bg-redtheme shadow" onClick={() => changeTheme('theme-red')}></div>
+              <div className="w-6 h-6 bg-yellowtheme shadow" onClick={() => changeTheme('theme-yellow')}></div>
+              <div className="w-6 h-6 bg-purpletheme shadow" onClick={() => changeTheme('theme-purple')}></div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </main>
   )
