@@ -81,10 +81,10 @@ body,
 @layer base {
   :root {
     --custom-blue: #0082c4;
-    --custom-green: #466613;
-    --custom-red: #891b16;
-    --custom-yellow: #ae6632;
-    --custom-purple: #6a2a81;
+    --custom-green: #436e10;
+    --custom-red: #ac1826;
+    --custom-yellow: #c36500;
+    --custom-purple: #841da9;
     --color-fill: #466613; 
     --color-text-base: #000000;
     --color-text-inverted: #466613;
@@ -152,11 +152,12 @@ body,
   }
   .theme-red {
     --color-fill: #891b16;
-    --color-text-base: #ffffff;
+    --color-text-base: #000000;
     --color-text-inverted: #891b16;
     --color-text-onbackground: #ffffff;
     --color-text-header: #ac1826;
     --color-button-accent: #ac1826;
+    --color-button-accent-unselected: #f18181;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #cd2636; /* 80% opacity of button color */
     --color-link-accent: #ac1826;
@@ -164,7 +165,7 @@ body,
     --color-icon-accent: #ac1826;
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #f18181;
-    --color-switch-checked: #891b16;
+    --color-switch-checked: #ac1826;
     --color-border: #ffa0a0;
     --background-image: url('../public/images/red_trees_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
@@ -173,19 +174,21 @@ body,
   }
   .theme-yellow {
     --color-fill: #ae6632;
-    --color-text-base: #ffffff;
+    --color-text-base: #000000;
     --color-text-inverted: #ae6632;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #ae6632;
-    --color-button-accent: #ae6632;
+    --color-text-header: #c36500;
+    --color-button-accent: #c36500;
+    --color-button-accent-unselected: #f2a450;
     --color-button-onbackground-accent: #ffffff;
-    --color-button-accent-hover: #333333; /* 80% opacity of button color */
-    --color-link-accent: #6b9240;
-    --color-link-accent-hover: #7cb240;
+    --color-button-accent-hover: #e57907; /* 80% opacity of button color */
+    --color-link-accent: #c36500;
+    --color-link-accent-hover: #e57907;
     --color-icon-accent: #ae6632;
-    --color-icon-accent-hover: #333333; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #ae6632;
-    --color-switch-checked: #ae6632;
+    --color-icon-accent-hover: #e57907; /* 80% opacity of icon color */
+    --color-dropdownitem-accent-hover: #f2a450;
+    --color-switch-checked: #c36500;
+    --color-border: #f5b876;
     --background-image: url('../public/images/golden_desert_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
@@ -193,19 +196,20 @@ body,
   }
   .theme-purple {
     --color-fill: #6a2a81;
-    --color-text-base: #ffffff;
+    --color-text-base: #000000;
     --color-text-inverted: #6a2a81;
     --color-text-onbackground: #ffffff;
     --color-text-header: #6a2a81;
-    --color-button-accent: #6a2a81;
+    --color-button-accent: #841da9;
+    --color-button-accent-unselected: #e085ea;
     --color-button-onbackground-accent: #ffffff;
-    --color-button-accent-hover: #AFB5BF; /* 80% opacity of button color */
-    --color-link-accent: #6b9240;
-    --color-link-accent-hover: #7cb240;
-    --color-icon-accent: #6a2a81;
-    --color-icon-accent-hover: #AFB5BF; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #6a2a81;
-    --color-switch-checked: #6a2a81;
+    --color-button-accent-hover: #a12ec8; /* 80% opacity of button color */
+    --color-link-accent: #841da9;
+    --color-link-accent-hover: #a12ec8;
+    --color-icon-accent: #841da9;
+    --color-icon-accent-hover: #a12ec8; /* 80% opacity of icon color */
+    --color-dropdownitem-accent-hover: #e085ea;
+    --color-switch-checked: #841da9;
     --background-image: url('../public/images/purple_flowers_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;

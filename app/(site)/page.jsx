@@ -35,47 +35,37 @@ export default function Home() {
   }
 
   return (
-    <main className="flex h-full flex-col items-center justify-center min-h-screen
-    bg-skin-fill">
-      <div className="flex flex-col items-center justify-center gap-y-2">
-        <div className="space-y-6 text-center">
-          <Card>
-            <CardHeader className={cn("text-4xl md:text-6xl font-semibold text-skin-base drop-shadow-md",
-              font.className,
-            )}>
-            🔐MembersOnly
-            </CardHeader>
-            <CardContent>
-              <p className="text-skin-base text-lg mb-6">
+    <main className="flex h-full flex-col items-center justify-center min-h-screen">
+        <div className="space-y-6 text-center max-w-md w-full">
+          <Card className="max-w-md w-full">
+            <CardHeader className="flex flex-col gap-y-2">
+              <h1 className="text-4xl font-bold">
+                <span className="text-skin-header">Members</span>
+                <span className="text-black">Only</span>
+              </h1>
+              <p className="text-skin-base text-lg">
                 A Private Social Media Platform
               </p>
-              <div>
+            </CardHeader>
+            <CardContent>
+              <div className="p-6 pt-0">
                 <LoginButton mode="modal" asChild>
-                  <Button variant="onBackground" size="lg">
+                  <Button size="lg">
                     Sign In
                   </Button>
                 </LoginButton>
               </div>
+              <p className="text-skin-base text-lg mb-4">Change Theme</p>
+              <div className="flex gap-x-5 justify-center">
+                <div className="w-6 h-6 bg-greentheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-green')}></div>
+                <div className="w-6 h-6 bg-bluetheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-blue')}></div>
+                <div className="w-6 h-6 bg-redtheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-red')}></div>
+                <div className="w-6 h-6 bg-yellowtheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-yellow')}></div>
+                <div className="w-6 h-6 bg-purpletheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-purple')}></div>
+              </div>
             </CardContent>
           </Card>
         </div>
-        <div className="space-y-6 text-center">
-          <Card className="max-w-3xl w-full shadow-md">
-            <CardHeader>
-              <p className="text-2xl font-semibold text-center">
-                Change Theme
-              </p>
-            </CardHeader>
-            <CardContent className="flex items-center justify-center gap-x-2">
-              <div className="w-6 h-6 bg-greentheme shadow" onClick={() => changeTheme('theme-green')}></div>
-              <div className="w-6 h-6 bg-bluetheme shadow" onClick={() => changeTheme('theme-blue')}></div>
-              <div className="w-6 h-6 bg-redtheme shadow" onClick={() => changeTheme('theme-red')}></div>
-              <div className="w-6 h-6 bg-yellowtheme shadow" onClick={() => changeTheme('theme-yellow')}></div>
-              <div className="w-6 h-6 bg-purpletheme shadow" onClick={() => changeTheme('theme-purple')}></div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
     </main>
   )
 }
