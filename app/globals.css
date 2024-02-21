@@ -157,14 +157,14 @@ body,
     --color-text-onbackground: #ffffff;
     --color-text-header: #ac1826;
     --color-button-accent: #ac1826;
-    --color-button-accent-unselected: #ffc5cd;;
+    --color-button-accent-unselected: #ffcfdb;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #cd2636; /* 80% opacity of button color */
     --color-link-accent: #ac1826;
     --color-link-accent-hover: #cd2636;
     --color-icon-accent: #ac1826;
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #ffc5cd;;
+    --color-dropdownitem-accent-hover: #ffcfdb;
     --color-switch-checked: #ac1826;
     --color-border: #fba4b0;
     --background-image: url('../public/images/red_trees_back_muted.jpg');
