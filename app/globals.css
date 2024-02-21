@@ -81,10 +81,10 @@ body,
 @layer base {
   :root {
     --custom-blue: #0082c4;
-    --custom-green: #436e10;
-    --color-fill: #3f5b12; 
+    --custom-green: #466613;
+    --color-fill: #466613; 
     --color-text-base: #000000;
-    --color-text-inverted: #3f5b12;
+    --color-text-inverted: #466613;
     --color-text-onbackground: #ffffff;
     --color-text-header: #436e10;
     --color-button-accent: #436e10;
@@ -104,9 +104,9 @@ body,
     --background-attachment: fixed;
   }
   .theme-emerald {
-    --color-fill: #3f5b12; 
+    --color-fill: #466613; 
     --color-text-base: #000000;
-    --color-text-inverted: #3f5b12;
+    --color-text-inverted: #466613;
     --color-text-onbackground: #ffffff;
     --color-text-header: #436e10;
     --color-button-accent: #436e10;
