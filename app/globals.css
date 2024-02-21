@@ -82,6 +82,9 @@ body,
   :root {
     --custom-blue: #0082c4;
     --custom-green: #466613;
+    --custom-red: #891b16;
+    --custom-yellow: #ae6632;
+    --custom-purple: #6a2a81;
     --color-fill: #466613; 
     --color-text-base: #000000;
     --color-text-inverted: #466613;
@@ -103,7 +106,7 @@ body,
     --background-repeat: no-repeat;
     --background-attachment: fixed;
   }
-  .theme-emerald {
+  .theme-green {
     --color-fill: #466613; 
     --color-text-base: #000000;
     --color-text-inverted: #466613;
@@ -125,7 +128,7 @@ body,
     --background-repeat: no-repeat;
     --background-attachment: fixed;
   }
-  .theme-sky {
+  .theme-blue {
     --color-fill: #4eaee3; 
     --color-text-base:  #002b57;
     --color-text-inverted: #4eaee3;
@@ -147,62 +150,62 @@ body,
     --background-repeat: no-repeat;
     --background-attachment: fixed;
   }
-  .theme-gold {
-    --color-fill: #e11d48;
+  .theme-red {
+    --color-fill: #891b16;
     --color-text-base: #ffffff;
-    --color-text-inverted: #e11d48;
+    --color-text-inverted: #891b16;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #e11d48;
-    --color-button-accent: #e11d48;
+    --color-text-header: #891b16;
+    --color-button-accent: #891b16;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #e74a6d; /* 80% opacity of button color */
     --color-link-accent: #6b9240;
     --color-link-accent-hover: #7cb240;
-    --color-icon-accent: #e11d48;
+    --color-icon-accent: #891b16;
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
     --color-dropdownitem-accent-hover: #e11d48;
-    --color-switch-checked: #e11d48;
-    --background-image: url('../public/images/golden_desert_back.jpg');
+    --color-switch-checked: #891b16;
+    --background-image: url('../public/images/red_trees_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
   }
-  .theme-orange {
-    --color-fill: #000000;
+  .theme-yellow {
+    --color-fill: #ae6632;
     --color-text-base: #ffffff;
-    --color-text-inverted: #000000;
+    --color-text-inverted: #ae6632;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #000000;
-    --color-button-accent: #000000;
+    --color-text-header: #ae6632;
+    --color-button-accent: #ae6632;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #333333; /* 80% opacity of button color */
     --color-link-accent: #6b9240;
     --color-link-accent-hover: #7cb240;
-    --color-icon-accent: #000000;
+    --color-icon-accent: #ae6632;
     --color-icon-accent-hover: #333333; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #000000;
-    --color-switch-checked: #000000;
-    --background-image: url('../public/images/red_trees_back.jpg');
+    --color-dropdownitem-accent-hover: #ae6632;
+    --color-switch-checked: #ae6632;
+    --background-image: url('../public/images/golden_desert_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
   }
   .theme-purple {
-    --color-fill: #9ca3af;
+    --color-fill: #6a2a81;
     --color-text-base: #ffffff;
-    --color-text-inverted: #9ca3af;
+    --color-text-inverted: #6a2a81;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #9ca3af;
-    --color-button-accent: #9ca3af;
+    --color-text-header: #6a2a81;
+    --color-button-accent: #6a2a81;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #AFB5BF; /* 80% opacity of button color */
     --color-link-accent: #6b9240;
     --color-link-accent-hover: #7cb240;
-    --color-icon-accent: #9ca3af;
+    --color-icon-accent: #6a2a81;
     --color-icon-accent-hover: #AFB5BF; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #9ca3af;
-    --color-switch-checked: #9ca3af;
-    --background-image: url('../public/images/purple_flowers_back.jpg');
+    --color-dropdownitem-accent-hover: #6a2a81;
+    --color-switch-checked: #6a2a81;
+    --background-image: url('../public/images/purple_flowers_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;

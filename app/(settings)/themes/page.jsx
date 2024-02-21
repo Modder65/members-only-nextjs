@@ -12,7 +12,7 @@ const ThemesPage = () => {
 
   const changeTheme = (themeName) => {
     // Define all possible theme classes 
-    const themeClasses = ['theme-emerald', 'theme-sky', 'theme-gold', 'theme-orange', 'theme-purple'];
+    const themeClasses = ['theme-green', 'theme-blue', 'theme-red', 'theme-yellow', 'theme-purple'];
 
     // Remove any existing theme classes from the body
     themeClasses.forEach(themeClass => {
@@ -36,32 +36,32 @@ const ThemesPage = () => {
       <CardContent className="space-y-4">
         <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
-            <p className="text-greentheme font-semibold">Olive-Green</p>
-            <Button variant="unchanged" className="bg-greentheme" onClick={() => changeTheme('theme-emerald')}>Change Theme</Button>
+            <p className="text-greentheme font-semibold">Green</p>
+            <Button variant="unchanged" className="bg-greentheme" onClick={() => changeTheme('theme-green')}>Change Theme</Button>
           </div>
         </CardListItem>
         <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
-            <p className="text-bluetheme font-semibold">Sky-Blue</p>
-            <Button variant="unchanged" className="bg-bluetheme" onClick={() => changeTheme('theme-sky')}>Change Theme</Button>
+            <p className="text-bluetheme font-semibold">Blue</p>
+            <Button variant="unchanged" className="bg-bluetheme" onClick={() => changeTheme('theme-blue')}>Change Theme</Button>
           </div>
         </CardListItem>
         <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
-            <p className="text-rose-600 font-semibold">Rose-Red</p>
-            <Button variant="unchanged" className="bg-rose-600" onClick={() => changeTheme('theme-gold')}>Change Theme</Button>
+            <p className="text-redtheme font-semibold">Red</p>
+            <Button variant="unchanged" className="bg-redtheme" onClick={() => changeTheme('theme-red')}>Change Theme</Button>
           </div>
         </CardListItem>
         <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
-            <p className="text-black font-semibold">Black</p>
-            <Button variant="unchanged" className="bg-black" onClick={() => changeTheme('theme-orange')}>Change Theme</Button>
+            <p className="text-yellowtheme font-semibold">Yellow</p>
+            <Button variant="unchanged" className="bg-yellowtheme" onClick={() => changeTheme('theme-yellow')}>Change Theme</Button>
           </div>
         </CardListItem>
         <CardListItem className="shadow-md rounded-lg border">
           <div className="flex justify-between items-center">
-            <p className="text-gray-400 font-semibold">Gray</p>
-            <Button variant="unchanged" className="bg-gray-400" onClick={() => changeTheme('theme-purple')}>Change Theme</Button>
+            <p className="text-purpletheme font-semibold">Purple</p>
+            <Button variant="unchanged" className="bg-purpletheme" onClick={() => changeTheme('theme-purple')}>Change Theme</Button>
           </div>
         </CardListItem>
       </CardContent>

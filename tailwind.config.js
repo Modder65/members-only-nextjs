@@ -64,6 +64,9 @@ module.exports = {
       colors: {
         bluetheme: "var(--custom-blue)",
         greentheme: "var(--custom-green)",
+        redtheme: "var(--custom-red)",
+        yellowtheme: "var(--custom-yellow)",
+        purpletheme: "var(--custom-purple)",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
