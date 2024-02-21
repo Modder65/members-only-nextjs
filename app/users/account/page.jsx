@@ -153,6 +153,17 @@ const Account = () => {
         </TabsList>
         <TabsContent value="about">
           <Card>
+            <div className="flex justify-between items-center p-6 pb-0">
+                <div className='flex gap-2 items-center'>
+                  <Avatar>
+                    <AvatarImage src={userData?.image || ""}/>
+                    <AvatarFallback>
+                      <FaUser className="text-white"/>
+                    </AvatarFallback>
+                  </Avatar>
+                  <p className="text-lg font-semibold">{userData?.name}</p>
+                </div>
+              </div>
             <CardHeader>
               <h2 className="text-xl font-bold mb-4">About</h2>
             </CardHeader>

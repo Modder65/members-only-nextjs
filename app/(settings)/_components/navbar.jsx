@@ -36,10 +36,10 @@ export const Navbar = () => {
       {isOwner && (
         <Button
           asChild
-          variant={pathname === "/owner" ? "default" : "outline"}
+          variant={pathname === "/invite" ? "default" : "outline"}
         >
-          <Link href="/owner">
-            Owner
+          <Link href="/invite">
+            Invite
           </Link>
         </Button>
       )}

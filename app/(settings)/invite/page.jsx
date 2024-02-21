@@ -22,7 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { invite } from "@/actions/invite";
 
 
-const OwnerPage = () => {
+const InvitePage = () => {
   const [isPending, startTransition] = useTransition();
 
   const form = useForm({
@@ -121,4 +121,4 @@ const OwnerPage = () => {
    );
 }
  
-export default OwnerPage;
+export default InvitePage;

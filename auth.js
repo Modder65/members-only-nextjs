@@ -15,7 +15,7 @@ export const {
 } = NextAuth({
   pages: {
     // If theres an error with OAuth redirect to custom page not default
-    signIn: "/auth/login",
+    signIn: "/",
     error: "/auth/error",
   },
   events: {

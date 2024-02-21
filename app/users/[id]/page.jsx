@@ -3,7 +3,7 @@
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUserData, setOthersPosts, setFriendshipStatus, setFriendButtonText, setOthersPostsLoaded } from "@/redux/features/accountSlice";
+import { setUserData, setFriendshipStatus, setFriendButtonText } from "@/redux/features/accountSlice";
 import {
   Tabs,
   TabsContent,
@@ -121,33 +121,17 @@ const UserProfile = () => {
                 </Avatar>
                 <p className="text-lg font-semibold">{userData?.name}</p>
               </div>
-              {friendshipStatus === 'ACCEPTED' && (
-                <button type="button"
-                  className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80  bg-emerald-600 disabled:pointer-events-none`}
-                  disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
-                >
-                  {friendButtonText}
-                  {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
-                </button>
-              )}
-              {friendshipStatus === 'PENDING' && (
-                <button type="button"
-                  className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 bg-orange-600 disabled:pointer-events-none`}
-                  disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
-                >
-                  {friendButtonText}
-                  {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
-                </button>
-              )}
-              {!friendshipStatus && (
-                <button type="button"
-                  className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 bg-blue-600`}
-                  onClick={sendFriendRequest}
-                >
-                  {friendButtonText}
-                  {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
-                </button>
-              )}
+              <button type="button"
+                className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 ${
+                  friendshipStatus === 'ACCEPTED' ? "bg-emerald-600" : 
+                  friendshipStatus === 'PENDING' ? "bg-orange-600" : "bg-blue-600"
+                } disabled:pointer-events-none`}
+                disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
+                onClick={!friendshipStatus ? sendFriendRequest : undefined}
+              >
+                {friendButtonText}
+                {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
+              </button>
             </div>
             <CardHeader>
               <h2 className="text-xl font-bold mb-4">About</h2>
