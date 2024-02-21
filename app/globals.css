@@ -157,16 +157,16 @@ body,
     --color-text-onbackground: #ffffff;
     --color-text-header: #ac1826;
     --color-button-accent: #ac1826;
-    --color-button-accent-unselected: #f18181;
+    --color-button-accent-unselected: #ffc5cd;;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #cd2636; /* 80% opacity of button color */
     --color-link-accent: #ac1826;
     --color-link-accent-hover: #cd2636;
     --color-icon-accent: #ac1826;
     --color-icon-accent-hover: #e74a6d; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #f18181;
+    --color-dropdownitem-accent-hover: #ffc5cd;;
     --color-switch-checked: #ac1826;
-    --color-border: #ffa0a0;
+    --color-border: #fba4b0;
     --background-image: url('../public/images/red_trees_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
@@ -179,16 +179,16 @@ body,
     --color-text-onbackground: #ffffff;
     --color-text-header: #c36500;
     --color-button-accent: #c36500;
-    --color-button-accent-unselected: #f2a450;
+    --color-button-accent-unselected: #ffde9d;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #e57907; /* 80% opacity of button color */
     --color-link-accent: #c36500;
     --color-link-accent-hover: #e57907;
     --color-icon-accent: #ae6632;
     --color-icon-accent-hover: #e57907; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #f2a450;
+    --color-dropdownitem-accent-hover: #ffde9d;
     --color-switch-checked: #c36500;
-    --color-border: #f5b876;
+    --color-border: #f8c879;
     --background-image: url('../public/images/golden_desert_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
@@ -199,17 +199,18 @@ body,
     --color-text-base: #000000;
     --color-text-inverted: #6a2a81;
     --color-text-onbackground: #ffffff;
-    --color-text-header: #6a2a81;
+    --color-text-header: #841da9;
     --color-button-accent: #841da9;
-    --color-button-accent-unselected: #e085ea;
+    --color-button-accent-unselected: #facfff;
     --color-button-onbackground-accent: #ffffff;
     --color-button-accent-hover: #a12ec8; /* 80% opacity of button color */
     --color-link-accent: #841da9;
     --color-link-accent-hover: #a12ec8;
     --color-icon-accent: #841da9;
     --color-icon-accent-hover: #a12ec8; /* 80% opacity of icon color */
-    --color-dropdownitem-accent-hover: #e085ea;
+    --color-dropdownitem-accent-hover: #facfff;
     --color-switch-checked: #841da9;
+    --color-border: #e8a3ff;
     --background-image: url('../public/images/purple_flowers_back_muted.jpg');
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;

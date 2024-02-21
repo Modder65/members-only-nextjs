@@ -57,10 +57,10 @@ export default function Home() {
               </div>
               <p className="text-skin-base text-lg mb-4">Change Theme</p>
               <div className="flex gap-x-5 justify-center">
+              <div className="w-6 h-6 bg-bluetheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-blue')}></div>
                 <div className="w-6 h-6 bg-greentheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-green')}></div>
-                <div className="w-6 h-6 bg-bluetheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-blue')}></div>
-                <div className="w-6 h-6 bg-redtheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-red')}></div>
                 <div className="w-6 h-6 bg-yellowtheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-yellow')}></div>
+                <div className="w-6 h-6 bg-redtheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-red')}></div>
                 <div className="w-6 h-6 bg-purpletheme opacity-80 shadow rounded cursor-pointer" onClick={() => changeTheme('theme-purple')}></div>
               </div>
             </CardContent>

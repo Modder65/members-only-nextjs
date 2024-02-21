@@ -213,12 +213,14 @@ const SettingsPage = () => {
             </div>
             <FormError message={error} />
             <FormSuccess message={success} />
-            <Button
-              disabled={isPending}
-              type="submit"
-            >
-              Save
-            </Button>
+            <div className="flex justify-end items-center w-full">
+              <Button
+                disabled={isPending}
+                type="submit"
+              >
+                Save
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>
