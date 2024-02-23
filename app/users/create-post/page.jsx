@@ -107,7 +107,7 @@ export default function CreatePostPage() {
                   name="title"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Title</FormLabel>
+                      <FormLabel className="font-bold">Title</FormLabel>
                       <FormControl>
                         <Input 
                           {...field}
@@ -124,7 +124,7 @@ export default function CreatePostPage() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Message</FormLabel>
+                      <FormLabel className="font-bold">Message</FormLabel>
                       <FormControl>
                         <Input 
                           {...field}

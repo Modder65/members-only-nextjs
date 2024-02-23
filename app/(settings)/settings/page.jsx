@@ -100,7 +100,7 @@ const SettingsPage = () => {
   return ( 
     <Card className="w-full max-w-3xl">
       <CardHeader>
-        <p className="text-2xl font-semibold text-center">
+        <p className="text-2xl font-bold text-center">
           Settings
         </p>
       </CardHeader>
@@ -116,7 +116,7 @@ const SettingsPage = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="font-bold">Name</FormLabel>
                     <FormControl>
                       <Input 
                         {...field}
@@ -135,7 +135,7 @@ const SettingsPage = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel className="font-bold">Email</FormLabel>
                         <FormControl>
                           <Input 
                             {...field}
@@ -153,7 +153,7 @@ const SettingsPage = () => {
                     name="password"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel className="font-bold">Password</FormLabel>
                         <FormControl>
                           <Input 
                             {...field}
@@ -171,7 +171,7 @@ const SettingsPage = () => {
                     name="newPassword"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>New Password</FormLabel>
+                        <FormLabel className="font-bold">New Password</FormLabel>
                         <FormControl>
                           <Input 
                             {...field}

@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FilterPostSchema } from "@/schemas";
 import { toast } from "react-hot-toast";
 import { pusherClient } from "../../lib/pusher";
-import { find } from "lodash";
 import { notifyNewPost } from "@/Custom-Toast-Messages/Notify";
 import { useInView } from "react-intersection-observer";
 import { BeatLoader } from "react-spinners";
@@ -190,7 +189,7 @@ export default function Users() {
     <div className="mx-auto max-w-3xl w-full px-5 mt-8">
       <Card className="mb-7">
         <CardHeader>
-          <h2 className="mb-5 text-3xl font-bold">Posts</h2>
+          <h2 className="mb-5 text-3xl font-bold">Filter Posts</h2>
           <p className="mb-5 text-xl">Welcome <strong>{user?.name}</strong>!</p>
         </CardHeader>
         <CardContent>
@@ -204,7 +203,7 @@ export default function Users() {
                 name="sortOrder"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Sort Order</FormLabel>
+                    <FormLabel className="font-bold">Sort Order</FormLabel>
                     <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -232,7 +231,7 @@ export default function Users() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel className="font-bold">Username</FormLabel>
                         <FormControl>
                           <Input 
                             {...field}
@@ -248,13 +247,15 @@ export default function Users() {
                       </FormItem>
                     )}
                   />
-                  <Card className="mb-5">
+                  {autocompleteResults && autocompleteResults.length > 0 && (
+                    <Card className="mb-5">
                     {autocompleteResults.map((name, index) => (
                       <CardListItem key={index} className="autocomplete-result cursor-pointer hover:opacity-60" onClick={() => selectName(name)}>
                         {name}
                       </CardListItem>
                     ))}
-                  </Card>
+                    </Card>
+                  )}
                 <Button
                   type="submit"
                 >

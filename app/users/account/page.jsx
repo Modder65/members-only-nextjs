@@ -165,7 +165,7 @@ const Account = () => {
                 </div>
               </div>
             <CardHeader>
-              <h2 className="text-xl font-bold mb-4">About</h2>
+              <h2 className="text-xl font-bold">About</h2>
             </CardHeader>
             <CardContent>
               <p>Member Since: {
@@ -203,52 +203,56 @@ const Account = () => {
             </div>
           ) : (
             <Card>
-              <CardHeader>
-                <h2 className="text-xl font-bold mb-4">Pending Requests</h2>
-              </CardHeader>
+              {pendingRequests && pendingRequests.length > 0 && (
+                <CardHeader>
+                  <h2 className="text-xl font-bold">Pending Requests</h2>
+                </CardHeader>
+              )}
               <CardContent>
-                {pendingRequests.length > 0 ? (
-                  <div className="space-y-2">
-                    {pendingRequests.map(request => (
-                      // ... Render each pending request
-                      <div key={request.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
-                        <div className="flex items-center gap-2">
-                          <Avatar>
-                            <AvatarImage src={request?.user?.image || ""}/>
-                            <AvatarFallback>
-                              <FaUser className="text-white"/>
-                            </AvatarFallback>
-                          </Avatar>
-                          <p>{request?.user?.name}</p>
+                {pendingRequests && pendingRequests.length > 0 && (
+                  <>
+                    <div className="space-y-2">
+                      {pendingRequests.map(request => (
+                        // ... Render each pending request
+                        <div key={request.id} className="flex items-center justify-between border-b-2 border-skin-fill py-5">
+                          <div className="flex items-center gap-2">
+                            <Avatar>
+                              <AvatarImage src={request?.user?.image || ""}/>
+                              <AvatarFallback>
+                                <FaUser className="text-white"/>
+                              </AvatarFallback>
+                            </Avatar>
+                            <p>{request?.user?.name}</p>
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <button type="button"
+                              className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                              onClick={() => handleAcceptRequest(request.id)}
+                            >
+                              Accept
+                            </button>
+                            <button type="button"
+                              className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
+                              onClick={() => handleDeclineRequest(request.id)}
+                            >
+                              Decline
+                            </button>
+                          </div>
                         </div>
-                        
-                        <div className="flex items-center gap-2">
-                          <button type="button"
-                            className="bg-green-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                            onClick={() => handleAcceptRequest(request.id)}
-                          >
-                            Accept
-                          </button>
-                          <button type="button"
-                            className="bg-rose-600 rounded-md px-2 py-1 text-white hover:opacity-80"
-                            onClick={() => handleDeclineRequest(request.id)}
-                          >
-                            Decline
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : <p>No incoming friend requests.</p>}
+                      ))}
+                    </div>
+                  </>
+                )}
                 <CardHeader className="pl-0 pr-0">
-                  <h2 className="text-xl font-bold mt-6 mb-4">Friends</h2>
+                  <h2 className="text-xl font-bold">Your Friends</h2>
                 </CardHeader>
                 
                 {friends.length > 0 ? (
                   <div className="space-y-2">
                     {friends.map(friendship => (
                       // ... Render each friend
-                      <div key={friendship.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                      <div key={friendship.id} className="flex items-center justify-between border-b-2 border-skin-fill py-5">
                           <div className="flex items-center gap-2">
                             <Avatar>
                               <AvatarImage src={user.id === friendship.senderId ? friendship.friend.image : friendship.user.image || ""}/>
@@ -257,7 +261,7 @@ const Account = () => {
                               </AvatarFallback>
                             </Avatar>
                             <Link href={`/users/${user.id === friendship.senderId ? friendship.friend.id : friendship.user.id}`} className="text-blue-600 hover:underline">
-                              <span className="text-blue-600 hover:underline cursor-pointer">{user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</span>
+                              <span className="text-skin-link-accent hover:text-skin-link-accent-hover hover:underline cursor-pointer">{user.id === friendship.senderId ? friendship.friend.name : friendship.user.name}</span>
                             </Link>
                           </div>
                           

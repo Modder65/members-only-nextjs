@@ -1,6 +1,5 @@
 "use client";
 
-import * as z from "zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { RoleGate } from "@/components/auth/role-gate";
@@ -50,70 +49,48 @@ const InvitePage = () => {
     });
   }
 
-  const onAPiRouteClick = () => {
-    fetch("/api/admin")
-      .then((response) => {
-        if (response.ok) {
-          toast.success("Allowed API Route!");
-        } else {
-          toast.error("Forbidden API Route!");
-        }
-      })
-  }
-
   return ( 
-    <Card className="max-w-3xl w-full">
+    <Card className="max-w-3xl w-full shadow-md">
       <CardHeader>
-        <p className="text-2xl font-semibold text-center">
-          Owner
+        <p className="text-2xl font-bold text-center">
+          Invite
         </p>
       </CardHeader>
       <CardContent className="space-y-4">
         <RoleGate allowedRoles={[UserRole.OWNER, UserRole.USER]}>
           <div className="flex flex-row items-center justify-between
-          rounded-lg border p-3 shadow-md">
-            <p className="text-sm font-medium">
-              Send Invitation Link
+          rounded-lg border p-3 shadow-md gap-x-2">
+            <p className="text-sm font-bold">
+              Email
             </p>
             <Form {...form}>
               <form 
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-row items-center gap-x-2"
+                className="flex flex-row items-center gap-x-2 w-full"
               >
                 <FormField 
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="flex-grow">
                       <FormControl>
                         <Input 
                           {...field}
                           placeholder="johndoe@example.com"
                           type="email"
                           disabled={isPending}
-                          className="w-[300px]"
+                          className="w-full"
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" disabled={isPending}>
+                <Button type="submit" disabled={isPending} className="flex-shrink-0">
                   Send
                 </Button>
               </form>
             </Form>
-            
-          </div>
-
-          <div className="flex flex-row items-center justify-between
-          rounded-lg border p-3 shadow-md">
-            <p className="text-sm font-medium">
-              Admin-Only API Route
-            </p>
-            <Button onClick={onAPiRouteClick}>
-              Click to test
-            </Button>
           </div>
         </RoleGate>
       </CardContent>

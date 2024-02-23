@@ -162,7 +162,7 @@ const ManageUsers = () => {
   return (    
     <Card className="max-w-3xl w-full shadow-md">
       <CardHeader>
-        <p className="text-2xl font-semibold text-center">
+        <p className="text-2xl font-bold text-center">
           Manage Users
         </p>
       </CardHeader>
@@ -170,27 +170,27 @@ const ManageUsers = () => {
         <RoleGate allowedRoles={[UserRole.OWNER, UserRole.ADMIN]}>
           <div className="flex flex-col gap-y-2">
             <div className="flex flex-row items-center justify-between
-            rounded-lg border p-3 shadow-md mb-5">
-              <p className="text-sm font-medium">
-                Search User
+            rounded-lg border p-3 shadow-md gap-x-2">
+              <p className="text-sm font-bold">
+                Email
               </p>
               <Form {...form}>
                 <form 
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="flex flex-row items-center gap-x-2"
+                  className="flex flex-row items-center gap-x-2 w-full"
                 >
                   <FormField 
                     control={form.control}
                     name="email"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex-grow">
                         <FormControl>
                           <Input 
                             {...field}
                             placeholder="johndoe@example.com"
                             type="email"
                             disabled={isPending}
-                            className="w-[300px]"
+                            className="w-full"
                             onChange={(e) => {
                               field.onChange(e); // existing change handler
                               fetchAutocompleteResults(e.target.value); // new autocomplete handler
@@ -201,7 +201,7 @@ const ManageUsers = () => {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" disabled={isPending}>
+                  <Button type="submit" disabled={isPending} className="flex-shrink-0">
                     Search
                   </Button>
                 </form>
@@ -209,21 +209,22 @@ const ManageUsers = () => {
               
             </div>
             <div>
-              <Card className="mb-5">
+              {autocompleteResults && autocompleteResults.length > 0 && (
+                <Card className="mb-5">
                 {autocompleteResults.map((email, index) => (
                   <CardListItem key={index} className="autocomplete-result cursor-pointer hover:opacity-60" onClick={() => selectEmail(email)}>
                     {email}
                   </CardListItem>
                 ))}
-              </Card>
+                </Card>
+              )}
               {userData && (
                 <Card className="">
                   <CardListItem className="flex flex-row items-center justify-between w-full">
                     <div className="flex flex-row items-center gap-x-2">
                       <Avatar>
                         <AvatarImage src={userData?.image || ""}/>
-                        <AvatarFallback className="bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))]
-                        from-green-400 to-green-800">
+                        <AvatarFallback className="bg-skin-fill">
                           <FaUser className="text-white"/>
                         </AvatarFallback>
                       </Avatar>

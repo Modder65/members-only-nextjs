@@ -134,7 +134,7 @@ const UserProfile = () => {
               </button>
             </div>
             <CardHeader>
-              <h2 className="text-xl font-bold mb-4">About</h2>
+              <h2 className="text-xl font-bold">About</h2>
             </CardHeader>
             <CardContent>
               <p>Member Since: {
@@ -155,14 +155,14 @@ const UserProfile = () => {
           {/* Display the user's friends */}
           <Card>
             <CardHeader>
-              <h2 className="text-xl font-bold mb-4">Friends</h2>
+              <h2 className="text-xl font-bold">Friends</h2>
             </CardHeader>
             <CardContent>
               {userData && (userData.userFriendships.length > 0 || userData.friendUserFriendships.length > 0) ? (
                 <div className="space-y-2">
                   {/* Display friends where the user is the initiator */}
                   {userData.userFriendships.map(friendship => (
-                    <div key={friendship.friend.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                    <div key={friendship.friend.id} className="flex items-center justify-between border-b-2 border-skin-fill py-5">
                       <div className="flex items-center gap-2">
                         <Avatar>
                           <AvatarImage src={friendship.friend.image || ""}/>
@@ -177,7 +177,7 @@ const UserProfile = () => {
 
                   {/* Display friends where the user is the recipient */}
                   {userData.friendUserFriendships.map(friendship => (
-                    <div key={friendship.user.id} className="flex items-center justify-between border-b-2 border-gray-700 py-5">
+                    <div key={friendship.user.id} className="flex items-center justify-between border-b-2 border-skin-fill py-5">
                       <div className="flex items-center gap-2">
                         <Avatar>
                           <AvatarImage src={friendship.user.image || ""}/>
