@@ -256,11 +256,13 @@ export default function Users() {
                     ))}
                     </Card>
                   )}
-                <Button
-                  type="submit"
-                >
-                  Filter Posts
-                </Button>
+                  <div className="flex items-center justify-end w-full">
+                  <Button
+                    type="submit"
+                  >
+                    Filter Posts
+                  </Button>
+                  </div>
             </form>
           </Form>
         </CardContent>
