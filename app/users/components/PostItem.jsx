@@ -106,12 +106,17 @@ const PostItem = ({ post, postId, posts, initialCommentsCount }) => {
         <p className="mb-3">{post.message}</p>
         {post.image && 
           <CldImage 
-          alt="hello" 
-          src={post.image} 
-          width={700} 
-          height={700}
-          sizes="(min-width: 480px) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw" 
-          priority={true} /> // check priorty parameter documentation; caused warning in console without it related to LCP
+            alt="hello" 
+            src={post.image} 
+            width={700} 
+            height={700}
+            sizes="(min-width: 480px) 50vw, (min-width: 728px) 33vw, (min-width: 976px) 25vw, 100vw" 
+            priority={true} // check priorty parameter documentation; caused warning in console without it related to LCP
+            options={{
+              quality: "auto:good",
+              fetchFormat: "auto",
+            }}
+          /> 
         }
         <div className="flex justify-between items-center mt-2.5 border-t border-gray-200 pt-2.5">
           <p className="text-sm text-gray-500">
