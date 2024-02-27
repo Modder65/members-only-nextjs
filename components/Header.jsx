@@ -10,13 +10,26 @@ export function Header() {
 
   return (
     <header className="bg-white py-4 flex justify-center shadow">
-      <div className="header-container w-full max-w-3xl flex justify-between items-center px-4">
+      <div className="
+        header-container 
+        w-full 
+        max-w-3xl 
+        flex
+        flex-col 
+        items-center  
+        justify-center
+        gap-2
+        px-4
+        sm:flex-row 
+        sm:justify-between
+        sm:gap-0
+      ">
         <div className="header-title-container">
           <h1 className="text-3xl font-bold">
             <Link href="/users">
               <span className="text-skin-header hover:text-skin-link-accent-hover">Members</span>
+              <span className="text-black hover:text-skin-link-accent-hover">Only</span>
             </Link>
-            <span className="text-black">Only</span>
           </h1>
         </div>
 
