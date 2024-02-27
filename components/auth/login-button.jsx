@@ -1,7 +1,3 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-
 import {
   Dialog,
   DialogContent,
@@ -14,11 +10,6 @@ export const LoginButton = ({
    mode = "redirect", 
    asChild 
 }) => {
-  const router = useRouter();
-
-  const onClick = () => {
-    router.push("/auth/login");
-  };
 
   if (mode === "modal") {
     return (
@@ -32,10 +23,4 @@ export const LoginButton = ({
       </Dialog>
     );
   }
-
-  return (
-    <span onClick={onClick} className="cursor-pointer">
-      {children}
-    </span>
-  );
 };

@@ -74,7 +74,7 @@ export const CommentForm = ({ post }) => {
   }
 
   return (
-    <Card className="w-[500px] rounded p-0 bg-white">
+    <Card className="w-[310px] sm:w-[400px] rounded p-0 bg-white">
       <CardHeader className="flex justify-between px-6 pb-0">
         <p className="text-xl font-bold truncate max-w-[calc(100%-2.5rem)]">{post?.title}</p>
       </CardHeader>

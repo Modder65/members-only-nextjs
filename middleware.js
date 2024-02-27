@@ -35,7 +35,7 @@ export default auth((req) => {
 
     if (!token) {
       // Redirect to login or an error page
-      return Response.redirect(new URL("/auth/login", nextUrl));
+      return Response.redirect(new URL("/", nextUrl));
     }
 
     return null;
