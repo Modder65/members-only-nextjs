@@ -15,8 +15,8 @@ export const Navbar = () => {
   const isAdmin = user?.role === "ADMIN";
 
   return (
-    <nav className="max-w-3xl w-full mx-auto bg-white flex justify-center gap-x-2.5
-     items-center p-4 rounded-xl shadow-sm">
+    <nav className="max-w-3xl w-full mx-auto bg-white flex justify-center gap-x-2.5 gap-y-2
+    items-center p-4 rounded-xl shadow-sm flex-wrap">
       <Button
         asChild
         variant={pathname === "/settings" ? "default" : "outline"}

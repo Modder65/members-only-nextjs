@@ -18,7 +18,7 @@ const RegisterPage = () => {
       .then((data) => {
         if (data?.error) {
           toast.error(data.error);
-          router.push("/auth/login");
+          router.push("/");
         }
 
         if (data?.success) {
