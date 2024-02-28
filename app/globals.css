@@ -101,7 +101,7 @@ body,
     --color-dropdownitem-accent-hover: #ddeab1;
     --color-switch-checked: #436e10;
     --color-border: #bdcc8a;
-    --background-image: url('../public/images/green_forest_back_muted.jpg');
+    --background-image: none;
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
@@ -123,7 +123,7 @@ body,
     --color-dropdownitem-accent-hover: #ddeab1;
     --color-switch-checked: #436e10;
     --color-border: #bdcc8a;
-    --background-image: url('../public/images/green_forest_back_muted.jpg');
+    --background-image: none;
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
@@ -145,7 +145,7 @@ body,
     --color-dropdownitem-accent-hover: #d0ebff;
     --color-switch-checked: #0082c4;
     --color-border: #bdd9ee;
-    --background-image: url('../public/images/blue_mountains_back_lowres.jpg');
+    --background-image: none;
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
@@ -167,7 +167,7 @@ body,
     --color-dropdownitem-accent-hover: #ffcfdb;
     --color-switch-checked: #ac1826;
     --color-border: #fba4b0;
-    --background-image: url('../public/images/red_trees_back_muted.jpg');
+    --background-image: none;
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
@@ -189,7 +189,7 @@ body,
     --color-dropdownitem-accent-hover: #ffde9d;
     --color-switch-checked: #c36500;
     --color-border: #f8c879;
-    --background-image: url('../public/images/golden_desert_back_muted.jpg');
+    --background-image: none;
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
@@ -211,11 +211,30 @@ body,
     --color-dropdownitem-accent-hover: #facfff;
     --color-switch-checked: #841da9;
     --color-border: #e8a3ff;
-    --background-image: url('../public/images/purple_flowers_back_muted.jpg');
+    --background-image: none;
     --background-size: auto 100%; /* width is auto, height is 100% */
     --background-repeat: no-repeat;
     --background-attachment: fixed;
   }
+
+  @media (min-width: 768px) { /* Adjust this breakpoint as needed */
+    .theme-green {
+      --background-image: url('../public/images/green_forest_back_muted.jpg');
+    }
+    .theme-blue {
+      --background-image: url('../public/images/blue_mountains_back_lowres.jpg');
+    }
+    .theme-red {
+      --background-image: url('../public/images/red_trees_back_muted.jpg');
+    }
+    .theme-yellow {
+      --background-image: url('../public/images/golden_desert_back_muted.jpg');
+    }
+    .theme-purple {
+      --background-image: url('../public/images/purple_flowers_back_muted.jpg');
+    }
+  }
+
   * {
     @apply border-border;
   }
