@@ -138,7 +138,7 @@ const UserProfile = () => {
             </CardHeader>
             <CardContent>
               <p>Member Since: {
-                  DateTime.fromISO(user?.createdAt).toLocaleString({
+                  DateTime.fromISO(userData?.createdAt).toLocaleString({
                     month: 'numeric',
                     day: 'numeric',
                     year: '2-digit',
