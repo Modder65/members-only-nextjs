@@ -58,15 +58,15 @@ const InvitePage = () => {
       </CardHeader>
       <CardContent className="space-y-4">
         <RoleGate allowedRoles={[UserRole.OWNER, UserRole.USER]}>
-          <div className="flex flex-row items-center justify-between
-          rounded-lg border p-3 shadow-md gap-x-2">
+          <div className="flex flex-col sm:flex-row items-center justify-between
+          rounded-lg border p-3 shadow-md gap-y-2 sm:gap-y-0 sm:gap-x-2">
             <p className="text-sm font-bold">
               Email
             </p>
             <Form {...form}>
               <form 
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-row items-center gap-x-2 w-full"
+                className="flex flex-col sm:flex-row items-center gap-y-2 sm:gap-y-0 sm:gap-x-2 w-full"
               >
                 <FormField 
                   control={form.control}

@@ -18,6 +18,7 @@ export const Navbar = () => {
     <nav className="max-w-3xl w-full mx-auto bg-white flex justify-center gap-x-2.5 gap-y-2
     items-center p-4 rounded-xl shadow-sm flex-wrap">
       <Button
+        className="w-20"
         asChild
         variant={pathname === "/settings" ? "default" : "outline"}
       >
@@ -26,6 +27,7 @@ export const Navbar = () => {
         </Link>
       </Button>
       <Button
+        className="w-20"
         asChild
         variant={pathname === "/themes" ? "default" : "outline"}
       >
@@ -35,6 +37,7 @@ export const Navbar = () => {
       </Button>
       {isOwner && (
         <Button
+          className="w-20"
           asChild
           variant={pathname === "/invite" ? "default" : "outline"}
         >
@@ -45,11 +48,12 @@ export const Navbar = () => {
       )}
       {isAdminOrOwner && (
         <Button
+          className="w-20"
           asChild
           variant={pathname === "/manage-users" ? "default" : "outline"}
         >
           <Link href="/manage-users">
-            Manage Users
+            Users
           </Link>
         </Button>
       )}

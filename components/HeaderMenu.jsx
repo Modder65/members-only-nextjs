@@ -27,7 +27,7 @@ const HeaderMenu = ({ user }) => {
   };
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger className="outline-none">
         <div className="flex items-center gap-x-2">
           <Avatar>

@@ -154,6 +154,28 @@ const UserProfile = () => {
         <TabsContent value="friends">
           {/* Display the user's friends */}
           <Card>
+            <div className="flex justify-between items-center p-6 pb-0">
+              <div className='flex gap-2 items-center'>
+                <Avatar>
+                  <AvatarImage src={userData?.image || ""}/>
+                  <AvatarFallback>
+                    <FaUser className="text-white"/>
+                  </AvatarFallback>
+                </Avatar>
+                <p className="text-lg font-semibold">{userData?.name}</p>
+              </div>
+              <button type="button"
+                className={`flex items-center gap-2 rounded-md px-2 py-1 text-white hover:opacity-80 ${
+                  friendshipStatus === 'ACCEPTED' ? "bg-emerald-600" : 
+                  friendshipStatus === 'PENDING' ? "bg-orange-600" : "bg-blue-600"
+                } disabled:pointer-events-none`}
+                disabled={friendshipStatus === 'PENDING' || friendshipStatus === 'ACCEPTED'}
+                onClick={!friendshipStatus ? sendFriendRequest : undefined}
+              >
+                {friendButtonText}
+                {friendshipStatus !== 'PENDING' && friendshipStatus !== 'ACCEPTED' && <GoPlus size={25} />}
+              </button>
+            </div>
             <CardHeader>
               <h2 className="text-xl font-bold">Friends</h2>
             </CardHeader>
