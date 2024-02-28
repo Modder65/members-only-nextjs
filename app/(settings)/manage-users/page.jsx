@@ -220,7 +220,7 @@ const ManageUsers = () => {
               )}
               {userData && (
                 <Card className="">
-                  <CardListItem className="flex flex-row items-center justify-between w-full">
+                  <CardListItem className="flex flex-col sm:flex-row items-center justify-between w-full">
                     <div className="flex flex-row items-center gap-x-2">
                       <Avatar>
                         <AvatarImage src={userData?.image || ""}/>
@@ -234,7 +234,7 @@ const ManageUsers = () => {
                       </div>
                     </div>
                     <AlertDialog>
-                      <div className="flex flex-col items-center gap-y-2">
+                      <div className="flex flex-row sm:flex-col items-center gap-x-2 sm:gap-x-0 sm:gap-y-2">
                         <AlertDialogTrigger asChild>
                           <Button variant="destructive" disabled={!isOwner}>Delete User</Button>
                         </AlertDialogTrigger>
