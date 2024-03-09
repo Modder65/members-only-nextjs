@@ -1,3 +1,4 @@
+import { ExtendedPost } from "@/types/types";
 import PostItem from "./PostItem";
 import usePostsStore from "@/zustand/postStore";
 
