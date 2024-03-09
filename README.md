@@ -22,7 +22,7 @@ MembersOnly is a private social media platform built with Next.js Users can enga
 - **Resend**: An email service used to send verification emails to users.
 - **MongoDB**: A NoSQL database used to store all data.
 - **Prisma**: An ORM that communicates with and defines the structure of data stored in the MongoDB database.
-- **Redux**: A state management library for react.
+- **Zustand**: A state management library for react.
 - **Pusher**: A hosted API service that handles real-time data updates.
 - **JSON Web Tokens**: For secure and efficient session management.
 
