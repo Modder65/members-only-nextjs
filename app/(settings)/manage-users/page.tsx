@@ -220,7 +220,7 @@ const ManageUsers = () => {
                   <CardListItem className="flex flex-col sm:flex-row items-center justify-between w-full">
                     <div className="flex flex-row items-center gap-x-2">
                       <Avatar>
-                        <AvatarImage src={userData?.image || ""}/>
+                        <AvatarImage src={userData?.image}/>
                         <AvatarFallback className="bg-skin-fill">
                           <FaUser className="text-white"/>
                         </AvatarFallback>
