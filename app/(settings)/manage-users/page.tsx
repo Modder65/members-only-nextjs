@@ -236,6 +236,7 @@ const ManageUsers = () => {
                           <Button variant="destructive" disabled={!isOwner}>Delete User</Button>
                         </AlertDialogTrigger>
                         <Select 
+                          key={userData ? userData.id : 'default-key'} //forces re-render of role value when searching for new user
                           defaultValue={userData.role}
                           onValueChange={(selectedRole) => roleChange(userData.id, selectedRole)}
                           disabled={shouldDisableRoleSelector(userData)}
