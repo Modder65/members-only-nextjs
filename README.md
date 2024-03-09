@@ -24,6 +24,7 @@ MembersOnly is a private social media platform built with Next.js Users can enga
 - **Next-Cloudinary**: Handles image uploads for posts and user profile avatars.
 - **TypeScript**: A strongly typed programming language built on JavaScript. Enforces type safety.
 - **Auth.js v5**: A complete open-source authentication solution for Next.js applications.
+- **Bcrypt**: Hashes user passwords before they are stored in the database.
 - **Resend**: An email service used to send verification emails to users.
 - **MongoDB**: A NoSQL database used to store all data.
 - **Prisma**: An ORM that communicates with and defines the structure of data stored in the MongoDB database.
