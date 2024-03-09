@@ -13,7 +13,8 @@ MembersOnly is a private social media platform built with Next.js Users can enga
 - **Likes**: Users can like posts, comments and replies.
 - **Friends**: Fully functional friends system. Users can send friend requests to other users, accept or decline friend requests and unfriend. 
 - **Pagination w/ Infinite Scroll**: Via the react-intersection-observer library. Used for posts on the home page. Posts are loaded in batches of 10 with a smooth infinite scrolling experience.
-- **Real-time Updates**: Posts, comments, replies, likes, and friends update in real-time using Pusher.
+- **Post Filtering**: Sort posts by newest/oldest, a specific user, or both. ![Filter Demo](/public/gifs/PostFilterGif.gif)
+- **Real-time Updates**: Posts, comments, replies, likes, and friends update in real-time using Pusher. No need to refresh the page. ![Filter Demo](/public/gifs/PusherCommentGif.gif)
 - **Multiple Themes**: 5 different colored themes that can be changed from the home screen. These are stored in localStorage to save the users preference even if they are not a member. ![Theme Demo](/public/gifs/ThemeChangeGif.gif)
 
 ## Technologies Used
