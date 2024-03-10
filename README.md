@@ -36,6 +36,8 @@ MembersOnly is a private social media platform built with **Next.js**. Users can
 - **Next.js**: A React framework for SSR and static web applications.
 - **Next-Cloudinary**: Manages image uploads.
 - **TypeScript**: Ensures type safety across the codebase.
+- **Tailwind CSS**: A utility-first css framework.
+- **Shadcn-ui**: Open-source, customizable and accessible react components for UI.
 - **Auth.js v5**: Open-source authentication solution.
 - **Bcrypt**: Secures user passwords.
 - **Resend**: Sends verification emails.
