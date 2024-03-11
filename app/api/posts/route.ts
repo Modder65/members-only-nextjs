@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { currentUser } from "@/lib/auth";
-import { Like, Post, Prisma } from "@prisma/client";
+import { Like, Prisma } from "@prisma/client";
 import { PostWithLikes } from "@/types/types";
 import prisma from "@/lib/prismadb";
 
