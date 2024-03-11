@@ -3,6 +3,7 @@ import { FaRegCommentDots } from "react-icons/fa";
 import { FaHouseUser } from "react-icons/fa";
 import { FaRegUser } from "react-icons/fa";
 import { FaRegShareSquare } from "react-icons/fa";
+import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import {
@@ -55,6 +56,10 @@ const HeaderMenu = ({ user }) => {
         <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/settings')}>
           <FaRegSun className="h-5 w-5 mr-2" />
           Settings
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/donate')}>
+          <FaRegMoneyBillAlt className="h-5 w-5 mr-2" />
+          Donate
         </DropdownMenuItem>
         <LogoutButton>
           <DropdownMenuItem className="text-lg cursor-pointer">
