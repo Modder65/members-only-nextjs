@@ -34,7 +34,7 @@ export async function POST() {
       mode: 'payment',
       //redirect_on_completion: 'never',
       return_url:
-        `http://localhost:3000/users/donate-success?session_id={CHECKOUT_SESSION_ID}`,
+        `https://members-only.blog/users/donate-success?session_id={CHECKOUT_SESSION_ID}`,
         //automatic_tax: {enabled: true},
     });
 
