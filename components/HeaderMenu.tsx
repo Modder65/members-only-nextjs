@@ -57,7 +57,7 @@ const HeaderMenu = ({ user }) => {
           <FaRegSun className="h-5 w-5 mr-2" />
           Settings
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/donate')}>
+        <DropdownMenuItem className="cursor-pointer flex items-center text-lg" onClick={() => handleNavigation('/users/donate')}>
           <FaRegMoneyBillAlt className="h-5 w-5 mr-2" />
           Donate
         </DropdownMenuItem>
