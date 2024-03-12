@@ -26,7 +26,7 @@ export default auth((req) => {
   // in the routes.ts file. So we have to check isAPiAuthRoute
   // first before we check the public routes manually. 
   // Otherwise you'll be left in an infinite redirect loop.
-  
+
   // Bypass middleware for API routes, including your stripe webhook
   if (nextUrl.pathname.startsWith('/api/')) {
     return;

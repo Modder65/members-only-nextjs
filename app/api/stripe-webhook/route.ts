@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { Stripe } from "stripe";
+import { NextRequest, NextResponse } from "next/server";
+import { Stripe }  from "stripe";
 import prisma from "@/lib/prismadb";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -8,13 +8,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
-export async function POST(req: Request) {
-  const payload = await req.text();
-  const signature = req.headers.get("stripe-signature");
+export async function POST(req: NextRequest) {
+  const payload = await req.text()
+  const signature = req.headers.get("Stripe-Signature");
 
   let event: Stripe.Event | null = null;
   try {
-    event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
+    event = stripe.webhooks.constructEvent(payload, signature!, webhookSecret);
     switch (event?.type) {
       case "checkout.session.completed":
         // Triggered when a checkout session has been successfully completed
@@ -23,7 +23,6 @@ export async function POST(req: Request) {
         // details, send thank you emails to donors, and 
         // trigger any post-donation processes
         const session = event.data.object as Stripe.Checkout.Session;
-        
         try {
           await prisma.donation.create({
             data: {
@@ -35,7 +34,7 @@ export async function POST(req: Request) {
             }
           });
         } catch (err) {
-          console.error("Error saving donation to database:", err);
+          console.error('Error saving donation information to database', err);
         }
         
         break;
