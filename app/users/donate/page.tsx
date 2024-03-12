@@ -8,9 +8,11 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+// Converted to react state instead otherwise throws warning: "Unsupported prop change on Elements: You cannot change the `stripe` prop after setting it"
+//const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const Donate = () => {
+  const [stripePromise, setStripePromise] = useState(() => loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY));
   const [clientSecret, setClientSecret] = useState<string>("");
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const Donate = () => {
     <div className="flex justify-center mt-8 max-w-3xl w-full mx-auto px-5">
       {clientSecret && (
         <EmbeddedCheckoutProvider
+          key={clientSecret} // Ensures EmbeddedCheckoutProvider is remounted whenever clientSecret changes, preventing console warning
           stripe={stripePromise}
           options={{clientSecret}}
         >
