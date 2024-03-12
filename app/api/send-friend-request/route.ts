@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { pusherServer } from "@/lib/pusher";
 import { auth } from "@/auth";
-import { Friendship, User } from "@prisma/client";
+import { Friendship } from "@prisma/client";
+import { PublicUserInfo } from "@/types/types";
 import prisma from "@/lib/prismadb";
 
 export async function POST(request: Request) {
@@ -49,7 +50,7 @@ export async function POST(request: Request) {
     });
     
     // Retrieve user details of the sender
-    const senderUser: User = await prisma.user.findUnique({
+    const senderUser: PublicUserInfo = await prisma.user.findUnique({ //changed type from User to PublicUserInfo to omit password field
       where: { id: userId },
     });
 

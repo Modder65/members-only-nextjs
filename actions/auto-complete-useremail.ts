@@ -7,7 +7,7 @@ type UserEmailOnly = {
 }
 
 export const autoCompleteUserEmail = async (partialEmail: string): Promise<string[]> => {
-  const users = await prisma.user.findMany({
+  const users: UserEmailOnly[] = await prisma.user.findMany({
     where: {
       email: {
         contains: partialEmail,
@@ -23,5 +23,5 @@ export const autoCompleteUserEmail = async (partialEmail: string): Promise<strin
     take: 5, // limit the number of results
   });
 
-  return users.map((user: UserEmailOnly) => user.email);
+  return users.map((user) => user.email);
 }
