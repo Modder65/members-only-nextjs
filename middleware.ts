@@ -26,8 +26,14 @@ export default auth((req) => {
   // in the routes.ts file. So we have to check isAPiAuthRoute
   // first before we check the public routes manually. 
   // Otherwise you'll be left in an infinite redirect loop.
+  
+  // Bypass middleware for API routes, including your stripe webhook
+  if (nextUrl.pathname.startsWith('/api/')) {
+    return;
+  }
+
   if (isApiAuthRoute) {
-    return null;
+    return;
   }
 
   if (isRegisterRoute) {
@@ -38,14 +44,14 @@ export default auth((req) => {
       return Response.redirect(new URL("/", nextUrl));
     }
 
-    return null;
+    return;
   }
 
   if (isAuthRoute) {
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
-    return null;
+    return;
   }
 
   if (!isLoggedIn && !isPublicRoute) {
@@ -66,7 +72,7 @@ export default auth((req) => {
   }
 
   // be default allow any other route
-  return null;
+  return;
 })
 
 // Optionally, don't invoke Middleware on some paths
