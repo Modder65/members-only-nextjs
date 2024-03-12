@@ -160,3 +160,12 @@ enum FriendshipStatus {
   DECLINED
   BLOCKED
 }
+
+model Donation {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String
+  amount Int
+  currency String 
+  payment_status String 
+  stripe_session_id String
+}
