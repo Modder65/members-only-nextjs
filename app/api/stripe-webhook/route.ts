@@ -26,11 +26,14 @@ export async function POST(req: NextRequest) {
         try {
           await prisma.donation.create({
             data: {
+              name: session.customer_details?.name,
               email: session.customer_details?.email,
               amount: session.amount_total,
               currency: session.currency,
               payment_status: 'succeeded',
               stripe_session_id: session.id,
+              createdAt: new Date(session.created * 1000), // Convert Stripe's timestamp from seconds to milliseconds
+              completedAt: new Date()
             }
           });
         } catch (err) {
