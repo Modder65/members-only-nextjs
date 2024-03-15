@@ -10,8 +10,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { motion, useAnimation } from "framer-motion";
 import useLikesStore from "@/zustand/likesStore";
-import gsap from "gsap";
 import axios from "axios";
 
 const PostLikeIcon = ({ postId }) => {
@@ -26,6 +26,7 @@ const PostLikeIcon = ({ postId }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const heartIconRef = useRef(null);
+  const controls = useAnimation();
   
   const handleToggleLike = async (): Promise<void> => {
     setIsLoading(true);
@@ -39,7 +40,10 @@ const PostLikeIcon = ({ postId }) => {
         currentUserLiked: !currentUserLiked
       });
       toast.success('Updated Like!');
-      animateHeartIcon();
+      controls.start({
+        scale: [1, 1.5, 1],
+        transition: { duration: 0.4, ease: 'easeInOut' },
+      })
     } catch (error) {
       toast.error('Error updating like');
     } finally {
@@ -47,13 +51,6 @@ const PostLikeIcon = ({ postId }) => {
     }
   };
   
-  const animateHeartIcon = (): void => {
-    gsap.fromTo(
-      heartIconRef.current,
-      { scale: 1 },
-      { scale: 1.5, duration: 0.2, ease: 'power1.out', yoyo: true, repeat: 1 }
-    );
-  };
 
   return ( 
     <div className="flex items-center mt-2">
@@ -62,20 +59,20 @@ const PostLikeIcon = ({ postId }) => {
       onClick={handleToggleLike}
       disabled={isLoading}
     >
-      <span style={{ opacity: likeCount > 0 ? 1 : 0, minWidth: '10px' }}>
+      <motion.span animate={controls} style={{ opacity: likeCount > 0 ? 1 : 0, minWidth: '10px' }}>
         {likeCount}
-      </span>
+      </motion.span>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <span ref={heartIconRef} className="text-skin-icon-accent hover:text-skin-icon-accent-hover">
+            <motion.span animate={controls} ref={heartIconRef} className="text-skin-icon-accent hover:text-skin-icon-accent-hover">
               {!currentUserLiked && (
                 <FaRegHeart className="w-6 h-6" />
               )}
               {currentUserLiked && (
                 <FaHeart className="w-6 h-6" />
               )}
-            </span>
+            </motion.span>
           </TooltipTrigger>
           <TooltipContent>
             <p>Like Post</p>

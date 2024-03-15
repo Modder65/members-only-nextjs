@@ -30,6 +30,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { autoCompleteUserName } from "@/actions/auto-complete-username";
 import { ExtendedPost, LikesData } from "@/types/types";
+import { motion } from "framer-motion";
 import usePostsStore from "@/zustand/postStore";
 import useLikesStore from "@/zustand/likesStore";
 import axios from "axios";
@@ -189,6 +190,8 @@ export default function Users() {
     );
   }
 
+
+
   return (
     <div className="mx-auto max-w-3xl w-full px-5 mt-8">
       <Card className="mb-7">
@@ -261,11 +264,11 @@ export default function Users() {
                     </Card>
                   )}
                   <div className="flex items-center justify-end w-full">
-                  <Button
-                    type="submit"
-                  >
-                    Filter Posts
-                  </Button>
+                    <motion.div whileTap={{ scale: 0.9 }}>
+                      <Button type="submit">
+                        Filter Posts
+                      </Button>
+                    </motion.div>
                   </div>
             </form>
           </Form>

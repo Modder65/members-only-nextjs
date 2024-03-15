@@ -24,6 +24,7 @@ import { FaUser } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
 import { UserRole } from "@prisma/client";
 import { ExtendedComment, LikesData } from "@/types/types";
+import { motion } from "framer-motion";
 import useCommentsStore from "@/zustand/commentsStore";
 import useLikesStore from "@/zustand/likesStore";
 import Link from "next/link";
@@ -167,13 +168,15 @@ const PostItem = ({ post, postId, initialCommentsCount }) => {
         </div>
         <div className="flex justify-between items-center mt-3">
           <CommentButton post={post} asChild>
-            <button 
-            onClick={() => openModalHandler(postId)}
-            className="bg-skin-button-accent hover:bg-skin-button-accent-hover rounded-md px-2 py-1 text-white flex items-center"
-            >
-              <FiMessageSquare className="mr-2" />
-              {`Show Comments (${commentCount})`}
-            </button>
+            <motion.div whileTap={{ scale: 0.9 }}>
+              <button 
+              onClick={() => openModalHandler(postId)}
+              className="bg-skin-button-accent hover:bg-skin-button-accent-hover rounded-md px-2 py-1 text-white flex items-center"
+              >
+                <FiMessageSquare className="mr-2" />
+                {`Show Comments (${commentCount})`}
+              </button>
+            </motion.div>
           </CommentButton>
           <PostLikeIcon postId={postId} />
         </div>

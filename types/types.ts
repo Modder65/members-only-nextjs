@@ -1,6 +1,6 @@
 import { Prisma, User, Comment, Reply, Friendship, Like, Post } from "@prisma/client";
 
-export type PublicUserInfo = Pick<User, 'id' | 'name' | 'email' | 'role'> & Partial<Pick<User, 'image'>>;
+export type PublicUserInfo = Omit<User, 'password' | 'emailVerified' | 'isTwoFactorEnabled' | 'createdAt' | 'updatedAt'>;
 
 interface UploadInfo {
   access_mode: string;
@@ -100,3 +100,4 @@ export type PendingRequestPayload =
 Prisma.FriendshipGetPayload<{
   include: { user: true }
 }>;
+
